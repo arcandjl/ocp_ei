@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Real World Impact Evaluation with R</title>
+  <meta name="description" content="Real world impact evaluation with R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Real World Impact Evaluation with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Real world impact evaluation with R." />
+  <meta name="github-repo" content="arcandjl/rwIEwr" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Real World Impact Evaluation with R" />
+  
+  <meta name="twitter:description" content="Real world impact evaluation with R." />
+  
+
+<meta name="author" content="Department of International Economics">
+<meta name="author" content="The Graduate Institute | Geneva">
+<meta name="author" content="jean-louis.arcand@graduateinstitute.ch">
+
+
+<meta name="date" content="2019-01-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Real world impact evaluation with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path=""><a href="#preface"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path=""><a href="#why-go-to-all-the-trouble-potential-outcomes"><i class="fa fa-check"></i><b>1</b> Why go to all the trouble? Potential outcomes</a></li>
+<li class="chapter" data-level="2" data-path=""><a href="#randomization"><i class="fa fa-check"></i><b>2</b> Randomization</a><ul>
+<li class="chapter" data-level="2.1" data-path=""><a href="#understanding-the-basics"><i class="fa fa-check"></i><b>2.1</b> Understanding the basics</a></li>
+<li class="chapter" data-level="2.2" data-path=""><a href="#the-randomista-debate"><i class="fa fa-check"></i><b>2.2</b> The randomista debate</a></li>
+<li class="chapter" data-level="2.3" data-path=""><a href="#bias-and-randomization-inference"><i class="fa fa-check"></i><b>2.3</b> Bias and randomization inference</a></li>
+<li class="chapter" data-level="2.4" data-path=""><a href="#placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking"><i class="fa fa-check"></i><b>2.4</b> Placebo effects and (surprise) homo oeconomicus is alive and kicking</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path=""><a href="#setting-up-an-evaluation"><i class="fa fa-check"></i><b>3</b> Setting up an evaluation</a><ul>
+<li class="chapter" data-level="3.1" data-path=""><a href="#statistical-power-survey-data-and-just-doing-it"><i class="fa fa-check"></i><b>3.1</b> Statistical power, survey data and just doing it…</a><ul>
+<li class="chapter" data-level="3.1.1" data-path=""><a href="#blocking"><i class="fa fa-check"></i><b>3.1.1</b> Blocking</a></li>
+<li class="chapter" data-level="3.1.2" data-path=""><a href="#repeated-observations"><i class="fa fa-check"></i><b>3.1.2</b> Repeated observations</a></li>
+<li class="chapter" data-level="3.1.3" data-path=""><a href="#glossary-and-intuition"><i class="fa fa-check"></i><b>3.1.3</b> Glossary and intuition</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path=""><a href="#stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects"><i class="fa fa-check"></i><b>3.2</b> Stuff to keep in mind: Survey bias and Hawthorne effects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path=""><a href="#iv-and-rdd"><i class="fa fa-check"></i><b>4</b> IV and RDD</a><ul>
+<li class="chapter" data-level="4.1" data-path=""><a href="#the-basics-of-iv"><i class="fa fa-check"></i><b>4.1</b> The basics of IV</a></li>
+<li class="chapter" data-level="4.2" data-path=""><a href="#finite-sample-bias-common-mistakes-the-gmm-black-box-and-bootstrap-inference"><i class="fa fa-check"></i><b>4.2</b> Finite sample bias, common mistakes, the GMM black box, and bootstrap inference</a></li>
+<li class="chapter" data-level="4.3" data-path=""><a href="#regression-discontinuity-design"><i class="fa fa-check"></i><b>4.3</b> Regression discontinuity design</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path=""><a href="#panel-data-structures"><i class="fa fa-check"></i><b>5</b> Panel data structures</a><ul>
+<li class="chapter" data-level="5.1" data-path=""><a href="#reviewing-the-basics"><i class="fa fa-check"></i><b>5.1</b> Reviewing the basics</a></li>
+<li class="chapter" data-level="5.2" data-path=""><a href="#inference-and-clustering"><i class="fa fa-check"></i><b>5.2</b> Inference and clustering</a></li>
+<li class="chapter" data-level="5.3" data-path=""><a href="#measurement-error"><i class="fa fa-check"></i><b>5.3</b> Measurement error</a></li>
+<li class="chapter" data-level="5.4" data-path=""><a href="#pseudo-panel-data-and-synthetic-control"><i class="fa fa-check"></i><b>5.4</b> Pseudo-panel data and synthetic control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path=""><a href="#external-validity-replicability-and-lack-of-statistical-significance"><i class="fa fa-check"></i><b>6</b> External validity, replicability and lack of statistical significance</a><ul>
+<li class="chapter" data-level="6.1" data-path=""><a href="#external-validity"><i class="fa fa-check"></i><b>6.1</b> External validity</a></li>
+<li class="chapter" data-level="6.2" data-path=""><a href="#replicability-and-scientific-progress"><i class="fa fa-check"></i><b>6.2</b> Replicability and scientific progress</a></li>
+<li class="chapter" data-level="6.3" data-path=""><a href="#saying-something-intelligent-when-things-arent-statistically-significant"><i class="fa fa-check"></i><b>6.3</b> Saying something intelligent when things aren’t statistically significant</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path=""><a href="#heterogeneity-in-various-flavors"><i class="fa fa-check"></i><b>7</b> Heterogeneity in various flavors</a><ul>
+<li class="chapter" data-level="7.1" data-path=""><a href="#quantile-regressions-and-random-coefficient-models"><i class="fa fa-check"></i><b>7.1</b> Quantile regressions and random coefficient models</a></li>
+<li class="chapter" data-level="7.2" data-path=""><a href="#essential-heterogeneity"><i class="fa fa-check"></i><b>7.2</b> Essential heterogeneity</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#references"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Real World Impact Evaluation with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Real World Impact Evaluation with R</h1>
+<h2 class="subtitle"><em>Jean-Louis Arcand</em></h2>
+<p class="author"><em>Department of International Economics</em></p>
+<p class="author"><em>The Graduate Institute | Geneva</em></p>
+<p class="author"><em><a href="mailto:jean-louis.arcand@graduateinstitute.ch">jean-louis.arcand@graduateinstitute.ch</a></em></p>
+<p class="date"><em>2019-01-22</em></p>
+</div>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
+<p>Placeholder</p>
+
+</div>
+<div id="why-go-to-all-the-trouble-potential-outcomes" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Why go to all the trouble? Potential outcomes</h1>
+<p>Placeholder</p>
+
+</div>
+<div id="randomization" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Randomization</h1>
+<p>Placeholder</p>
+<div id="understanding-the-basics" class="section level2">
+<h2><span class="header-section-number">2.1</span> Understanding the basics</h2>
+</div>
+<div id="the-randomista-debate" class="section level2">
+<h2><span class="header-section-number">2.2</span> The randomista debate</h2>
+</div>
+<div id="bias-and-randomization-inference" class="section level2">
+<h2><span class="header-section-number">2.3</span> Bias and randomization inference</h2>
+</div>
+<div id="placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking" class="section level2">
+<h2><span class="header-section-number">2.4</span> Placebo effects and (surprise) homo oeconomicus is alive and kicking</h2>
+
+</div>
+</div>
+<div id="setting-up-an-evaluation" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Setting up an evaluation</h1>
+<p>Placeholder</p>
+<div id="statistical-power-survey-data-and-just-doing-it" class="section level2">
+<h2><span class="header-section-number">3.1</span> Statistical power, survey data and just doing it…</h2>
+<div id="blocking" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Blocking</h3>
+</div>
+<div id="repeated-observations" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Repeated observations</h3>
+</div>
+<div id="glossary-and-intuition" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Glossary and intuition</h3>
+</div>
+</div>
+<div id="stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects" class="section level2">
+<h2><span class="header-section-number">3.2</span> Stuff to keep in mind: Survey bias and Hawthorne effects</h2>
+
+</div>
+</div>
+<div id="iv-and-rdd" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> IV and RDD</h1>
+<div id="the-basics-of-iv" class="section level2">
+<h2><span class="header-section-number">4.1</span> The basics of IV</h2>
+<p>Lecture notes on IV bias and the forbidden regression</p>
+<p><span class="citation">Hausman (<a href="#ref-Hausman83">1983</a>)</span></p>
+</div>
+<div id="finite-sample-bias-common-mistakes-the-gmm-black-box-and-bootstrap-inference" class="section level2">
+<h2><span class="header-section-number">4.2</span> Finite sample bias, common mistakes, the GMM black box, and bootstrap inference</h2>
+<p><span class="citation">Hahn and Hausman (<a href="#ref-Hahn02a">2002</a>)</span> <span class="citation">Conley, Hansen, and Rossi (<a href="#ref-Conley2012">2012</a>)</span> <span class="citation">Harding, Hausman, and Palmer (<a href="#ref-Harding2015">2016</a>)</span> <span class="citation">Bazzi and Clemens (<a href="#ref-Bazzi2013">2013</a>)</span> <span class="citation">Young (<a href="#ref-Young2017">2018</a>)</span></p>
+</div>
+<div id="regression-discontinuity-design" class="section level2">
+<h2><span class="header-section-number">4.3</span> Regression discontinuity design</h2>
+<p><span class="citation">Imbens and Lemieux (<a href="#ref-Imbens2008">2008</a>)</span> <span class="citation">Lee and Lemieux (<a href="#ref-Lee10">2010</a>)</span></p>
+
+</div>
+</div>
+<div id="panel-data-structures" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Panel data structures</h1>
+<p>Placeholder</p>
+<div id="reviewing-the-basics" class="section level2">
+<h2><span class="header-section-number">5.1</span> Reviewing the basics</h2>
+</div>
+<div id="inference-and-clustering" class="section level2">
+<h2><span class="header-section-number">5.2</span> Inference and clustering</h2>
+</div>
+<div id="measurement-error" class="section level2">
+<h2><span class="header-section-number">5.3</span> Measurement error</h2>
+</div>
+<div id="pseudo-panel-data-and-synthetic-control" class="section level2">
+<h2><span class="header-section-number">5.4</span> Pseudo-panel data and synthetic control</h2>
+
+</div>
+</div>
+<div id="external-validity-replicability-and-lack-of-statistical-significance" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> External validity, replicability and lack of statistical significance</h1>
+<p>We have finished a nice book.</p>
+<div id="external-validity" class="section level2">
+<h2><span class="header-section-number">6.1</span> External validity</h2>
+<p><span class="citation">Rosenzweig and Udry (<a href="#ref-Rosenzweig2016">2016</a>)</span></p>
+</div>
+<div id="replicability-and-scientific-progress" class="section level2">
+<h2><span class="header-section-number">6.2</span> Replicability and scientific progress</h2>
+<p><span class="citation">Roodman and Morduch (<a href="#ref-Roodman2014">2014</a>)</span> The ``Worm Wars’’: <a href="https://blogs.worldbank.org/impactevaluations/worm-wars-anthology" class="uri">https://blogs.worldbank.org/impactevaluations/worm-wars-anthology</a>. <span class="citation">Simmons, Nelson, and Simonsohn (<a href="#ref-Simmons2011">2011</a>)</span> <span class="citation">Yong (<a href="#ref-Yong2012">2012</a>)</span> <span class="citation">Brodeur, Cook, and Heyes (<a href="#ref-Brodeur2018">2018</a>)</span> <span class="citation">Nosek, Spies, and Motyl (<a href="#ref-Nosek2013">2013</a>)</span> <span class="citation">Smaldino and McElreath (<a href="#ref-Smaldino2016">2016</a>)</span></p>
+</div>
+<div id="saying-something-intelligent-when-things-arent-statistically-significant" class="section level2">
+<h2><span class="header-section-number">6.3</span> Saying something intelligent when things aren’t statistically significant</h2>
+<p><span class="citation">Andrews (<a href="#ref-Andrews89">1989</a>)</span></p>
+
+</div>
+</div>
+<div id="heterogeneity-in-various-flavors" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Heterogeneity in various flavors</h1>
+<p>Heterogeneity appears in various forms in impact evaluation. But it is pretty safe to say that there are two main varieties: (i) heterogeneity which depends on the LHS variable and (ii) that which depends on RHS variables.</p>
+<div id="quantile-regressions-and-random-coefficient-models" class="section level2">
+<h2><span class="header-section-number">7.1</span> Quantile regressions and random coefficient models</h2>
+<p><span class="citation">Koenker and Hallock (<a href="#ref-Koenker01">2001</a>)</span> <span class="citation">Beck and Katz (<a href="#ref-Beck2007">2007</a>)</span></p>
+</div>
+<div id="essential-heterogeneity" class="section level2">
+<h2><span class="header-section-number">7.2</span> Essential heterogeneity</h2>
+<p><span class="citation">Heckman and Vytlacil (<a href="#ref-Heckman99a">1999</a>)</span> <span class="citation">Heckman, Urzua, and Vytlacil (<a href="#ref-Heckman06">2006</a>)</span> <span class="citation">Heckman and Navarro-Lozano (<a href="#ref-Heckman03">2004</a>)</span> <span class="citation">Ravallion (<a href="#ref-Ravallion2015">2015</a>)</span></p>
+<p>We begin by illustrating what happens when a model is affected by a small amount of essential heterogeneity.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Model with very little essential heterogeneity</span>
+
+<span class="kw">set.seed</span>(<span class="dv">14381</span>)
+N &lt;-<span class="st"> </span><span class="dv">1000</span>
+alfa &lt;-<span class="st"> </span><span class="fl">0.20</span>
+gamma &lt;-<span class="st"> </span><span class="fl">0.67</span>
+epsilon &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="dv">0</span>,<span class="dv">1</span>)
+sigv =<span class="st"> </span><span class="op">-</span><span class="fl">1.000</span>
+sig1 &lt;-<span class="st"> </span><span class="fl">0.12</span>
+sig0 &lt;-<span class="st"> </span><span class="fl">0.18</span>
+U1 &lt;-<span class="st"> </span>sig1<span class="op">*</span>epsilon
+U0 &lt;-<span class="st"> </span>sig0<span class="op">*</span>epsilon
+V &lt;-<span class="st"> </span>sigv<span class="op">*</span>epsilon
+UD &lt;-<span class="st"> </span><span class="kw">pnorm</span>(V<span class="op">/</span>(sigv))
+<span class="co">#hist(V)</span>
+<span class="co">#hist(UD)</span>
+Z &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="op">-</span><span class="fl">0.026</span>,<span class="fl">1.700</span>)
+Dstar &lt;-<span class="st"> </span>Z <span class="op">-</span><span class="st"> </span>V
+D &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Dstar<span class="op">&gt;</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+Y1 &lt;-<span class="st"> </span>gamma <span class="op">+</span><span class="st"> </span>alfa <span class="op">+</span><span class="st"> </span>U1
+Y0 &lt;-<span class="st"> </span>gamma        <span class="op">+</span><span class="st"> </span>U0
+Y &lt;-<span class="st"> </span>D<span class="op">*</span>Y1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>D)<span class="op">*</span>Y0
+<span class="co"># summary(lm(Y ~ D))</span>
+<span class="co"># deltaY &lt;- Y1 - Y0</span>
+<span class="co"># plot(UD,deltaY)</span>
+
+<span class="co"># Estimate the discrete choice model in</span>
+<span class="co"># order to construct the propensity score P(Z)</span>
+
+D.probit &lt;-<span class="st"> </span><span class="kw">glm</span>(D <span class="op">~</span><span class="st"> </span>Z, <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">&quot;probit&quot;</span>))
+<span class="kw">summary</span>(D.probit)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = D ~ Z, family = binomial(link = &quot;probit&quot;))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.0250  -0.5185  -0.0157   0.5535   3.3438  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -0.02779    0.05379  -0.517    0.605    
+## Z            1.00065    0.05602  17.861   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1385.39  on 999  degrees of freedom
+## Residual deviance:  697.83  on 998  degrees of freedom
+## AIC: 701.83
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">propensity.score &lt;-<span class="st"> </span><span class="kw">predict</span>(D.probit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+<span class="kw">summary</span>(propensity.score)</code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 0.0000009 0.1004398 0.4555289 0.4857720 0.8551697 1.0000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Consider the propensity score separately</span>
+<span class="co"># for treated and untreated individuals</span>
+
+D1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="ot">NA</span>)
+D0 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="ot">NA</span>)
+propensity.score_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">na.omit</span>(propensity.score<span class="op">*</span>D1)
+propensity.score_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">na.omit</span>(propensity.score<span class="op">*</span>D0)
+<span class="kw">summary</span>(propensity.score_<span class="dv">1</span>)</code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 0.003733 0.666955 0.852936 0.771470 0.971597 1.000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(propensity.score_<span class="dv">0</span>)</code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 0.0000009 0.0209205 0.1129155 0.2167163 0.3300500 0.9896955</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check for range of common support</span>
+
+CS_min &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">min</span>(propensity.score_<span class="dv">1</span>),<span class="kw">min</span>(propensity.score_<span class="dv">0</span>))
+CS_max &lt;-<span class="st"> </span><span class="kw">min</span>(<span class="kw">max</span>(propensity.score_<span class="dv">1</span>),<span class="kw">max</span>(propensity.score_<span class="dv">0</span>))
+CS &lt;-<span class="st"> </span><span class="kw">cbind</span>(CS_min,CS_max)
+CS_dummy_min &lt;-<span class="st"> </span><span class="kw">ifelse</span>(CS_min <span class="op">&lt;=</span><span class="st"> </span>propensity.score,<span class="dv">1</span>,<span class="ot">NA</span>)
+CS_dummy_max &lt;-<span class="st"> </span><span class="kw">ifelse</span>(propensity.score <span class="op">&lt;=</span><span class="st"> </span>CS_max,<span class="dv">1</span>,<span class="ot">NA</span>)
+CS_dummy &lt;-<span class="st"> </span>CS_dummy_min<span class="op">*</span>CS_dummy_max
+<span class="kw">summary</span>(CS_dummy)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##       1       1       1       1       1       1     142</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CS</code></pre></div>
+<pre><code>##           CS_min    CS_max
+## [1,] 0.003733127 0.9896955</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Construct histograms of propensity score</span>
+<span class="co"># for treated and untreated individuals</span>
+
+propensity.score.hist_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">hist</span>(propensity.score_<span class="dv">1</span>, <span class="dt">br=</span><span class="dv">50</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">propensity.score.hist_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">hist</span>(propensity.score_<span class="dv">0</span>, <span class="dt">br=</span><span class="dv">50</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(propensity.score.hist_<span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Histograms of the distributions </span>
+<span class="st">     of the propensity score, for D=1 and D=0&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Propensity score P(Z)&quot;</span>, <span class="dt">col=</span><span class="kw">adjustcolor</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.3</span>))
+<span class="kw">lines</span>(propensity.score.hist_<span class="dv">0</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="kw">adjustcolor</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.3</span>))
+
+ps &lt;-<span class="st"> </span>propensity.score
+heckman &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(Y,D,Z,ps))
+<span class="kw">attach</span>(heckman)
+
+<span class="co"># Compute simple linear IV estimate</span>
+
+<span class="kw">library</span>(AER)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lineariv &lt;-<span class="st"> </span><span class="kw">ivreg</span>(Y <span class="op">~</span><span class="st"> </span>D <span class="op">|</span><span class="st"> </span>ps, <span class="dt">data=</span>heckman)
+<span class="kw">summary</span>(lineariv)</code></pre></div>
+<pre><code>## 
+## Call:
+## ivreg(formula = Y ~ D | ps, data = heckman)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.51552 -0.09237  0.00592  0.09789  0.38830 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 0.654443   0.007836   83.52   &lt;2e-16 ***
+## D           0.208293   0.012796   16.28   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1513 on 998 degrees of freedom
+## Multiple R-Squared: 0.4932,  Adjusted R-squared: 0.4927 
+## Wald test:   265 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Estimate the linear treatment model with the estimated propensity score P(Z)</span>
+<span class="co"># Include quadratic and cubic terms in order to test for the presence of </span>
+<span class="co"># essential heterogeneity</span>
+
+<span class="co"># Test the joint significance of the quadratic and cubic terms</span>
+
+ps_<span class="dv">2</span> &lt;-<span class="st"> </span>ps<span class="op">^</span><span class="dv">2</span>
+ps_<span class="dv">3</span> &lt;-<span class="st"> </span>ps<span class="op">^</span><span class="dv">3</span>
+Y.ps1 &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>ps <span class="op">+</span><span class="st"> </span>ps_<span class="dv">2</span> <span class="op">+</span><span class="st"> </span>ps_<span class="dv">3</span>, <span class="dt">data =</span> heckman)
+<span class="kw">summary</span>(Y.ps1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ ps + ps_2 + ps_3, data = heckman)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.69597 -0.12222  0.00264  0.13355  0.52701 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.66244    0.01466  45.181   &lt;2e-16 ***
+## ps           0.14933    0.16461   0.907    0.365    
+## ps_2        -0.00775    0.41133  -0.019    0.985    
+## ps_3         0.07365    0.27257   0.270    0.787    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1977 on 996 degrees of freedom
+## Multiple R-squared:  0.1364, Adjusted R-squared:  0.1338 
+## F-statistic: 52.44 on 3 and 996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(car)
+<span class="kw">linearHypothesis</span>(Y.ps1, <span class="kw">c</span>(<span class="st">&quot;ps_2 = 0&quot;</span>, <span class="st">&quot;ps_3 = 0&quot;</span>))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## ps_2 = 0
+## ps_3 = 0
+## 
+## Model 1: restricted model
+## Model 2: Y ~ ps + ps_2 + ps_3
+## 
+##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+## 1    998 39.005                           
+## 2    996 38.922  2  0.083118 1.0635 0.3456</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the MTE parametrically</span>
+
+<span class="kw">library</span>(margins)
+Y.ps2 &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>ps <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(ps<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(ps<span class="op">^</span><span class="dv">3</span>), <span class="dt">data =</span> heckman)
+<span class="kw">cplot</span>(Y.ps2, <span class="st">&quot;ps&quot;</span>, <span class="dt">what =</span> <span class="st">&quot;effect&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Parametric MTE&quot;</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Nonparametric specification</span>
+
+<span class="kw">library</span>(np)
+
+<span class="co"># Use a simple local linear regression with </span>
+<span class="co"># bootstrapped or asymptotic standard errors</span>
+
+bw0 &lt;-<span class="st"> </span><span class="kw">npregbw</span>(<span class="dt">xdat=</span>ps, <span class="dt">ydat=</span>Y, <span class="dt">regtype=</span><span class="st">&quot;ll&quot;</span>, <span class="dt">bwmethod=</span><span class="st">&quot;cv.aic&quot;</span>)</code></pre></div>
+<pre><code>## 
+Multistart 1 of 1 |
+Multistart 1 of 1 |
+Multistart 1 of 1 |
+Multistart 1 of 1 /
+Multistart 1 of 1 |
+Multistart 1 of 1 |
+                   </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Y.np0 &lt;-<span class="st"> </span><span class="kw">npreg</span>(<span class="dt">bws =</span> bw0, <span class="dt">gradient=</span><span class="ot">TRUE</span>)
+<span class="kw">summary</span>(Y.np0)</code></pre></div>
+<pre><code>## 
+## Regression Data: 1000 training points, in 1 variable(s)
+##                      ps
+## Bandwidth(s): 0.4379313
+## 
+## Kernel Regression Estimator: Local-Linear
+## Bandwidth Type: Fixed
+## Residual standard error: 0.1974078
+## R-squared: 0.1353268
+## 
+## Continuous Kernel Type: Second-Order Gaussian
+## No. Continuous Explanatory Vars.: 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y.np0, <span class="dt">plot.errors.method=</span><span class="st">&quot;bootstrap&quot;</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y.np0, <span class="dt">plot.errors.method=</span><span class="st">&quot;bootstrap&quot;</span>, <span class="dt">gradient=</span><span class="ot">TRUE</span>, 
+     <span class="dt">ylab=</span><span class="st">&quot;MTE&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Propensity score&quot;</span>)
+<span class="co"># The MTE is valid over the region of common support</span>
+mte &lt;-<span class="st"> </span>Y.np0<span class="op">$</span>grad<span class="op">*</span>CS_dummy
+ATE &lt;-<span class="st"> </span><span class="kw">mean</span>(mte, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>ATE)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mte_se &lt;-<span class="st"> </span>Y.np0<span class="op">$</span>gerr<span class="op">*</span>CS_dummy
+ATE_se &lt;-<span class="st"> </span><span class="kw">mean</span>(mte_se, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+
+<span class="co"># Compute the treatment weights</span>
+
+uD &lt;-<span class="st"> </span><span class="kw">qnorm</span>(ps)
+P.probit &lt;-<span class="st"> </span><span class="kw">glm</span>(D <span class="op">~</span><span class="st"> </span>uD, <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">&quot;probit&quot;</span>))
+<span class="kw">summary</span>(P.probit)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = D ~ uD, family = binomial(link = &quot;probit&quot;))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.0250  -0.5185  -0.0157   0.5535   3.3438  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -5.672e-17  5.378e-02    0.00        1    
+## uD           1.000e+00  5.599e-02   17.86   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1385.39  on 999  degrees of freedom
+## Residual deviance:  697.83  on 998  degrees of freedom
+## AIC: 701.83
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">omega_TT_n &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">predict</span>(P.probit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+omega_TT_d &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT_n)
+omega_TT &lt;-<span class="st"> </span>omega_TT_n <span class="op">/</span><span class="st"> </span>omega_TT_d
+omega_TUT_n &lt;-<span class="st"> </span><span class="kw">predict</span>(P.probit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+omega_TUT_d &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TUT_n)
+omega_TUT &lt;-<span class="st"> </span>omega_TUT_n <span class="op">/</span><span class="st"> </span>omega_TUT_d
+check &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT)
+<span class="kw">print</span>(check)</code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TT &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT<span class="op">*</span>mte, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+TT_se &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT<span class="op">*</span>mte_se, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+TUT &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TUT<span class="op">*</span>mte, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+TUT_se &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TUT<span class="op">*</span>mte_se, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+parameters &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;ATE&quot;</span>, <span class="st">&quot;TT&quot;</span>, <span class="st">&quot;TUT&quot;</span>)
+mean.effects &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;Parameter&quot;</span>, <span class="kw">round</span>(ATE,<span class="dt">digits=</span><span class="dv">3</span>),<span class="kw">round</span>(TT,<span class="dt">digits=</span><span class="dv">3</span>),<span class="kw">round</span>(TUT,<span class="dt">digits=</span><span class="dv">3</span>))
+mean.effects_se &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;s.e&quot;</span>, <span class="kw">round</span>(ATE_se,<span class="dt">digits=</span><span class="dv">3</span>), <span class="kw">round</span>(TT_se,<span class="dt">digits=</span><span class="dv">3</span>), <span class="kw">round</span>(TUT_se,<span class="dt">digits=</span><span class="dv">3</span>))
+<span class="kw">print</span>(<span class="st">&quot;Region of common support&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Region of common support&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(CS)</code></pre></div>
+<pre><code>##           CS_min    CS_max
+## [1,] 0.003733127 0.9896955</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">effects &lt;-<span class="st"> </span><span class="kw">rbind</span>(parameters, mean.effects, mean.effects_se)
+<span class="kw">print</span>(effects)</code></pre></div>
+<pre><code>##      [,1]        [,2]    [,3]    [,4]   
+## [1,] &quot;&quot;          &quot;ATE&quot;   &quot;TT&quot;    &quot;TUT&quot;  
+## [2,] &quot;Parameter&quot; &quot;0.209&quot; &quot;0.175&quot; &quot;0.184&quot;
+## [3,] &quot;s.e&quot;       &quot;0.011&quot; &quot;0.009&quot; &quot;0.009&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y.np0, <span class="dt">plot.errors.method=</span><span class="st">&quot;asymptotic&quot;</span>, <span class="dt">gradient=</span><span class="ot">TRUE</span>, 
+     <span class="dt">ylab=</span><span class="st">&quot;MTE&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Propensity score&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>ATE, <span class="dt">lty=</span><span class="dv">1</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>TT, <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>TUT, <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-1-7.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># MODEL WITH ESSENTIAL HETEROGENEITY</span>
+
+<span class="kw">set.seed</span>(<span class="dv">14381</span>)
+N &lt;-<span class="st"> </span><span class="dv">1000</span>
+alfa &lt;-<span class="st"> </span><span class="fl">0.20</span>
+gamma &lt;-<span class="st"> </span><span class="fl">0.67</span>
+epsilon &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="dv">0</span>,<span class="dv">1</span>)
+sigv =<span class="st"> </span><span class="op">-</span><span class="fl">1.000</span>
+sig1 &lt;-<span class="st"> </span><span class="fl">0.12</span>
+sig0 &lt;-<span class="st"> </span><span class="op">-</span><span class="fl">0.50</span>
+U1 &lt;-<span class="st"> </span>sig1<span class="op">*</span>epsilon
+U0 &lt;-<span class="st"> </span>sig0<span class="op">*</span>epsilon
+V &lt;-<span class="st"> </span>sigv<span class="op">*</span>epsilon
+<span class="co"># UD &lt;- pnorm(V/(sigv))</span>
+<span class="co"># hist(UD)</span>
+Z &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="op">-</span><span class="fl">0.026</span>,<span class="fl">1.700</span>)
+Dstar &lt;-<span class="st"> </span>Z <span class="op">-</span><span class="st"> </span>V
+D &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Dstar<span class="op">&gt;</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+Y1 &lt;-<span class="st"> </span>gamma <span class="op">+</span><span class="st"> </span>alfa <span class="op">+</span><span class="st"> </span>U1
+Y0 &lt;-<span class="st"> </span>gamma        <span class="op">+</span><span class="st"> </span>U0
+Y &lt;-<span class="st"> </span>D<span class="op">*</span>Y1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>D)<span class="op">*</span>Y0
+<span class="co"># summary(lm(Y ~ D))</span>
+<span class="co"># deltaY &lt;- Y1 - Y0</span>
+<span class="co"># plot(UD,deltaY)</span>
+<span class="co"># </span>
+
+<span class="co"># Estimate the discrete choice model in</span>
+<span class="co"># order to construct the propensity score P(Z)</span>
+
+D.probit &lt;-<span class="st"> </span><span class="kw">glm</span>(D <span class="op">~</span><span class="st"> </span>Z, <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">&quot;probit&quot;</span>))
+<span class="kw">summary</span>(D.probit)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = D ~ Z, family = binomial(link = &quot;probit&quot;))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.0250  -0.5185  -0.0157   0.5535   3.3438  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -0.02779    0.05379  -0.517    0.605    
+## Z            1.00065    0.05602  17.861   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1385.39  on 999  degrees of freedom
+## Residual deviance:  697.83  on 998  degrees of freedom
+## AIC: 701.83
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">propensity.score &lt;-<span class="st"> </span><span class="kw">predict</span>(D.probit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+<span class="kw">summary</span>(propensity.score)</code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 0.0000009 0.1004398 0.4555289 0.4857720 0.8551697 1.0000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Consider the propensity score separately</span>
+<span class="co"># for treated and untreated individuals</span>
+
+D1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="ot">NA</span>)
+D0 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="ot">NA</span>)
+propensity.score_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">na.omit</span>(propensity.score<span class="op">*</span>D1)
+propensity.score_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">na.omit</span>(propensity.score<span class="op">*</span>D0)
+<span class="kw">summary</span>(propensity.score_<span class="dv">1</span>)</code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## 0.003733 0.666955 0.852936 0.771470 0.971597 1.000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(propensity.score_<span class="dv">0</span>)</code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 0.0000009 0.0209205 0.1129155 0.2167163 0.3300500 0.9896955</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check for range of common support</span>
+
+CS_min &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">min</span>(propensity.score_<span class="dv">1</span>),<span class="kw">min</span>(propensity.score_<span class="dv">0</span>))
+CS_max &lt;-<span class="st"> </span><span class="kw">min</span>(<span class="kw">max</span>(propensity.score_<span class="dv">1</span>),<span class="kw">max</span>(propensity.score_<span class="dv">0</span>))
+CS &lt;-<span class="st"> </span><span class="kw">cbind</span>(CS_min,CS_max)
+CS_dummy_min &lt;-<span class="st"> </span><span class="kw">ifelse</span>(CS_min <span class="op">&lt;=</span><span class="st"> </span>propensity.score,<span class="dv">1</span>,<span class="ot">NA</span>)
+CS_dummy_max &lt;-<span class="st"> </span><span class="kw">ifelse</span>(propensity.score <span class="op">&lt;=</span><span class="st"> </span>CS_max,<span class="dv">1</span>,<span class="ot">NA</span>)
+CS_dummy &lt;-<span class="st"> </span>CS_dummy_min<span class="op">*</span>CS_dummy_max
+<span class="kw">summary</span>(CS_dummy)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##       1       1       1       1       1       1     142</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CS</code></pre></div>
+<pre><code>##           CS_min    CS_max
+## [1,] 0.003733127 0.9896955</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Construct histograms of propensity score</span>
+<span class="co"># for treated and untreated individuals</span>
+
+propensity.score.hist_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">hist</span>(propensity.score_<span class="dv">1</span>, <span class="dt">br=</span><span class="dv">50</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">propensity.score.hist_<span class="dv">0</span> &lt;-<span class="st"> </span><span class="kw">hist</span>(propensity.score_<span class="dv">0</span>, <span class="dt">br=</span><span class="dv">50</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(propensity.score.hist_<span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;Histograms of the distributions </span>
+<span class="st">of the propensity score, for D=1 and D=0&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Propensity score P(Z)&quot;</span>, <span class="dt">col=</span><span class="kw">adjustcolor</span>(<span class="st">&quot;blue&quot;</span>, <span class="fl">0.3</span>))
+<span class="kw">lines</span>(propensity.score.hist_<span class="dv">0</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="kw">adjustcolor</span>(<span class="st">&quot;red&quot;</span>, <span class="fl">0.3</span>))</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps &lt;-<span class="st"> </span>propensity.score
+heckman &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(Y,D,Z,ps))
+<span class="kw">attach</span>(heckman)
+
+<span class="co"># Compute simple linear IV estimate</span>
+
+<span class="kw">library</span>(AER)
+lineariv &lt;-<span class="st"> </span><span class="kw">ivreg</span>(Y <span class="op">~</span><span class="st"> </span>D <span class="op">|</span><span class="st"> </span>ps, <span class="dt">data=</span>heckman)
+<span class="kw">summary</span>(lineariv)</code></pre></div>
+<pre><code>## 
+## Call:
+## ivreg(formula = Y ~ D | ps, data = heckman)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.15470 -0.16252 -0.05433  0.13938  1.35590 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.78930    0.01786  44.202  &lt; 2e-16 ***
+## D            0.20565    0.02916   7.052 3.28e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3447 on 998 degrees of freedom
+## Multiple R-Squared: -0.04001,    Adjusted R-squared: -0.04105 
+## Wald test: 49.74 on 1 and 998 DF,  p-value: 3.283e-12</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Estimate the linear treatment model with the estimated propensity score P(Z)</span>
+<span class="co"># Include quadratic and cubic terms in order to test for the presence of </span>
+<span class="co"># essential heterogeneity</span>
+
+<span class="co"># Test the joint significance of the quadratic and cubic terms</span>
+
+ps_<span class="dv">2</span> &lt;-<span class="st"> </span>ps<span class="op">^</span><span class="dv">2</span>
+ps_<span class="dv">3</span> &lt;-<span class="st"> </span>ps<span class="op">^</span><span class="dv">3</span>
+Y.ps1 &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>ps <span class="op">+</span><span class="st"> </span>ps_<span class="dv">2</span> <span class="op">+</span><span class="st"> </span>ps_<span class="dv">3</span>, <span class="dt">data =</span> heckman)
+<span class="kw">summary</span>(Y.ps1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ ps + ps_2 + ps_3, data = heckman)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.07223 -0.15910 -0.03433  0.13401  1.20709 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.69937    0.02377  29.427  &lt; 2e-16 ***
+## ps           0.96947    0.26683   3.633 0.000294 ***
+## ps_2        -0.59867    0.66674  -0.898 0.369448    
+## ps_3        -0.18197    0.44181  -0.412 0.680525    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3204 on 996 degrees of freedom
+## Multiple R-squared:  0.1034, Adjusted R-squared:  0.1007 
+## F-statistic: 38.27 on 3 and 996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(car)
+<span class="kw">linearHypothesis</span>(Y.ps1, <span class="kw">c</span>(<span class="st">&quot;ps_2 = 0&quot;</span>, <span class="st">&quot;ps_3 = 0&quot;</span>))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## ps_2 = 0
+## ps_3 = 0
+## 
+## Model 1: restricted model
+## Model 2: Y ~ ps + ps_2 + ps_3
+## 
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1    998 108.14                                  
+## 2    996 102.26  2    5.8774 28.622 8.196e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate the MTE parametrically</span>
+
+<span class="kw">library</span>(margins)
+Y.ps2 &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>ps <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(ps<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(ps<span class="op">^</span><span class="dv">3</span>), <span class="dt">data =</span> heckman)
+<span class="kw">cplot</span>(Y.ps2, <span class="st">&quot;ps&quot;</span>, <span class="dt">what =</span> <span class="st">&quot;effect&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Parametric MTE&quot;</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Nonparametric specification</span>
+
+<span class="kw">library</span>(np)
+
+<span class="co"># Use a simple local linear regression with asymptotic standard errors</span>
+
+bw0 &lt;-<span class="st"> </span><span class="kw">npregbw</span>(<span class="dt">xdat=</span>ps, <span class="dt">ydat=</span>Y, <span class="dt">regtype=</span><span class="st">&quot;ll&quot;</span>, <span class="dt">bwmethod=</span><span class="st">&quot;cv.aic&quot;</span>)</code></pre></div>
+<pre><code>## 
+Multistart 1 of 1 |
+Multistart 1 of 1 |
+Multistart 1 of 1 |
+Multistart 1 of 1 /
+Multistart 1 of 1 |
+Multistart 1 of 1 |
+                   </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Y.np0 &lt;-<span class="st"> </span><span class="kw">npreg</span>(<span class="dt">bws =</span> bw0, <span class="dt">gradient=</span><span class="ot">TRUE</span>)
+<span class="kw">summary</span>(Y.np0)</code></pre></div>
+<pre><code>## 
+## Regression Data: 1000 training points, in 1 variable(s)
+##                      ps
+## Bandwidth(s): 0.1125327
+## 
+## Kernel Regression Estimator: Local-Linear
+## Bandwidth Type: Fixed
+## Residual standard error: 0.3195442
+## R-squared: 0.1049782
+## 
+## Continuous Kernel Type: Second-Order Gaussian
+## No. Continuous Explanatory Vars.: 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y.np0, <span class="dt">plot.errors.method=</span><span class="st">&quot;asymptotic&quot;</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y.np0, <span class="dt">plot.errors.method=</span><span class="st">&quot;asymptotic&quot;</span>, <span class="dt">gradient=</span><span class="ot">TRUE</span>, 
+     <span class="dt">ylab=</span><span class="st">&quot;MTE&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Propensity score&quot;</span>)
+<span class="co"># The MTE is valid over the region of common support</span>
+mte &lt;-<span class="st"> </span>Y.np0<span class="op">$</span>grad<span class="op">*</span>CS_dummy
+ATE &lt;-<span class="st"> </span><span class="kw">mean</span>(mte, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>ATE)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mte_se &lt;-<span class="st"> </span>Y.np0<span class="op">$</span>gerr<span class="op">*</span>CS_dummy
+ATE_se &lt;-<span class="st"> </span><span class="kw">mean</span>(mte_se, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+
+<span class="co"># Compute the treatment weights</span>
+
+uD &lt;-<span class="st"> </span><span class="kw">qnorm</span>(ps)
+P.probit &lt;-<span class="st"> </span><span class="kw">glm</span>(D <span class="op">~</span><span class="st"> </span>uD, <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">&quot;probit&quot;</span>))
+<span class="kw">summary</span>(P.probit)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = D ~ uD, family = binomial(link = &quot;probit&quot;))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.0250  -0.5185  -0.0157   0.5535   3.3438  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -5.672e-17  5.378e-02    0.00        1    
+## uD           1.000e+00  5.599e-02   17.86   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1385.39  on 999  degrees of freedom
+## Residual deviance:  697.83  on 998  degrees of freedom
+## AIC: 701.83
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">omega_TT_n &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">predict</span>(P.probit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+omega_TT_d &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT_n)
+omega_TT &lt;-<span class="st"> </span>omega_TT_n <span class="op">/</span><span class="st"> </span>omega_TT_d
+omega_TUT_n &lt;-<span class="st"> </span><span class="kw">predict</span>(P.probit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)
+omega_TUT_d &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TUT_n)
+omega_TUT &lt;-<span class="st"> </span>omega_TUT_n <span class="op">/</span><span class="st"> </span>omega_TUT_d
+check &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT)
+<span class="kw">print</span>(check)</code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">TT &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT<span class="op">*</span>mte, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+TT_se &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TT<span class="op">*</span>mte_se, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+TUT &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TUT<span class="op">*</span>mte, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+TUT_se &lt;-<span class="st"> </span><span class="kw">sum</span>(omega_TUT<span class="op">*</span>mte_se, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
+parameters &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;ATE&quot;</span>, <span class="st">&quot;TT&quot;</span>, <span class="st">&quot;TUT&quot;</span>)
+mean.effects &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;Parameter&quot;</span>, <span class="kw">round</span>(ATE,<span class="dt">digits=</span><span class="dv">3</span>),<span class="kw">round</span>(TT,<span class="dt">digits=</span><span class="dv">3</span>),<span class="kw">round</span>(TUT,<span class="dt">digits=</span><span class="dv">3</span>))
+mean.effects_se &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;s.e&quot;</span>, <span class="kw">round</span>(ATE_se,<span class="dt">digits=</span><span class="dv">3</span>), <span class="kw">round</span>(TT_se,<span class="dt">digits=</span><span class="dv">3</span>), <span class="kw">round</span>(TUT_se,<span class="dt">digits=</span><span class="dv">3</span>))
+<span class="kw">print</span>(<span class="st">&quot;Region of common support&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Region of common support&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(CS)</code></pre></div>
+<pre><code>##           CS_min    CS_max
+## [1,] 0.003733127 0.9896955</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">effects &lt;-<span class="st"> </span><span class="kw">rbind</span>(parameters, mean.effects, mean.effects_se)
+<span class="kw">print</span>(effects)</code></pre></div>
+<pre><code>##      [,1]        [,2]    [,3]    [,4]    
+## [1,] &quot;&quot;          &quot;ATE&quot;   &quot;TT&quot;    &quot;TUT&quot;   
+## [2,] &quot;Parameter&quot; &quot;0.2&quot;   &quot;0.502&quot; &quot;-0.178&quot;
+## [3,] &quot;s.e&quot;       &quot;0.096&quot; &quot;0.099&quot; &quot;0.065&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Y.np0, <span class="dt">plot.errors.method=</span><span class="st">&quot;asymptotic&quot;</span>, <span class="dt">gradient=</span><span class="ot">TRUE</span>, 
+     <span class="dt">ylab=</span><span class="st">&quot;MTE&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Propensity score&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>ATE, <span class="dt">lty=</span><span class="dv">1</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>TT, <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>TUT, <span class="dt">lty=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="07-heterogeneity_files/figure-html/unnamed-chunk-2-7.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Can also use a more sophisticated Li and Racine bandwidth estimation</span>
+<span class="co"># with bootstrapped standard errors</span>
+<span class="co"># In this case, it does not improve performance</span>
+<span class="co"># bw1 &lt;- npregbw(formula = Y ~ ps)</span>
+<span class="co"># Y.np1 &lt;- npreg(bws = bw1, gradient=TRUE)</span>
+<span class="co"># summary(Y.np1)</span>
+<span class="co"># plot(Y.np1, plot.errors.method=&quot;bootstrap&quot;)</span>
+<span class="co"># plot(Y.np1, gradients=TRUE, plot.errors.method=&quot;bootstrap&quot;,</span>
+<span class="co">#      ylab=&quot;MTE&quot;, xlab=&quot;Propensity score&quot;)</span>
+<span class="co"># mte &lt;- Y.np1$grad*CS_dummy</span>
+<span class="co"># ATE &lt;- mean(mte, na.rm=TRUE)</span>
+<span class="co"># abline(h=ATE)</span>
+<span class="co"># mte_se &lt;- Y.np1$gerr*CS_dummy</span>
+<span class="co"># ATE_se &lt;- mean(mte_se, na.rm=TRUE)</span></code></pre></div>
+
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+
+<div id="refs" class="references">
+<div id="ref-Andrews89">
+<p>Andrews, Donald W. K. 1989. “Power in Econometric Applications.” <em>Econometrica</em> 57 (5): 1059–90.</p>
+</div>
+<div id="ref-Bazzi2013">
+<p>Bazzi, Samuel, and Michael A. Clemens. 2013. “Blunt Instruments: Avoiding Common Pitfalls in Identifying the Causes of Economic Growth.” <em>American Economic Journal: Macroeconomics</em> 5 (2): 152–86.</p>
+</div>
+<div id="ref-Beck2007">
+<p>Beck, Nathaniel, and Jonathan N. Katz. 2007. “Random Coefficient Models for Time-Series-Cross-Section Data: Monte Carlo Experiments.” <em>Political Analysis</em> 15 (2): 182–95.</p>
+</div>
+<div id="ref-Brodeur2018">
+<p>Brodeur, Abel, Nikolai Cook, and Anthony Heyes. 2018. “Methods Matter: P-Hacking and Causal Inference in Economics,” August.</p>
+</div>
+<div id="ref-Conley2012">
+<p>Conley, Timothy G, Christian Hansen, and Peter E. Rossi. 2012. “Plausibly Exogenous.” <em>Review of Economics and Statistics</em> 94 (1): 260–72.</p>
+</div>
+<div id="ref-Hahn02a">
+<p>Hahn, Jinyong, and Jerry A. Hausman. 2002. “Notes on Bias in Estimators for Simultaneous Equation Models.” <em>Economics Letters</em> 75 (2): 237–41.</p>
+</div>
+<div id="ref-Harding2015">
+<p>Harding, Matthew, Jerry A. Hausman, and Christopher J. Palmer. 2016. “Finite Sample Bias Corrected IV Estimation for Weak and Many Instruments.” In <em>Advances in Econometrics: Essays in Honor of Aman Ullah</em>, 36:245–73. Emerald Publishing.</p>
+</div>
+<div id="ref-Hausman83">
+<p>Hausman, Jerry A. 1983. “Specification and Estimation of Simultaneous Equation Models.” In <em>Handbook of Econometrics</em>, edited by Zvi Griliches and M. Intriligator, 1:391–448. The Netherlands: North Holland.</p>
+</div>
+<div id="ref-Heckman03">
+<p>Heckman, James J., and Salvador Navarro-Lozano. 2004. “Using Matching, Instrumental Variables and Control Functions to Estimate Economic Choice Models.” <em>Review of Economics and Statistics</em> 86 (1): 30–57.</p>
+</div>
+<div id="ref-Heckman99a">
+<p>Heckman, James J., and Edward J. Vytlacil. 1999. “Local Instrumental Variables and Latent Variable Models for Identifying and Bounding Treatment Effects.” <em>Proceedings of the National Academy of Sciences of the United States of America</em> 96 (8): 4730–4.</p>
+</div>
+<div id="ref-Heckman06">
+<p>Heckman, James J., Sergio Urzua, and Edward Vytlacil. 2006. “Understanding Instrumental Variables in Models with Essential Heterogeneity.” <em>Review of Economics and Statistics</em> 88 (3): 389–432.</p>
+</div>
+<div id="ref-Imbens2008">
+<p>Imbens, Guido W., and Thomas Lemieux. 2008. “Regression Discontinuity Designs: A Guide to Practice.” <em>Journal of Econometrics</em> 142 (2): 615–35.</p>
+</div>
+<div id="ref-Koenker01">
+<p>Koenker, R., and K. Hallock. 2001. “Quantile Regression.” <em>Journal of Economic Perspectives</em> 15 (4): 143–56.</p>
+</div>
+<div id="ref-Lee10">
+<p>Lee, David S., and Thomas Lemieux. 2010. “Regression Discontinuity Designs in Economics.” <em>Journal of Economic Literature</em> 48 (2): 281–355.</p>
+</div>
+<div id="ref-Nosek2013">
+<p>Nosek, B. A., J. R. Spies, and M. Motyl. 2013. “Scientific Utopia: II. Restructuring Incentives and Practices to Promote Truth over Publishability.” <em>Perspectives on Psychological Science</em> 7: 615–31.</p>
+</div>
+<div id="ref-Ravallion2015">
+<p>Ravallion, Martin. 2015. “On the Implications of Essential Heterogeneity for Estimating Causal Impacts Using Social Experiments.” <em>Journal of Econometric Methodology</em> 4 (1): 145–51.</p>
+</div>
+<div id="ref-Roodman2014">
+<p>Roodman, David, and Jonathan Morduch. 2014. “The Impact of Microcredit on the Poor in Bangladesh: Revisiting the Evidence.” <em>Journal of Development Studies</em> 50 (4): 583–604.</p>
+</div>
+<div id="ref-Rosenzweig2016">
+<p>Rosenzweig, Mark. R, and Christopher Udry. 2016. “External Validity in a Stochastic World.”</p>
+</div>
+<div id="ref-Simmons2011">
+<p>Simmons, Joseph P., Leif D. Nelson, and Uri Simonsohn. 2011. “False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant.” <em>Psychological Science</em> 22 (11): 1359–66.</p>
+</div>
+<div id="ref-Smaldino2016">
+<p>Smaldino, Paul E., and Richard McElreath. 2016. “The Natural Selection of Bad Science.” <em>Royal Society Open Science</em> 3: 160384.</p>
+</div>
+<div id="ref-Yong2012">
+<p>Yong, Ed. 2012. “Replication Studies: Bad Copy.” <em>Nature</em> 485: 298–300.</p>
+</div>
+<div id="ref-Young2017">
+<p>Young, Alwyn. 2018. “Consistency Without Inference: Instrumental Variables in Practical Applications.”</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

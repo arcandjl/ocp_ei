@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 3 Setting up an evaluation | Real World Impact Evaluation with R</title>
+  <meta name="description" content="Real world impact evaluation with R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 3 Setting up an evaluation | Real World Impact Evaluation with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Real world impact evaluation with R." />
+  <meta name="github-repo" content="arcandjl/rwIEwr" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Setting up an evaluation | Real World Impact Evaluation with R" />
+  
+  <meta name="twitter:description" content="Real world impact evaluation with R." />
+  
+
+<meta name="author" content="Department of International Economics">
+<meta name="author" content="The Graduate Institute | Geneva">
+<meta name="author" content="jean-louis.arcand@graduateinstitute.ch">
+
+
+<meta name="date" content="2019-01-24">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="randomization.html">
+<link rel="next" href="iv-and-rdd.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Real world impact evaluation with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome to Real World Impact Evaluation with R</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i>Author</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html"><i class="fa fa-check"></i><b>1</b> Why go to all the trouble? Potential outcomes</a><ul>
+<li class="chapter" data-level="1.1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html#why-evaluate"><i class="fa fa-check"></i><b>1.1</b> Why evaluate</a></li>
+<li class="chapter" data-level="1.2" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html#the-roy-model"><i class="fa fa-check"></i><b>1.2</b> The Roy model</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="randomization.html"><a href="randomization.html"><i class="fa fa-check"></i><b>2</b> Randomization</a><ul>
+<li class="chapter" data-level="2.1" data-path="randomization.html"><a href="randomization.html#understanding-the-basics"><i class="fa fa-check"></i><b>2.1</b> Understanding the basics</a></li>
+<li class="chapter" data-level="2.2" data-path="randomization.html"><a href="randomization.html#the-randomista-debate"><i class="fa fa-check"></i><b>2.2</b> The randomista debate</a></li>
+<li class="chapter" data-level="2.3" data-path="randomization.html"><a href="randomization.html#biased-inference-and-randomization-inference"><i class="fa fa-check"></i><b>2.3</b> Biased inference and randomization inference</a></li>
+<li class="chapter" data-level="2.4" data-path="randomization.html"><a href="randomization.html#ri-does-not-always-increase-standard-errors"><i class="fa fa-check"></i><b>2.4</b> RI does not always increase standard errors</a></li>
+<li class="chapter" data-level="2.5" data-path="randomization.html"><a href="randomization.html#placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking"><i class="fa fa-check"></i><b>2.5</b> Placebo effects and (surprise) homo oeconomicus is alive and kicking</a></li>
+<li class="chapter" data-level="2.6" data-path="randomization.html"><a href="randomization.html#re-introducing-choice-into-randomizations"><i class="fa fa-check"></i><b>2.6</b> Re-introducing choice into randomizations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html"><i class="fa fa-check"></i><b>3</b> Setting up an evaluation</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#statistical-power-survey-data-and-just-doing-it"><i class="fa fa-check"></i><b>3.1</b> Statistical power, survey data and just doing it…</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#blocking"><i class="fa fa-check"></i><b>3.1.1</b> Blocking</a></li>
+<li class="chapter" data-level="3.1.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#repeated-observations"><i class="fa fa-check"></i><b>3.1.2</b> Repeated observations</a></li>
+<li class="chapter" data-level="3.1.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#glossary-and-intuition"><i class="fa fa-check"></i><b>3.1.3</b> Glossary and intuition</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects"><i class="fa fa-check"></i><b>3.2</b> Stuff to keep in mind: Survey bias and Hawthorne effects</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#illustration-was-my-research-design-underpowered"><i class="fa fa-check"></i><b>3.3</b> Illustration: Was my research design underpowered?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html"><i class="fa fa-check"></i><b>4</b> IV and RDD</a><ul>
+<li class="chapter" data-level="4.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-basics-of-iv"><i class="fa fa-check"></i><b>4.1</b> The basics of IV</a></li>
+<li class="chapter" data-level="4.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#finite-sample-bias-common-mistakes-the-gmm-black-box-and-bootstrap-inference"><i class="fa fa-check"></i><b>4.2</b> Finite sample bias, common mistakes, the GMM black box, and bootstrap inference</a></li>
+<li class="chapter" data-level="4.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#regression-discontinuity-design"><i class="fa fa-check"></i><b>4.3</b> Regression discontinuity design</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="panel-data-structures.html"><a href="panel-data-structures.html"><i class="fa fa-check"></i><b>5</b> Panel data structures</a><ul>
+<li class="chapter" data-level="5.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#reviewing-the-basics"><i class="fa fa-check"></i><b>5.1</b> Reviewing the basics</a></li>
+<li class="chapter" data-level="5.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#inference-and-clustering"><i class="fa fa-check"></i><b>5.2</b> Inference and clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#measurement-error"><i class="fa fa-check"></i><b>5.3</b> Measurement error</a></li>
+<li class="chapter" data-level="5.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#pseudo-panel-data-and-synthetic-control"><i class="fa fa-check"></i><b>5.4</b> Pseudo-panel data and synthetic control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html"><i class="fa fa-check"></i><b>6</b> External validity, replicability and lack of statistical significance</a><ul>
+<li class="chapter" data-level="6.1" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#external-validity"><i class="fa fa-check"></i><b>6.1</b> External validity</a></li>
+<li class="chapter" data-level="6.2" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#replicability-and-scientific-progress"><i class="fa fa-check"></i><b>6.2</b> Replicability and scientific progress</a></li>
+<li class="chapter" data-level="6.3" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#saying-something-intelligent-when-things-arent-statistically-significant"><i class="fa fa-check"></i><b>6.3</b> Saying something intelligent when things aren’t statistically significant</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html"><i class="fa fa-check"></i><b>7</b> Heterogeneity in various flavors</a><ul>
+<li class="chapter" data-level="7.1" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#quantile-regressions-and-random-coefficient-models"><i class="fa fa-check"></i><b>7.1</b> Quantile regressions and random coefficient models</a></li>
+<li class="chapter" data-level="7.2" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#essential-heterogeneity"><i class="fa fa-check"></i><b>7.2</b> Essential heterogeneity</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Real World Impact Evaluation with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="setting-up-an-evaluation" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Setting up an evaluation</h1>
+<p>We describe our methods in this chapter.</p>
+<div id="statistical-power-survey-data-and-just-doing-it" class="section level2">
+<h2><span class="header-section-number">3.1</span> Statistical power, survey data and just doing it…</h2>
+<p><span class="citation">(<span class="citeproc-not-found" data-reference-id="Bloom1995"><strong>???</strong></span>)</span> Optimal Design software: <a href="http://hlmsoft.net/od/" class="uri">http://hlmsoft.net/od/</a></p>
+<div id="blocking" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Blocking</h3>
+<p>Consider a simple RCT regression (<span class="math inline">\(i=1,...N\)</span>), with average treatment effect <span class="math inline">\(\gamma\)</span> and idiosyncractic treatment effects <span class="math inline">\(\theta_{i}\)</span>, <span class="math inline">\(E[\theta_{i}]=0\)</span>: <span class="math display">\[
+Y_{i}=X_{i}\eta+D_{i}\gamma+D_{i}\theta_{i}+\epsilon_{i}
+\]</span> Including covariates (<em>ex post</em>) or ``blocking&quot; (<em>ex ante</em>), will reduce <span class="math inline">\(\text{var}[U_{i}]\)</span> and therefore improve precision: <span class="math display">\[
+\text{var}[\widehat{\gamma}]=\frac{\text{var}[\epsilon_{i}]}{N\text{var}[D_{i}](1-R^{2}_{D|X})}=\frac{\text{var}[\epsilon_{i}]}{N\text{var}[D_{i}]}
+\]</span></p>
+</div>
+<div id="repeated-observations" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Repeated observations</h3>
+<p>Add a time dimension <span class="math inline">\(t\)</span>: <span class="math display">\[
+Y_{it}=X_{it}\eta+D_{it}\gamma+D_{it}\theta_{i}+\lambda_{i}+\epsilon_{it}
+\]</span> Gain in efficiency <strong>as long as</strong> <span class="math inline">\(\theta_{i}\perp\lambda_{i}\)</span> Standard panel data formula: <span class="math display">\[
+\text{var}[\widehat{\gamma}^{B}]-\text{var}[\widehat{\gamma}^{W}]=2N^{-1}\text{var}[\lambda_{i}]
+\]</span> Disadvantage of within-subject designs: treatment effects may be time-dependent (history / learning): <span class="math display">\[
+Y_{i2}=...+D_{i1}\gamma_{1}+D_{i2}\gamma_{2}+D_{i1}\theta_{i1}+D_{i2}\theta_{i2}...
+\]</span></p>
+</div>
+<div id="glossary-and-intuition" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Glossary and intuition</h3>
+<p><strong>Type I error</strong> (<span class="math inline">\(p-\)</span> value or significance level): probability of falsely rejecting the null hypothesis</p>
+<p><strong>Type II error</strong>: probability of falsely not rejecting the null hypothesis = <span class="math inline">\(1-\)</span> power</p>
+<p><strong>Power</strong>: probability of correctly rejecting the null</p>
+<p><strong>Effect size</strong>: the magnitude of the treatment effect that you want to be able to detect</p>
+<p><strong>Notation</strong>: <span class="math inline">\(Y_{ij}|X_{i}\sim N(\mu_{j},\sigma^{2}_{j}),j=0,1\)</span>; covariates <span class="math inline">\(X_{i}\)</span> have been “partialled out”</p>
+<p><strong>Intuition</strong>: <span class="math inline">\(\text{H}_0:\mu_{0}=\mu_{1}\ +\)</span> explicitly specify <span class="math inline">\(\text{H}_1:\mu_{0}-\mu_{1}=\delta=\)</span> <strong>Minimum Detectable Effect Size (MDES)</strong></p>
+<p><span class="citation">Deaton (<a href="#ref-Deaton97">1997</a>)</span> <span class="citation">List (<a href="#ref-List2011">2011</a>)</span> <span class="citation">Ranganathan (<a href="#ref-Ranganathan2015">2018</a>)</span></p>
+</div>
+</div>
+<div id="stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects" class="section level2">
+<h2><span class="header-section-number">3.2</span> Stuff to keep in mind: Survey bias and Hawthorne effects</h2>
+<p><span class="citation">Zwane et al. (<a href="#ref-Zwane2011">2011</a>)</span> <span class="citation">Levitt and List (<a href="#ref-Levitt2011">2011</a>)</span></p>
+</div>
+<div id="illustration-was-my-research-design-underpowered" class="section level2">
+<h2><span class="header-section-number">3.3</span> Illustration: Was my research design underpowered?</h2>
+<p>A very inexpensive RCT project I set up a few years ago in Senegal led to the following amusing paper: <span class="citation">Arcand et al. (<a href="#ref-Arcand2010a">2011</a>)</span>. I just came across the total budget in my files: $US 8,401. There also is a published version of the paper that you might want to look at to get more context, but which (reasonably, I think) recodes some of the missing observations to zeroes (which is why the sample size is slightly higher): <span class="citation">Wagner et al. (<a href="#ref-Wagner2014">2014</a>)</span>. However, it uses an empirical specification I am no longer comfortable with, by adding combinations of quarter and region dummies to mop up residual variance —I guess that I am getting more severe with myself as I age…. Be that as it may, the results are very similar. The purpose of this exercise is to see (i) whether we were incredibly lucky in terms of the (lack of) power of our research design, and (ii) whether our results hold up to randomization inference. We got the power calculation wrong when we were planning the experiment, as you will see in the 2014 version of the paper.</p>
+<p>Download the dataset: health_district1.dta. A short R file that will allow you to read in the data and appropriately define the outcomes and covariates is also provided: cnls1.R. There are various R packages for computing optimal sample size and doing power calculation for Poisson regressions available online. You will find that the negative binomial and Poisson results are not very different, but go with the negbin if you are uneasy with overdispersion. The classic reference on power calculations for Poisson regression is <span class="citation">Signorini (<a href="#ref-Signorini1991">1991</a>)</span>, as well as the more recent paper by <span class="citation">Channouf, Fredette, and MacGibbon (<a href="#ref-Channouf2014">2014</a>)</span>, for which R code is available at: <a href="http://neumann.hec.ca/pages/marc.fredette/Ajout\%20site\%20web.tx">http://neumann.hec.ca/pages/marc.fredette/Ajout\%20site\%20web.tx</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set up the data</span>
+<span class="kw">options</span>(<span class="dt">digits =</span> <span class="dv">4</span>)
+
+<span class="kw">library</span>(foreign)
+<span class="kw">library</span>(lmtest)
+<span class="kw">library</span>(readstata13)
+<span class="kw">library</span>(reshape)
+<span class="kw">library</span>(multiwayvcov)
+cnls.data &lt;-<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&quot;health_district1.dta&quot;</span>)
+<span class="kw">attach</span>(cnls.data)
+
+##################
+<span class="co"># Recode dummies</span>
+##################
+
+<span class="co"># Quarter dummies</span>
+cnls.data<span class="op">$</span>d1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(periode <span class="op">==</span><span class="st"> &quot;01/2008&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>) 
+cnls.data<span class="op">$</span>d2 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(periode <span class="op">==</span><span class="st"> &quot;02/2008&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+cnls.data<span class="op">$</span>d3 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(periode <span class="op">==</span><span class="st"> &quot;03/2008&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+cnls.data<span class="op">$</span>d4 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(periode <span class="op">==</span><span class="st"> &quot;04/2008&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+cnls.data<span class="op">$</span>d5 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(periode <span class="op">==</span><span class="st"> &quot;01/2009&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+
+<span class="co"># Treatment status</span>
+<span class="co"># Control group is D1</span>
+cnls.data<span class="op">$</span>D1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(treatment<span class="op">==</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+<span class="co"># Social mobilization is D2</span>
+cnls.data<span class="op">$</span>D2 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(treatment<span class="op">==</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+<span class="co"># Peer mentoring is D3</span>
+cnls.data<span class="op">$</span>D3 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(treatment<span class="op">==</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+
+<span class="co"># Combination of both treatments</span>
+cnls.data<span class="op">$</span>D23 &lt;-<span class="st"> </span>cnls.data<span class="op">$</span>D2 <span class="op">+</span><span class="st"> </span>cnls.data<span class="op">$</span>D3
+cnls.data<span class="op">$</span>num_hs &lt;-<span class="st"> </span><span class="kw">factor</span>(cnls.data<span class="op">$</span>num_hs)
+
+<span class="co"># Region dummies as a factor</span>
+cnls.data<span class="op">$</span>num_reg &lt;-<span class="st"> </span><span class="kw">factor</span>(cnls.data<span class="op">$</span>num_reg)
+
+################################
+<span class="co"># Define the response variables</span>
+<span class="co"># of choice --simply comment out</span>
+<span class="co"># the five others</span>
+################################
+
+<span class="co"># Number of persons tested</span>
+cnls.data<span class="op">$</span>y &lt;-<span class="st"> </span>t
+
+<span class="co"># Number of persons having </span>
+<span class="co"># benefitted from pre-test counselling</span>
+<span class="co">#y &lt;-c_m </span>
+
+<span class="co"># Number of persons having picked up</span>
+<span class="co"># their test results</span>
+<span class="co">#y &lt;-pick_m</span>
+
+<span class="co"># Number of persons who tested positive</span>
+<span class="co"># and who picked up their test results</span>
+<span class="co">#y &lt;-pos_pick_m </span>
+
+<span class="co"># Number of persons who tested positive</span>
+<span class="co"># and whose partner has been tested</span>
+<span class="co">#y &lt;-partner_m</span>
+
+<span class="co"># Number of persons who tested positive</span>
+<span class="co"># and who have followed post-test counselling</span>
+<span class="co">#y &lt;-pos_couns_m</span>
+
+#######################
+<span class="co"># Create clean dataset</span>
+#######################
+y_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>D2 <span class="op">+</span><span class="st"> </span>D3 <span class="op">+</span><span class="st"> </span>D23 <span class="op">+</span><span class="st"> </span>d1 <span class="op">+</span><span class="st"> </span>d2 <span class="op">+</span><span class="st"> </span>d3 <span class="op">+</span><span class="st"> </span>d4 <span class="op">+</span><span class="st"> </span>d5 <span class="op">+</span><span class="st"> </span>num_hs <span class="op">+</span><span class="st"> </span>num_reg, <span class="dt">data=</span>cnls.data) 
+clean &lt;-<span class="st"> </span><span class="kw">model.frame</span>(y_lm)
+<span class="kw">detach</span>(cnls.data)
+<span class="kw">attach</span>(clean) ; 
+<span class="kw">summary</span>(clean)</code></pre></div>
+<pre><code>##        y               D2               D3              D23       
+##  Min.   :    1   Min.   :0.0000   Min.   :0.0000   Min.   :0.000  
+##  1st Qu.:  123   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.000  
+##  Median :  334   Median :0.0000   Median :0.0000   Median :0.000  
+##  Mean   :  570   Mean   :0.0328   Mean   :0.0693   Mean   :0.102  
+##  3rd Qu.:  691   3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.000  
+##  Max.   :12728   Max.   :1.0000   Max.   :1.0000   Max.   :1.000  
+##                                                                   
+##        d1              d2              d3              d4       
+##  Min.   :0.000   Min.   :0.000   Min.   :0.000   Min.   :0.000  
+##  1st Qu.:0.000   1st Qu.:0.000   1st Qu.:0.000   1st Qu.:0.000  
+##  Median :0.000   Median :0.000   Median :0.000   Median :0.000  
+##  Mean   :0.197   Mean   :0.212   Mean   :0.208   Mean   :0.193  
+##  3rd Qu.:0.000   3rd Qu.:0.000   3rd Qu.:0.000   3rd Qu.:0.000  
+##  Max.   :1.000   Max.   :1.000   Max.   :1.000   Max.   :1.000  
+##                                                                 
+##        d5           num_hs       num_reg  
+##  Min.   :0.00   2      :  5   10     :44  
+##  1st Qu.:0.00   4      :  5   1      :37  
+##  Median :0.00   5      :  5   9      :36  
+##  Mean   :0.19   7      :  5   3      :29  
+##  3rd Qu.:0.00   8      :  5   4      :23  
+##  Max.   :1.00   9      :  5   2      :20  
+##                 (Other):244   (Other):85</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">###########################################
+<span class="co"># Create histograms of response variable</span>
+<span class="co"># and notice that it is highly left-skewed</span>
+###########################################
+<span class="kw">hist</span>(clean<span class="op">$</span>y,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;&quot;</span>,<span class="dt">br=</span><span class="dv">150</span>)</code></pre></div>
+<p><img src="03-setup_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##############################
+<span class="co"># Estimate Poisson regressions</span>
+##############################
+
+y_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(clean<span class="op">$</span>y <span class="op">~</span><span class="st"> </span>clean<span class="op">$</span>D2 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>D3 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d1 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d2
+           <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d3 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d4 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>num_reg, <span class="kw">poisson</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>))
+<span class="kw">summary</span>(y_glm)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = clean$y ~ clean$D2 + clean$D3 + clean$d1 + clean$d2 + 
+##     clean$d3 + clean$d4 + clean$num_reg, family = poisson(link = &quot;log&quot;))
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -55.41  -18.97   -7.78    6.80  174.71  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)      6.94279    0.01015  684.10  &lt; 2e-16 ***
+## clean$D2         0.09637    0.01587    6.07  1.3e-09 ***
+## clean$D3         0.63215    0.01377   45.90  &lt; 2e-16 ***
+## clean$d1        -0.06603    0.01105   -5.98  2.3e-09 ***
+## clean$d2         0.43542    0.01028   42.36  &lt; 2e-16 ***
+## clean$d3        -0.11480    0.01099  -10.44  &lt; 2e-16 ***
+## clean$d4         0.06800    0.01084    6.27  3.5e-10 ***
+## clean$num_reg2  -0.66401    0.01052  -63.10  &lt; 2e-16 ***
+## clean$num_reg3  -1.23322    0.01121 -109.97  &lt; 2e-16 ***
+## clean$num_reg4  -1.20194    0.01209  -99.40  &lt; 2e-16 ***
+## clean$num_reg5  -0.41039    0.00987  -41.57  &lt; 2e-16 ***
+## clean$num_reg6  -0.86088    0.01186  -72.56  &lt; 2e-16 ***
+## clean$num_reg7  -1.28012    0.01593  -80.35  &lt; 2e-16 ***
+## clean$num_reg8  -1.73091    0.01893  -91.45  &lt; 2e-16 ***
+## clean$num_reg9  -0.94112    0.00941 -100.03  &lt; 2e-16 ***
+## clean$num_reg10 -0.67698    0.00820  -82.53  &lt; 2e-16 ***
+## clean$num_reg11 -1.11526    0.01284  -86.89  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 192976  on 273  degrees of freedom
+## Residual deviance: 155000  on 257  degrees of freedom
+## AIC: 157076
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm.vcovCL &lt;-<span class="st"> </span><span class="kw">cluster.vcov</span>(y_glm, clean<span class="op">$</span>num_reg)
+glm.clustered.se &lt;-<span class="st"> </span><span class="kw">coeftest</span>(y_glm, glm.vcovCL)
+glm.clustered.se</code></pre></div>
+<pre><code>## 
+## z test of coefficients:
+## 
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       6.9428     0.2634   26.36   &lt;2e-16 ***
+## clean$D2          0.0964     0.3111    0.31    0.757    
+## clean$D3          0.6322     0.3315    1.91    0.057 .  
+## clean$d1         -0.0660     0.3566   -0.19    0.853    
+## clean$d2          0.4354     0.3860    1.13    0.259    
+## clean$d3         -0.1148     0.2078   -0.55    0.581    
+## clean$d4          0.0680     0.1990    0.34    0.733    
+## clean$num_reg2   -0.6640     0.0479  -13.87   &lt;2e-16 ***
+## clean$num_reg3   -1.2332     0.0540  -22.83   &lt;2e-16 ***
+## clean$num_reg4   -1.2019     0.0472  -25.48   &lt;2e-16 ***
+## clean$num_reg5   -0.4104     0.0220  -18.70   &lt;2e-16 ***
+## clean$num_reg6   -0.8609     0.0242  -35.51   &lt;2e-16 ***
+## clean$num_reg7   -1.2801     0.0183  -69.92   &lt;2e-16 ***
+## clean$num_reg8   -1.7309     0.0614  -28.21   &lt;2e-16 ***
+## clean$num_reg9   -0.9411     0.0255  -36.84   &lt;2e-16 ***
+## clean$num_reg10  -0.6770     0.0279  -24.22   &lt;2e-16 ***
+## clean$num_reg11  -1.1153     0.0403  -27.70   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">#############################################
+<span class="co"># Test for difference between two treatments</span>
+#############################################
+y_glm &lt;-<span class="st"> </span><span class="kw">glm</span>(clean<span class="op">$</span>y <span class="op">~</span><span class="st"> </span>clean<span class="op">$</span>D3 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>D23 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d1 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d2
+           <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d3 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>d4 <span class="op">+</span><span class="st"> </span>clean<span class="op">$</span>num_reg, <span class="kw">poisson</span>(<span class="dt">link =</span> <span class="st">&quot;log&quot;</span>))
+glm.vcovCL &lt;-<span class="st"> </span><span class="kw">cluster.vcov</span>(y_glm, clean<span class="op">$</span>num_reg)
+glm.clustered.se &lt;-<span class="st"> </span><span class="kw">coeftest</span>(y_glm, glm.vcovCL)
+glm.clustered.se</code></pre></div>
+<pre><code>## 
+## z test of coefficients:
+## 
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       6.9428     0.2634   26.36  &lt; 2e-16 ***
+## clean$D3          0.5358     0.1450    3.70  0.00022 ***
+## clean$D23         0.0964     0.3111    0.31  0.75676    
+## clean$d1         -0.0660     0.3566   -0.19  0.85311    
+## clean$d2          0.4354     0.3860    1.13  0.25934    
+## clean$d3         -0.1148     0.2078   -0.55  0.58062    
+## clean$d4          0.0680     0.1990    0.34  0.73250    
+## clean$num_reg2   -0.6640     0.0479  -13.87  &lt; 2e-16 ***
+## clean$num_reg3   -1.2332     0.0540  -22.83  &lt; 2e-16 ***
+## clean$num_reg4   -1.2019     0.0472  -25.48  &lt; 2e-16 ***
+## clean$num_reg5   -0.4104     0.0220  -18.70  &lt; 2e-16 ***
+## clean$num_reg6   -0.8609     0.0242  -35.51  &lt; 2e-16 ***
+## clean$num_reg7   -1.2801     0.0183  -69.92  &lt; 2e-16 ***
+## clean$num_reg8   -1.7309     0.0614  -28.21  &lt; 2e-16 ***
+## clean$num_reg9   -0.9411     0.0255  -36.84  &lt; 2e-16 ***
+## clean$num_reg10  -0.6770     0.0279  -24.22  &lt; 2e-16 ***
+## clean$num_reg11  -1.1153     0.0403  -27.70  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">################################################################
+<span class="co"># End of code</span>
+################################################################
+
+<span class="co"># For perfect replicability of paper:</span>
+<span class="co"># Old code for calculating one-way clustered standard errors</span>
+<span class="co"># before the &quot;multiwaycov&quot; package was available</span>
+<span class="co"># Standard errors are almost identical</span>
+<span class="co"># See code by Mahmood Arai at http://people.su.se/~ma/clmclx.R</span>
+
+clx &lt;-<span class="st"> </span><span class="cf">function</span>(fm, dfcw, cluster) {
+  <span class="kw">library</span>(sandwich)
+  <span class="kw">library</span>(lmtest)
+  M &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(cluster))
+  N &lt;-<span class="st"> </span><span class="kw">length</span>(cluster)
+  K &lt;-<span class="st"> </span>fm<span class="op">$</span>rank
+  dfc &lt;-<span class="st"> </span>(M<span class="op">/</span>(M<span class="op">-</span><span class="dv">1</span>))<span class="op">*</span>((N<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span>(N<span class="op">-</span>K))
+  u &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">estfun</span>(fm),<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">tapply</span>(x,cluster,sum))
+  vcovCL &lt;-<span class="st"> </span>dfc<span class="op">*</span><span class="kw">sandwich</span>(fm,<span class="dt">meat=</span><span class="kw">crossprod</span>(u)<span class="op">/</span>N)<span class="op">*</span>dfcw
+  <span class="kw">coeftest</span>(fm,vcovCL)
+}
+
+<span class="kw">clx</span>(y_glm,<span class="dv">1</span>,clean<span class="op">$</span>num_reg)</code></pre></div>
+<pre><code>## 
+## z test of coefficients:
+## 
+##                 Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       6.9428     0.2634   26.36  &lt; 2e-16 ***
+## clean$D3          0.5358     0.1450    3.70  0.00022 ***
+## clean$D23         0.0964     0.3111    0.31  0.75676    
+## clean$d1         -0.0660     0.3566   -0.19  0.85311    
+## clean$d2          0.4354     0.3860    1.13  0.25934    
+## clean$d3         -0.1148     0.2078   -0.55  0.58062    
+## clean$d4          0.0680     0.1990    0.34  0.73250    
+## clean$num_reg2   -0.6640     0.0479  -13.87  &lt; 2e-16 ***
+## clean$num_reg3   -1.2332     0.0540  -22.83  &lt; 2e-16 ***
+## clean$num_reg4   -1.2019     0.0472  -25.48  &lt; 2e-16 ***
+## clean$num_reg5   -0.4104     0.0220  -18.70  &lt; 2e-16 ***
+## clean$num_reg6   -0.8609     0.0242  -35.51  &lt; 2e-16 ***
+## clean$num_reg7   -1.2801     0.0183  -69.92  &lt; 2e-16 ***
+## clean$num_reg8   -1.7309     0.0614  -28.21  &lt; 2e-16 ***
+## clean$num_reg9   -0.9411     0.0255  -36.84  &lt; 2e-16 ***
+## clean$num_reg10  -0.6770     0.0279  -24.22  &lt; 2e-16 ***
+## clean$num_reg11  -1.1153     0.0403  -27.70  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Carry out the correct power calculation that we should have done. Subject our results to randomization inference.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Deaton97">
+<p>Deaton, Angus. 1997. <em>The Analysis of Household Surveys. a Microeconomic Approach to Development Policy</em>. Baltimore, MD: Johns Hopkins University Press.</p>
+</div>
+<div id="ref-List2011">
+<p>List, John A. 2011. “Why Economists Should Conduct Field Experiments and 14 Tips for Pulling One Off.” <em>Journal of Economic Perspectives</em> 25 (3): 3–16.</p>
+</div>
+<div id="ref-Ranganathan2015">
+<p>Ranganathan, Aruna. 2018. “The Artisan and His Audience: Identification with Work and Price-Setting in a Handicraft Cluster in Southern India.” <em>Administrative Science Quarterly</em> 63 (3): 637–67.</p>
+</div>
+<div id="ref-Zwane2011">
+<p>Zwane, Alix Peterson, Jonathan Zinman, Eric Van Dusene, William Pariente, Clair Null, Edward Miguel, Michael Kremer, et al. 2011. “Being Surveyed Can Change Later Behavior and Related Parameter Estimates.” <em>Proceedings of the National Academy of Sciences of the United States of America</em> 108 (5): 1821–6.</p>
+</div>
+<div id="ref-Levitt2011">
+<p>Levitt, Steven D., and John A. List. 2011. “Was There Really a Hawthorne Effect at the Hawthorne Plant? An Analysis of the Original Illumination Experiments.” <em>American Economic Journal: Applied Economics</em> 3 (1): 224–38.</p>
+</div>
+<div id="ref-Arcand2010a">
+<p>Arcand, Jean-Louis, Pape Alioune Diallo, Cheikhou Sakho, and Natascha Wagner. 2011. “HIV/Aids Sensitization, Social Mobilization and Peer-Mentoring: Evidence from a Randomized Experiment in Senegal.”</p>
+</div>
+<div id="ref-Wagner2014">
+<p>Wagner, Natascha, Jean-Louis Arcand, Cheikho Sakho, and Pape A. Diallo. 2014. “HIV/Aids Sensitisation and Peer Mentoring: Evidence from a Randomised Experiment in Senegal.” <em>Journal of Development Effectiveness</em> 6 (2): 147–66.</p>
+</div>
+<div id="ref-Signorini1991">
+<p>Signorini, David F. 1991. “Sample Size for Poisson Regression.” <em>Biometrika</em> 78 (2): 446–50.</p>
+</div>
+<div id="ref-Channouf2014">
+<p>Channouf, Nabil, Marc Fredette, and Brenda MacGibbon. 2014. “Power and Sample Size Calculations for Poisson and Zero-Inflated Poisson Regression Models.” <em>Computational Statistics and Data Analysis</em> 72 (Supplement C): 241–51. doi:<a href="https://doi.org/https://doi.org/10.1016/j.csda.2013.09.029">https://doi.org/10.1016/j.csda.2013.09.029</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="randomization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="iv-and-rdd.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

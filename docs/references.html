@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>References | Real World Impact Evaluation with R</title>
+  <meta name="description" content="Real world impact evaluation with R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="References | Real World Impact Evaluation with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Real world impact evaluation with R." />
+  <meta name="github-repo" content="arcandjl/rwIEwr" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="References | Real World Impact Evaluation with R" />
+  
+  <meta name="twitter:description" content="Real world impact evaluation with R." />
+  
+
+<meta name="author" content="Department of International Economics">
+<meta name="author" content="The Graduate Institute | Geneva">
+<meta name="author" content="jean-louis.arcand@graduateinstitute.ch">
+
+
+<meta name="date" content="2019-01-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="heterogeneity-in-various-flavors.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Real world impact evaluation with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome to Real World Impact Evaluation with R</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i>Author</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html"><i class="fa fa-check"></i><b>1</b> Why go to all the trouble? Potential outcomes</a></li>
+<li class="chapter" data-level="2" data-path="randomization.html"><a href="randomization.html"><i class="fa fa-check"></i><b>2</b> Randomization</a><ul>
+<li class="chapter" data-level="2.1" data-path="randomization.html"><a href="randomization.html#understanding-the-basics"><i class="fa fa-check"></i><b>2.1</b> Understanding the basics</a></li>
+<li class="chapter" data-level="2.2" data-path="randomization.html"><a href="randomization.html#the-randomista-debate"><i class="fa fa-check"></i><b>2.2</b> The randomista debate</a></li>
+<li class="chapter" data-level="2.3" data-path="randomization.html"><a href="randomization.html#bias-and-randomization-inference"><i class="fa fa-check"></i><b>2.3</b> Bias and randomization inference</a></li>
+<li class="chapter" data-level="2.4" data-path="randomization.html"><a href="randomization.html#placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking"><i class="fa fa-check"></i><b>2.4</b> Placebo effects and (surprise) homo oeconomicus is alive and kicking</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html"><i class="fa fa-check"></i><b>3</b> Setting up an evaluation</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#statistical-power-survey-data-and-just-doing-it"><i class="fa fa-check"></i><b>3.1</b> Statistical power, survey data and just doing it…</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#blocking"><i class="fa fa-check"></i><b>3.1.1</b> Blocking</a></li>
+<li class="chapter" data-level="3.1.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#repeated-observations"><i class="fa fa-check"></i><b>3.1.2</b> Repeated observations</a></li>
+<li class="chapter" data-level="3.1.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#glossary-and-intuition"><i class="fa fa-check"></i><b>3.1.3</b> Glossary and intuition</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects"><i class="fa fa-check"></i><b>3.2</b> Stuff to keep in mind: Survey bias and Hawthorne effects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html"><i class="fa fa-check"></i><b>4</b> IV and RDD</a><ul>
+<li class="chapter" data-level="4.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-basics-of-iv"><i class="fa fa-check"></i><b>4.1</b> The basics of IV</a></li>
+<li class="chapter" data-level="4.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#finite-sample-bias-common-mistakes-the-gmm-black-box-and-bootstrap-inference"><i class="fa fa-check"></i><b>4.2</b> Finite sample bias, common mistakes, the GMM black box, and bootstrap inference</a></li>
+<li class="chapter" data-level="4.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#regression-discontinuity-design"><i class="fa fa-check"></i><b>4.3</b> Regression discontinuity design</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="panel-data-structures.html"><a href="panel-data-structures.html"><i class="fa fa-check"></i><b>5</b> Panel data structures</a><ul>
+<li class="chapter" data-level="5.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#reviewing-the-basics"><i class="fa fa-check"></i><b>5.1</b> Reviewing the basics</a></li>
+<li class="chapter" data-level="5.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#inference-and-clustering"><i class="fa fa-check"></i><b>5.2</b> Inference and clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#measurement-error"><i class="fa fa-check"></i><b>5.3</b> Measurement error</a></li>
+<li class="chapter" data-level="5.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#pseudo-panel-data-and-synthetic-control"><i class="fa fa-check"></i><b>5.4</b> Pseudo-panel data and synthetic control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html"><i class="fa fa-check"></i><b>6</b> External validity, replicability and lack of statistical significance</a><ul>
+<li class="chapter" data-level="6.1" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#external-validity"><i class="fa fa-check"></i><b>6.1</b> External validity</a></li>
+<li class="chapter" data-level="6.2" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#replicability-and-scientific-progress"><i class="fa fa-check"></i><b>6.2</b> Replicability and scientific progress</a></li>
+<li class="chapter" data-level="6.3" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#saying-something-intelligent-when-things-arent-statistically-significant"><i class="fa fa-check"></i><b>6.3</b> Saying something intelligent when things aren’t statistically significant</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html"><i class="fa fa-check"></i><b>7</b> Heterogeneity in various flavors</a><ul>
+<li class="chapter" data-level="7.1" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#quantile-regressions-and-random-coefficient-models"><i class="fa fa-check"></i><b>7.1</b> Quantile regressions and random coefficient models</a></li>
+<li class="chapter" data-level="7.2" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#essential-heterogeneity"><i class="fa fa-check"></i><b>7.2</b> Essential heterogeneity</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Real World Impact Evaluation with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+
+<div id="refs" class="references">
+<div>
+<p>Andrews, Donald W. K. 1989. “Power in Econometric Applications.” <em>Econometrica</em> 57 (5): 1059–90.</p>
+</div>
+<div>
+<p>Bazzi, Samuel, and Michael A. Clemens. 2013. “Blunt Instruments: Avoiding Common Pitfalls in Identifying the Causes of Economic Growth.” <em>American Economic Journal: Macroeconomics</em> 5 (2): 152–86.</p>
+</div>
+<div>
+<p>Beck, Nathaniel, and Jonathan N. Katz. 2007. “Random Coefficient Models for Time-Series-Cross-Section Data: Monte Carlo Experiments.” <em>Political Analysis</em> 15 (2): 182–95.</p>
+</div>
+<div>
+<p>Brodeur, Abel, Nikolai Cook, and Anthony Heyes. 2018. “Methods Matter: P-Hacking and Causal Inference in Economics,” August.</p>
+</div>
+<div>
+<p>Conley, Timothy G, Christian Hansen, and Peter E. Rossi. 2012. “Plausibly Exogenous.” <em>Review of Economics and Statistics</em> 94 (1): 260–72.</p>
+</div>
+<div>
+<p>Hahn, Jinyong, and Jerry A. Hausman. 2002. “Notes on Bias in Estimators for Simultaneous Equation Models.” <em>Economics Letters</em> 75 (2): 237–41.</p>
+</div>
+<div>
+<p>Harding, Matthew, Jerry A. Hausman, and Christopher J. Palmer. 2016. “Finite Sample Bias Corrected IV Estimation for Weak and Many Instruments.” In <em>Advances in Econometrics: Essays in Honor of Aman Ullah</em>, 36:245–73. Emerald Publishing.</p>
+</div>
+<div>
+<p>Hausman, Jerry A. 1983. “Specification and Estimation of Simultaneous Equation Models.” In <em>Handbook of Econometrics</em>, edited by Zvi Griliches and M. Intriligator, 1:391–448. The Netherlands: North Holland.</p>
+</div>
+<div>
+<p>Heckman, James J., and Salvador Navarro-Lozano. 2004. “Using Matching, Instrumental Variables and Control Functions to Estimate Economic Choice Models.” <em>Review of Economics and Statistics</em> 86 (1): 30–57.</p>
+</div>
+<div>
+<p>Heckman, James J., and Edward J. Vytlacil. 1999. “Local Instrumental Variables and Latent Variable Models for Identifying and Bounding Treatment Effects.” <em>Proceedings of the National Academy of Sciences of the United States of America</em> 96 (8): 4730–4.</p>
+</div>
+<div>
+<p>Heckman, James J., Sergio Urzua, and Edward Vytlacil. 2006. “Understanding Instrumental Variables in Models with Essential Heterogeneity.” <em>Review of Economics and Statistics</em> 88 (3): 389–432.</p>
+</div>
+<div>
+<p>Imbens, Guido W., and Thomas Lemieux. 2008. “Regression Discontinuity Designs: A Guide to Practice.” <em>Journal of Econometrics</em> 142 (2): 615–35.</p>
+</div>
+<div>
+<p>Koenker, R., and K. Hallock. 2001. “Quantile Regression.” <em>Journal of Economic Perspectives</em> 15 (4): 143–56.</p>
+</div>
+<div>
+<p>Lee, David S., and Thomas Lemieux. 2010. “Regression Discontinuity Designs in Economics.” <em>Journal of Economic Literature</em> 48 (2): 281–355.</p>
+</div>
+<div>
+<p>Nosek, B. A., J. R. Spies, and M. Motyl. 2013. “Scientific Utopia: II. Restructuring Incentives and Practices to Promote Truth over Publishability.” <em>Perspectives on Psychological Science</em> 7: 615–31.</p>
+</div>
+<div>
+<p>Ravallion, Martin. 2015. “On the Implications of Essential Heterogeneity for Estimating Causal Impacts Using Social Experiments.” <em>Journal of Econometric Methodology</em> 4 (1): 145–51.</p>
+</div>
+<div>
+<p>Roodman, David, and Jonathan Morduch. 2014. “The Impact of Microcredit on the Poor in Bangladesh: Revisiting the Evidence.” <em>Journal of Development Studies</em> 50 (4): 583–604.</p>
+</div>
+<div>
+<p>Rosenzweig, Mark. R, and Christopher Udry. 2016. “External Validity in a Stochastic World.”</p>
+</div>
+<div>
+<p>Simmons, Joseph P., Leif D. Nelson, and Uri Simonsohn. 2011. “False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant.” <em>Psychological Science</em> 22 (11): 1359–66.</p>
+</div>
+<div>
+<p>Smaldino, Paul E., and Richard McElreath. 2016. “The Natural Selection of Bad Science.” <em>Royal Society Open Science</em> 3: 160384.</p>
+</div>
+<div>
+<p>Yong, Ed. 2012. “Replication Studies: Bad Copy.” <em>Nature</em> 485: 298–300.</p>
+</div>
+<div>
+<p>Young, Alwyn. 2018. “Consistency Without Inference: Instrumental Variables in Practical Applications.”</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="heterogeneity-in-various-flavors.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

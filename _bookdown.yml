@@ -1,0 +1,7 @@
+book_filename: "rwIEwr"
+chapter_name: "Chapter "
+repo: https://github.com/arcandjl/rwIEwr
+output_dir: docs
+rmd_files:
+clean: [packages.bib, bookdown.bbl]
+new_session: yes

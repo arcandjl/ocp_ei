@@ -1,0 +1,339 @@
+---
+knit: "bookdown::preview_chapter"
+---
+
+```{r, echo=FALSE}
+rm(list=ls())
+```
+
+# Heterogeneity in various flavors
+
+Heterogeneity appears in various forms in impact evaluation.  But it is pretty safe to say that there are two main varieties: (i) heterogeneity which depends on the LHS variable and (ii) that which depends on RHS variables.  
+
+## Quantile regressions and random coefficient models
+
+@Koenker01
+@Beck2007
+
+## Essential heterogeneity
+
+@Heckman99a
+@Heckman06
+@Heckman03
+@Ravallion2015
+
+We begin by illustrating what happens when a model is affected by a small amount of essential heterogeneity.
+
+```{r , warning = FALSE, message = FALSE}
+# Model with very little essential heterogeneity
+
+set.seed(14381)
+N <- 1000
+alfa <- 0.20
+gamma <- 0.67
+epsilon <- rnorm(N,0,1)
+sigv = -1.000
+sig1 <- 0.12
+sig0 <- 0.18
+U1 <- sig1*epsilon
+U0 <- sig0*epsilon
+V <- sigv*epsilon
+UD <- pnorm(V/(sigv))
+#hist(V)
+#hist(UD)
+Z <- rnorm(N,-0.026,1.700)
+Dstar <- Z - V
+D <- ifelse(Dstar>0,1,0)
+Y1 <- gamma + alfa + U1
+Y0 <- gamma        + U0
+Y <- D*Y1 + (1-D)*Y0
+# summary(lm(Y ~ D))
+# deltaY <- Y1 - Y0
+# plot(UD,deltaY)
+
+# Estimate the discrete choice model in
+# order to construct the propensity score P(Z)
+
+D.probit <- glm(D ~ Z, family=binomial(link="probit"))
+summary(D.probit)
+propensity.score <- predict(D.probit, type="response")
+summary(propensity.score)
+
+# Consider the propensity score separately
+# for treated and untreated individuals
+
+D1 <- ifelse(D == 1, 1, NA)
+D0 <- ifelse(D == 0, 1, NA)
+propensity.score_1 <- na.omit(propensity.score*D1)
+propensity.score_0 <- na.omit(propensity.score*D0)
+summary(propensity.score_1)
+summary(propensity.score_0)
+
+# Check for range of common support
+
+CS_min <- max(min(propensity.score_1),min(propensity.score_0))
+CS_max <- min(max(propensity.score_1),max(propensity.score_0))
+CS <- cbind(CS_min,CS_max)
+CS_dummy_min <- ifelse(CS_min <= propensity.score,1,NA)
+CS_dummy_max <- ifelse(propensity.score <= CS_max,1,NA)
+CS_dummy <- CS_dummy_min*CS_dummy_max
+summary(CS_dummy)
+CS
+
+# Construct histograms of propensity score
+# for treated and untreated individuals
+
+propensity.score.hist_1 <- hist(propensity.score_1, br=50)
+propensity.score.hist_0 <- hist(propensity.score_0, br=50)
+plot(propensity.score.hist_1,main="Histograms of the distributions 
+     of the propensity score, for D=1 and D=0",xlab="Propensity score P(Z)", col=adjustcolor("blue", 0.3))
+lines(propensity.score.hist_0, lty=2, col=adjustcolor("red", 0.3))
+
+ps <- propensity.score
+heckman <- as.data.frame(cbind(Y,D,Z,ps))
+attach(heckman)
+
+# Compute simple linear IV estimate
+
+library(AER)
+lineariv <- ivreg(Y ~ D | ps, data=heckman)
+summary(lineariv)
+
+# Estimate the linear treatment model with the estimated propensity score P(Z)
+# Include quadratic and cubic terms in order to test for the presence of 
+# essential heterogeneity
+
+# Test the joint significance of the quadratic and cubic terms
+
+ps_2 <- ps^2
+ps_3 <- ps^3
+Y.ps1 <- lm(Y ~ ps + ps_2 + ps_3, data = heckman)
+summary(Y.ps1)
+library(car)
+linearHypothesis(Y.ps1, c("ps_2 = 0", "ps_3 = 0"))
+
+# Calculate the MTE parametrically
+
+library(margins)
+Y.ps2 <- lm(Y ~ ps + I(ps^2) + I(ps^3), data = heckman)
+cplot(Y.ps2, "ps", what = "effect", main = "Parametric MTE")
+
+# Nonparametric specification
+
+library(np)
+
+# Use a simple local linear regression with 
+# bootstrapped or asymptotic standard errors
+
+bw0 <- npregbw(xdat=ps, ydat=Y, regtype="ll", bwmethod="cv.aic")
+Y.np0 <- npreg(bws = bw0, gradient=TRUE)
+summary(Y.np0)
+plot(Y.np0, plot.errors.method="bootstrap")
+plot(Y.np0, plot.errors.method="bootstrap", gradient=TRUE, 
+     ylab="MTE", xlab="Propensity score")
+# The MTE is valid over the region of common support
+mte <- Y.np0$grad*CS_dummy
+ATE <- mean(mte, na.rm=TRUE)
+abline(h=ATE)
+mte_se <- Y.np0$gerr*CS_dummy
+ATE_se <- mean(mte_se, na.rm=TRUE)
+
+# Compute the treatment weights
+
+uD <- qnorm(ps)
+P.probit <- glm(D ~ uD, family=binomial(link="probit"))
+summary(P.probit)
+omega_TT_n <- 1 - predict(P.probit, type="response")
+omega_TT_d <- sum(omega_TT_n)
+omega_TT <- omega_TT_n / omega_TT_d
+omega_TUT_n <- predict(P.probit, type="response")
+omega_TUT_d <- sum(omega_TUT_n)
+omega_TUT <- omega_TUT_n / omega_TUT_d
+check <- sum(omega_TT)
+print(check)
+
+TT <- sum(omega_TT*mte, na.rm=TRUE)
+TT_se <- sum(omega_TT*mte_se, na.rm=TRUE)
+TUT <- sum(omega_TUT*mte, na.rm=TRUE)
+TUT_se <- sum(omega_TUT*mte_se, na.rm=TRUE)
+parameters <- cbind("", "ATE", "TT", "TUT")
+mean.effects <- cbind("Parameter", round(ATE,digits=3),round(TT,digits=3),round(TUT,digits=3))
+mean.effects_se <- cbind("s.e", round(ATE_se,digits=3), round(TT_se,digits=3), round(TUT_se,digits=3))
+print("Region of common support")
+print(CS)
+effects <- rbind(parameters, mean.effects, mean.effects_se)
+print(effects)
+
+plot(Y.np0, plot.errors.method="asymptotic", gradient=TRUE, 
+     ylab="MTE", xlab="Propensity score")
+abline(h=ATE, lty=1)
+abline(h=TT, lty=1, col="blue")
+abline(h=TUT, lty=1, col="red")
+```
+
+
+```{r , warning = FALSE, message = FALSE}
+# MODEL WITH ESSENTIAL HETEROGENEITY
+
+set.seed(14381)
+N <- 1000
+alfa <- 0.20
+gamma <- 0.67
+epsilon <- rnorm(N,0,1)
+sigv = -1.000
+sig1 <- 0.12
+sig0 <- -0.50
+U1 <- sig1*epsilon
+U0 <- sig0*epsilon
+V <- sigv*epsilon
+# UD <- pnorm(V/(sigv))
+# hist(UD)
+Z <- rnorm(N,-0.026,1.700)
+Dstar <- Z - V
+D <- ifelse(Dstar>0,1,0)
+Y1 <- gamma + alfa + U1
+Y0 <- gamma        + U0
+Y <- D*Y1 + (1-D)*Y0
+# summary(lm(Y ~ D))
+# deltaY <- Y1 - Y0
+# plot(UD,deltaY)
+# 
+
+# Estimate the discrete choice model in
+# order to construct the propensity score P(Z)
+
+D.probit <- glm(D ~ Z, family=binomial(link="probit"))
+summary(D.probit)
+propensity.score <- predict(D.probit, type="response")
+summary(propensity.score)
+
+# Consider the propensity score separately
+# for treated and untreated individuals
+
+D1 <- ifelse(D == 1, 1, NA)
+D0 <- ifelse(D == 0, 1, NA)
+propensity.score_1 <- na.omit(propensity.score*D1)
+propensity.score_0 <- na.omit(propensity.score*D0)
+summary(propensity.score_1)
+summary(propensity.score_0)
+
+# Check for range of common support
+
+CS_min <- max(min(propensity.score_1),min(propensity.score_0))
+CS_max <- min(max(propensity.score_1),max(propensity.score_0))
+CS <- cbind(CS_min,CS_max)
+CS_dummy_min <- ifelse(CS_min <= propensity.score,1,NA)
+CS_dummy_max <- ifelse(propensity.score <= CS_max,1,NA)
+CS_dummy <- CS_dummy_min*CS_dummy_max
+summary(CS_dummy)
+CS
+
+# Construct histograms of propensity score
+# for treated and untreated individuals
+
+propensity.score.hist_1 <- hist(propensity.score_1, br=50)
+propensity.score.hist_0 <- hist(propensity.score_0, br=50)
+plot(propensity.score.hist_1,main="Histograms of the distributions 
+of the propensity score, for D=1 and D=0",xlab="Propensity score P(Z)", col=adjustcolor("blue", 0.3))
+lines(propensity.score.hist_0, lty=2, col=adjustcolor("red", 0.3))
+
+ps <- propensity.score
+heckman <- as.data.frame(cbind(Y,D,Z,ps))
+attach(heckman)
+
+# Compute simple linear IV estimate
+
+library(AER)
+lineariv <- ivreg(Y ~ D | ps, data=heckman)
+summary(lineariv)
+
+# Estimate the linear treatment model with the estimated propensity score P(Z)
+# Include quadratic and cubic terms in order to test for the presence of 
+# essential heterogeneity
+
+# Test the joint significance of the quadratic and cubic terms
+
+ps_2 <- ps^2
+ps_3 <- ps^3
+Y.ps1 <- lm(Y ~ ps + ps_2 + ps_3, data = heckman)
+summary(Y.ps1)
+library(car)
+linearHypothesis(Y.ps1, c("ps_2 = 0", "ps_3 = 0"))
+
+# Calculate the MTE parametrically
+
+library(margins)
+Y.ps2 <- lm(Y ~ ps + I(ps^2) + I(ps^3), data = heckman)
+cplot(Y.ps2, "ps", what = "effect", main = "Parametric MTE")
+
+# Nonparametric specification
+
+library(np)
+
+# Use a simple local linear regression with asymptotic standard errors
+
+bw0 <- npregbw(xdat=ps, ydat=Y, regtype="ll", bwmethod="cv.aic")
+Y.np0 <- npreg(bws = bw0, gradient=TRUE)
+summary(Y.np0)
+plot(Y.np0, plot.errors.method="asymptotic")
+plot(Y.np0, plot.errors.method="asymptotic", gradient=TRUE, 
+     ylab="MTE", xlab="Propensity score")
+# The MTE is valid over the region of common support
+mte <- Y.np0$grad*CS_dummy
+ATE <- mean(mte, na.rm=TRUE)
+abline(h=ATE)
+mte_se <- Y.np0$gerr*CS_dummy
+ATE_se <- mean(mte_se, na.rm=TRUE)
+
+# Compute the treatment weights
+
+uD <- qnorm(ps)
+P.probit <- glm(D ~ uD, family=binomial(link="probit"))
+summary(P.probit)
+omega_TT_n <- 1 - predict(P.probit, type="response")
+omega_TT_d <- sum(omega_TT_n)
+omega_TT <- omega_TT_n / omega_TT_d
+omega_TUT_n <- predict(P.probit, type="response")
+omega_TUT_d <- sum(omega_TUT_n)
+omega_TUT <- omega_TUT_n / omega_TUT_d
+check <- sum(omega_TT)
+print(check)
+
+TT <- sum(omega_TT*mte, na.rm=TRUE)
+TT_se <- sum(omega_TT*mte_se, na.rm=TRUE)
+TUT <- sum(omega_TUT*mte, na.rm=TRUE)
+TUT_se <- sum(omega_TUT*mte_se, na.rm=TRUE)
+parameters <- cbind("", "ATE", "TT", "TUT")
+mean.effects <- cbind("Parameter", round(ATE,digits=3),round(TT,digits=3),round(TUT,digits=3))
+mean.effects_se <- cbind("s.e", round(ATE_se,digits=3), round(TT_se,digits=3), round(TUT_se,digits=3))
+print("Region of common support")
+print(CS)
+effects <- rbind(parameters, mean.effects, mean.effects_se)
+print(effects)
+
+plot(Y.np0, plot.errors.method="asymptotic", gradient=TRUE, 
+     ylab="MTE", xlab="Propensity score")
+abline(h=ATE, lty=1)
+abline(h=TT, lty=1, col="blue")
+abline(h=TUT, lty=1, col="red")
+
+# Can also use a more sophisticated Li and Racine bandwidth estimation
+# with bootstrapped standard errors
+# In this case, it does not improve performance
+# bw1 <- npregbw(formula = Y ~ ps)
+# Y.np1 <- npreg(bws = bw1, gradient=TRUE)
+# summary(Y.np1)
+# plot(Y.np1, plot.errors.method="bootstrap")
+# plot(Y.np1, gradients=TRUE, plot.errors.method="bootstrap",
+#      ylab="MTE", xlab="Propensity score")
+# mte <- Y.np1$grad*CS_dummy
+# ATE <- mean(mte, na.rm=TRUE)
+# abline(h=ATE)
+# mte_se <- Y.np1$gerr*CS_dummy
+# ATE_se <- mean(mte_se, na.rm=TRUE)
+
+sessionInfo()
+
+```
+
+# References {-}

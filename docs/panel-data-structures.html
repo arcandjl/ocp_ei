@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 5 Panel data structures | Real World Impact Evaluation with R</title>
+  <meta name="description" content="Real world impact evaluation with R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 5 Panel data structures | Real World Impact Evaluation with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Real world impact evaluation with R." />
+  <meta name="github-repo" content="arcandjl/rwIEwr" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Panel data structures | Real World Impact Evaluation with R" />
+  
+  <meta name="twitter:description" content="Real world impact evaluation with R." />
+  
+
+<meta name="author" content="Department of International Economics">
+<meta name="author" content="The Graduate Institute | Geneva">
+<meta name="author" content="jean-louis.arcand@graduateinstitute.ch">
+
+
+<meta name="date" content="2019-01-25">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="iv-and-rdd.html">
+<link rel="next" href="external-validity-replicability-and-lack-of-statistical-significance.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Real world impact evaluation with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome to Real World Impact Evaluation with R</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i>Author</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html"><i class="fa fa-check"></i><b>1</b> Why go to all the trouble? Potential outcomes</a><ul>
+<li class="chapter" data-level="1.1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html#why-evaluate"><i class="fa fa-check"></i><b>1.1</b> Why evaluate</a></li>
+<li class="chapter" data-level="1.2" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html#the-roy-model"><i class="fa fa-check"></i><b>1.2</b> The Roy model</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="randomization.html"><a href="randomization.html"><i class="fa fa-check"></i><b>2</b> Randomization</a><ul>
+<li class="chapter" data-level="2.1" data-path="randomization.html"><a href="randomization.html#understanding-the-basics"><i class="fa fa-check"></i><b>2.1</b> Understanding the basics</a></li>
+<li class="chapter" data-level="2.2" data-path="randomization.html"><a href="randomization.html#the-randomista-debate"><i class="fa fa-check"></i><b>2.2</b> The randomista debate</a></li>
+<li class="chapter" data-level="2.3" data-path="randomization.html"><a href="randomization.html#randomization-inference"><i class="fa fa-check"></i><b>2.3</b> Randomization inference</a></li>
+<li class="chapter" data-level="2.4" data-path="randomization.html"><a href="randomization.html#attempting-to-replicate-a-famous-paper"><i class="fa fa-check"></i><b>2.4</b> Attempting to replicate a famous paper</a></li>
+<li class="chapter" data-level="2.5" data-path="randomization.html"><a href="randomization.html#ri-does-not-always-increase-standard-errors"><i class="fa fa-check"></i><b>2.5</b> RI does not always increase standard errors</a></li>
+<li class="chapter" data-level="2.6" data-path="randomization.html"><a href="randomization.html#placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking"><i class="fa fa-check"></i><b>2.6</b> Placebo effects and (surprise) homo oeconomicus is alive and kicking</a></li>
+<li class="chapter" data-level="2.7" data-path="randomization.html"><a href="randomization.html#re-introducing-choice-into-randomizations"><i class="fa fa-check"></i><b>2.7</b> Re-introducing choice into randomizations</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="randomization.html"><a href="randomization.html#wing-et-al-approach"><i class="fa fa-check"></i><b>2.7.1</b> Wing et al approach</a></li>
+<li class="chapter" data-level="2.7.2" data-path="randomization.html"><a href="randomization.html#rcts-as-a-principal-agent-problem"><i class="fa fa-check"></i><b>2.7.2</b> RCTs as a principal-agent problem</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html"><i class="fa fa-check"></i><b>3</b> Setting up an evaluation</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#statistical-power-survey-data-and-just-doing-it"><i class="fa fa-check"></i><b>3.1</b> Statistical power, survey data and just doing it…</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#blocking"><i class="fa fa-check"></i><b>3.1.1</b> Blocking</a></li>
+<li class="chapter" data-level="3.1.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#repeated-observations"><i class="fa fa-check"></i><b>3.1.2</b> Repeated observations</a></li>
+<li class="chapter" data-level="3.1.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#glossary-and-intuition"><i class="fa fa-check"></i><b>3.1.3</b> Glossary and intuition</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects"><i class="fa fa-check"></i><b>3.2</b> Stuff to keep in mind: Survey bias and Hawthorne effects</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#illustration-was-my-research-design-underpowered"><i class="fa fa-check"></i><b>3.3</b> Illustration: Was my research design underpowered?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html"><i class="fa fa-check"></i><b>4</b> IV and RDD</a><ul>
+<li class="chapter" data-level="4.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-basics-of-iv"><i class="fa fa-check"></i><b>4.1</b> The basics of IV</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-forbidden-regression"><i class="fa fa-check"></i><b>4.1.1</b> The forbidden regression</a></li>
+<li class="chapter" data-level="4.1.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#weak-instruments"><i class="fa fa-check"></i><b>4.1.2</b> Weak instruments</a></li>
+<li class="chapter" data-level="4.1.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#finite-sample-bias"><i class="fa fa-check"></i><b>4.1.3</b> Finite sample bias</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#bootstrap-inference"><i class="fa fa-check"></i><b>4.2</b> Bootstrap inference</a></li>
+<li class="chapter" data-level="4.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#failure-of-the-exclusion-restriction"><i class="fa fa-check"></i><b>4.3</b> Failure of the exclusion restriction</a></li>
+<li class="chapter" data-level="4.4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-gmm-black-box"><i class="fa fa-check"></i><b>4.4</b> The GMM black box</a></li>
+<li class="chapter" data-level="4.5" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#regression-discontinuity-design"><i class="fa fa-check"></i><b>4.5</b> Regression discontinuity design</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#application-to-a-development-program"><i class="fa fa-check"></i><b>4.5.1</b> Application to a development program</a></li>
+<li class="chapter" data-level="4.5.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#pushing-the-outcome-variable"><i class="fa fa-check"></i><b>4.5.2</b> Pushing the outcome variable</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="panel-data-structures.html"><a href="panel-data-structures.html"><i class="fa fa-check"></i><b>5</b> Panel data structures</a><ul>
+<li class="chapter" data-level="5.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#reviewing-the-basics"><i class="fa fa-check"></i><b>5.1</b> Reviewing the basics</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#within-between-and-variance-components"><i class="fa fa-check"></i><b>5.1.1</b> Within, between and variance components</a></li>
+<li class="chapter" data-level="5.1.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#multidimensional-panels"><i class="fa fa-check"></i><b>5.1.2</b> Multidimensional panels</a></li>
+<li class="chapter" data-level="5.1.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#mundlak"><i class="fa fa-check"></i><b>5.1.3</b> Mundlak</a></li>
+<li class="chapter" data-level="5.1.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#the-incidental-parameters-problem"><i class="fa fa-check"></i><b>5.1.4</b> The incidental parameters problem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#common-situations"><i class="fa fa-check"></i><b>5.2</b> Common situations</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#panel-data-in-an-rct"><i class="fa fa-check"></i><b>5.2.1</b> Panel data in an RCT</a></li>
+<li class="chapter" data-level="5.2.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#instrumental-variables"><i class="fa fa-check"></i><b>5.2.2</b> Instrumental variables</a></li>
+<li class="chapter" data-level="5.2.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#selection-and-endogeneity"><i class="fa fa-check"></i><b>5.2.3</b> Selection and endogeneity</a></li>
+<li class="chapter" data-level="5.2.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#inference-and-clustering"><i class="fa fa-check"></i><b>5.2.4</b> Inference and clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#time-invariant-covariates"><i class="fa fa-check"></i><b>5.3</b> Time-invariant covariates</a></li>
+<li class="chapter" data-level="5.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#measurement-error"><i class="fa fa-check"></i><b>5.4</b> Measurement error</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#attenuation-bias"><i class="fa fa-check"></i><b>5.4.1</b> Attenuation bias?</a></li>
+<li class="chapter" data-level="5.4.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#to-wrongs-can-make-a-right"><i class="fa fa-check"></i><b>5.4.2</b> To wrongs can make a right</a></li>
+<li class="chapter" data-level="5.4.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#heteroskedasticity-can-be-your-friend"><i class="fa fa-check"></i><b>5.4.3</b> Heteroskedasticity can be your friend</a></li>
+<li class="chapter" data-level="5.4.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#higher-moments"><i class="fa fa-check"></i><b>5.4.4</b> Higher moments</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="panel-data-structures.html"><a href="panel-data-structures.html#pseudo-panel-data"><i class="fa fa-check"></i><b>5.5</b> Pseudo-panel data</a></li>
+<li class="chapter" data-level="5.6" data-path="panel-data-structures.html"><a href="panel-data-structures.html#synthetic-control"><i class="fa fa-check"></i><b>5.6</b> Synthetic control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html"><i class="fa fa-check"></i><b>6</b> External validity, replicability and lack of statistical significance</a><ul>
+<li class="chapter" data-level="6.1" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#external-validity"><i class="fa fa-check"></i><b>6.1</b> External validity</a></li>
+<li class="chapter" data-level="6.2" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#replicability-and-scientific-progress"><i class="fa fa-check"></i><b>6.2</b> Replicability and scientific progress</a></li>
+<li class="chapter" data-level="6.3" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#saying-something-intelligent-when-things-arent-statistically-significant"><i class="fa fa-check"></i><b>6.3</b> Saying something intelligent when things aren’t statistically significant</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html"><i class="fa fa-check"></i><b>7</b> Heterogeneity in various flavors</a><ul>
+<li class="chapter" data-level="7.1" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#quantile-regressions-and-random-coefficient-models"><i class="fa fa-check"></i><b>7.1</b> Quantile regressions and random coefficient models</a></li>
+<li class="chapter" data-level="7.2" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#essential-heterogeneity"><i class="fa fa-check"></i><b>7.2</b> Essential heterogeneity</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Real World Impact Evaluation with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="panel-data-structures" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Panel data structures</h1>
+<div id="reviewing-the-basics" class="section level2">
+<h2><span class="header-section-number">5.1</span> Reviewing the basics</h2>
+<div id="within-between-and-variance-components" class="section level3">
+<h3><span class="header-section-number">5.1.1</span> Within, between and variance components</h3>
+<p><span class="citation">Hausman and Taylor (<a href="#ref-Hausman81">1981</a>)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">###############################################################################
+<span class="co"># Illustration of bias and RMSE with pooling, within and variance components</span>
+###############################################################################
+<span class="co"># Follows notation of the type used in: Hausman and Taylor (1981): &quot;Panel Data</span>
+<span class="co"># and Unobservable Individual Effects,&quot; Econometrica 49(6):1377-1398.</span>
+###############################################################################
+
+MC.panel.loop &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">r=</span><span class="dv">100</span>,<span class="dt">N=</span><span class="dv">100</span>,<span class="dt">T=</span><span class="dv">5</span>,<span class="dt">pi_alpha=</span><span class="fl">0.0</span>,<span class="dt">pi_eta=</span><span class="fl">0.0</span>){
+  <span class="kw">RNGkind</span>(<span class="dt">kind=</span><span class="st">&quot;Super-Duper&quot;</span>)
+  beta &lt;-<span class="st"> </span><span class="dv">0</span> ; sigma_alpha &lt;-<span class="st"> </span><span class="dv">2</span> ; sigma_eta &lt;-<span class="st"> </span><span class="dv">1</span> ; sigma_X_tilde &lt;-<span class="st"> </span><span class="dv">1</span>
+  a &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">rnorm</span>(N<span class="op">*</span>r,<span class="dt">mean=</span><span class="dv">0</span>,<span class="dt">sd=</span>sigma_alpha),<span class="dt">each=</span>T)
+  ALPHA &lt;-<span class="st"> </span><span class="kw">matrix</span>(a,N<span class="op">*</span>T,r)
+  e &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N<span class="op">*</span>T<span class="op">*</span>r,<span class="dt">mean=</span><span class="dv">0</span>,<span class="dt">sd=</span>sigma_eta)
+  ETA &lt;-<span class="st"> </span><span class="kw">matrix</span>(e,N<span class="op">*</span>T,r)
+  x_tilde &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N<span class="op">*</span>T<span class="op">*</span>r, <span class="dt">mean=</span><span class="dv">0</span>, <span class="dt">sd=</span>sigma_X_tilde)
+  X_tilde &lt;-<span class="st"> </span><span class="kw">matrix</span>(x_tilde,N<span class="op">*</span>T,r)
+  X &lt;-<span class="st"> </span>ALPHA<span class="op">*</span>pi_alpha <span class="op">+</span><span class="st"> </span>ETA<span class="op">*</span>pi_eta <span class="op">+</span><span class="st"> </span>X_tilde
+  Y &lt;-<span class="st"> </span>X<span class="op">*</span>beta <span class="op">+</span><span class="st"> </span>ALPHA <span class="op">+</span><span class="st"> </span>ETA
+<span class="co"># Definition of &quot;annihilator&quot; matrices as on top of p. 1380</span>
+  I_N &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dt">x=</span><span class="dv">1</span>,<span class="dt">nrow=</span>N)
+  I_TN &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="dt">x=</span><span class="dv">1</span>,<span class="dt">nrow=</span>N<span class="op">*</span>T)
+  J &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">1</span>,T,<span class="dv">1</span>)
+  b &lt;-<span class="st"> </span>(J<span class="op">%*%</span>(<span class="dv">1</span><span class="op">/</span>T)<span class="op">%*%</span><span class="kw">t</span>(J))
+  PV &lt;-<span class="st"> </span>I_N<span class="op">%x%</span>b
+  QV &lt;-<span class="st"> </span>I_TN <span class="op">-</span><span class="st"> </span>PV
+<span class="co"># Within and between transformations</span>
+  X_W &lt;-<span class="st"> </span>QV<span class="op">%*%</span>X
+  X_B &lt;-<span class="st"> </span>PV<span class="op">%*%</span>X
+  Y_W &lt;-<span class="st"> </span>QV<span class="op">%*%</span>Y
+  Y_B &lt;-<span class="st"> </span>PV<span class="op">%*%</span>Y
+   est.ols &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.within &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.between &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.varETA &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.varTOTAL &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.varALPHA &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.theta &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   est.varcomp &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">1</span>,r)
+   Y_G &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,N<span class="op">*</span>T,r)
+   X_G &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,N<span class="op">*</span>T,r)
+   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>r){
+   est.ols[,i] &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">crossprod</span>(X[,i]))<span class="op">%*%</span><span class="kw">crossprod</span>(X[,i],Y[,i])
+<span class="co"># As in equation (2.3) on p. 1380</span>
+   est.within[,i] &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">crossprod</span>(X_W[,i]))<span class="op">%*%</span><span class="kw">crossprod</span>(X_W[,i],Y_W[,i])
+<span class="co"># As in equation (2.4) on p. 1380</span>
+   est.between[,i] &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">crossprod</span>(X_B[,i]))<span class="op">%*%</span><span class="kw">crossprod</span>(X_B[,i],Y_B[,i])
+   est.varETA[,i] &lt;-<span class="st"> </span><span class="kw">crossprod</span>(Y_W[,i] <span class="op">-</span><span class="st"> </span>X_W[,i]<span class="op">*</span>est.within[,i])<span class="op">/</span>(N<span class="op">*</span>(T<span class="op">-</span><span class="dv">1</span>))
+   est.varTOTAL[,i] &lt;-<span class="st"> </span><span class="kw">crossprod</span>(Y_B[,i] <span class="op">-</span><span class="st"> </span>X_B[,i]<span class="op">*</span>est.within[,i])<span class="op">/</span>(N<span class="op">*</span>T)
+   est.varALPHA[,i] &lt;-<span class="st"> </span>est.varTOTAL[,i] <span class="op">-</span><span class="st"> </span>(est.varETA[,i])<span class="op">/</span>T
+<span class="co"># Calculate variance components as in Proposition 2.1 on p. 1381</span>
+   est.theta[,i] &lt;-<span class="st"> </span>(est.varETA[,i]<span class="op">/</span>(est.varETA[,i]<span class="op">+</span>T<span class="op">*</span>est.varALPHA[,i]))<span class="op">^</span><span class="fl">0.5</span>
+   Y_G[,i] &lt;-<span class="st"> </span>Y[,i] <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>est.theta[,i])<span class="op">*</span>Y_B[,i]
+   X_G[,i] &lt;-<span class="st"> </span>Y[,i] <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>est.theta[,i])<span class="op">*</span>X_B[,i]
+<span class="co"># As in equation (2.5) on p. 1381</span>
+   est.varcomp[,i] &lt;-<span class="st"> </span><span class="kw">solve</span>(<span class="kw">crossprod</span>(X_G[,i]))<span class="op">%*%</span><span class="kw">crossprod</span>(X_G[,i],Y_G[,i])
+   }
+   
+  dens.ols &lt;-<span class="st"> </span><span class="kw">density</span>(est.ols)
+  dens.within &lt;-<span class="st"> </span><span class="kw">density</span>(est.within)
+  dens.between &lt;-<span class="st"> </span><span class="kw">density</span>(est.between)
+  dens.varETA &lt;-<span class="st"> </span><span class="kw">density</span>(est.varETA)
+  dens.varALPHA &lt;-<span class="st"> </span><span class="kw">density</span>(est.varALPHA)
+  dens.varcomp &lt;-<span class="st"> </span><span class="kw">density</span>(est.varcomp)
+  <span class="kw">plot</span>(dens.between, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">20</span>),     
+       <span class="dt">main=</span><span class="st">&quot;Montecarlo simulation results&quot;</span>,
+       <span class="dt">ylab=</span><span class="st">&quot;kernel density&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;between=RED, pooling=BLUE, within=BLACK, var. comp.=PINK</span>
+<span class="st">       theta=DOTTED, true value of coefficient=GREEN&quot;</span>)
+  <span class="kw">lines</span>(dens.ols, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)
+  <span class="kw">lines</span>(dens.within, <span class="dt">col=</span><span class="st">&quot;black&quot;</span>)
+  <span class="kw">lines</span>(dens.varcomp, <span class="dt">col=</span><span class="st">&quot;pink&quot;</span>)
+  <span class="kw">lines</span>(<span class="kw">density</span>(est.theta), <span class="dt">lty=</span><span class="dv">3</span>)
+  <span class="kw">abline</span>(<span class="dt">v=</span>beta,<span class="dt">col=</span><span class="st">&quot;green&quot;</span>)
+  stats &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="st">&quot;Estimator    =&quot;</span>, 
+                 <span class="st">&quot;Replications =&quot;</span>, 
+                 <span class="st">&quot;Individuals  =&quot;</span>, 
+                 <span class="st">&quot;Time periods =&quot;</span>,
+                 <span class="st">&quot;pi_alpha     =&quot;</span>,
+                 <span class="st">&quot;pi_eta       =&quot;</span>,
+                 <span class="st">&quot;varETA       =&quot;</span>,
+                 <span class="st">&quot;varALPHA     =&quot;</span>,
+                 <span class="st">&quot;theta        =&quot;</span>,
+                 <span class="st">&quot;bias         =&quot;</span>,
+                 <span class="st">&quot;se           =&quot;</span>,
+                 <span class="st">&quot;rmse         =&quot;</span>)
+  
+  
+  mean.varETA &lt;-<span class="st"> </span><span class="kw">mean</span>(est.varETA[<span class="dv">1</span>,])
+  mean.varALPHA &lt;-<span class="st"> </span><span class="kw">mean</span>(est.varALPHA[<span class="dv">1</span>,])
+  mean.theta &lt;-<span class="st"> </span><span class="kw">mean</span>(est.theta[<span class="dv">1</span>,])
+  bias.ols &lt;-<span class="st"> </span><span class="kw">mean</span>(est.ols[<span class="dv">1</span>,]) <span class="op">-</span><span class="st"> </span>beta
+  se.ols &lt;-<span class="st"> </span><span class="kw">var</span>(est.ols[<span class="dv">1</span>,])<span class="op">^</span><span class="fl">0.5</span>
+  rmse.ols &lt;-<span class="st"> </span><span class="kw">mean</span>(((est.ols[<span class="dv">1</span>,] <span class="op">-</span><span class="st"> </span>beta)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">var</span>(est.ols[<span class="dv">1</span>,]))<span class="op">^</span><span class="fl">0.5</span>)
+  bias.within &lt;-<span class="st"> </span><span class="kw">mean</span>(est.within[<span class="dv">1</span>,]) <span class="op">-</span><span class="st"> </span>beta
+  se.within &lt;-<span class="st"> </span><span class="kw">var</span>(est.within[<span class="dv">1</span>,])<span class="op">^</span><span class="fl">0.5</span>
+  rmse.within &lt;-<span class="st"> </span><span class="kw">mean</span>(((est.within[<span class="dv">1</span>,] <span class="op">-</span><span class="st"> </span>beta)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">var</span>(est.within[<span class="dv">1</span>,]))<span class="op">^</span><span class="fl">0.5</span>)
+  bias.varcomp &lt;-<span class="st"> </span><span class="kw">mean</span>(est.varcomp[<span class="dv">1</span>,]) <span class="op">-</span><span class="st"> </span>beta
+  se.varcomp &lt;-<span class="st"> </span><span class="kw">var</span>(est.varcomp[<span class="dv">1</span>,])<span class="op">^</span><span class="fl">0.5</span>
+  rmse.varcomp &lt;-<span class="st"> </span><span class="kw">mean</span>(((est.varcomp[<span class="dv">1</span>,] <span class="op">-</span><span class="st"> </span>beta)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">var</span>(est.varcomp[<span class="dv">1</span>,]))<span class="op">^</span><span class="fl">0.5</span>)
+  s.ols &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="st">&quot;Pooling&quot;</span>,
+                 r,
+                 N,
+                 T,
+                 pi_alpha,
+                 pi_eta,
+                 <span class="kw">round</span>(mean.varETA,<span class="dv">4</span>),
+                 <span class="kw">round</span>(mean.varALPHA,<span class="dv">4</span>),
+                 <span class="kw">round</span>(mean.theta,<span class="dv">4</span>),
+                 <span class="kw">round</span>(bias.ols,<span class="dv">4</span>),
+                 <span class="kw">round</span>(se.ols,<span class="dv">4</span>),
+                 <span class="kw">round</span>(rmse.ols,<span class="dv">4</span>))
+  s.within &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="st">&quot;within&quot;</span>,
+                 r,
+                 N,
+                 T,
+                 pi_alpha,
+                 pi_eta,
+                 <span class="kw">round</span>(mean.varETA,<span class="dv">4</span>),
+                 <span class="kw">round</span>(mean.varALPHA,<span class="dv">4</span>),
+                 <span class="kw">round</span>(mean.theta,<span class="dv">4</span>),
+                 <span class="kw">round</span>(bias.within,<span class="dv">4</span>),
+                 <span class="kw">round</span>(se.within,<span class="dv">4</span>),
+                 <span class="kw">round</span>(rmse.within,<span class="dv">4</span>))
+  s.varcomp &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="st">&quot;varcomp&quot;</span>,
+                 r,
+                 N,
+                 T,
+                 pi_alpha,
+                 pi_eta,
+                 <span class="kw">round</span>(mean.varETA,<span class="dv">4</span>),
+                 <span class="kw">round</span>(mean.varALPHA,<span class="dv">4</span>),
+                 <span class="kw">round</span>(mean.theta,<span class="dv">4</span>),
+                 <span class="kw">round</span>(bias.varcomp,<span class="dv">4</span>),
+                 <span class="kw">round</span>(se.varcomp,<span class="dv">4</span>),
+                 <span class="kw">round</span>(rmse.varcomp,<span class="dv">4</span>))  
+  results &lt;-<span class="st"> </span><span class="kw">cbind</span>(stats,s.ols,s.within,s.varcomp)
+  <span class="kw">print</span>(results)
+}
+
+<span class="kw">system.time</span>(<span class="kw">MC.panel.loop</span>(<span class="dv">500</span>,<span class="dv">400</span>,<span class="dv">5</span>,<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">0.0</span>))</code></pre></div>
+<p><img src="05-panel_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre><code>##          [,1]             [,2]      [,3]     [,4]     
+##          &quot;Estimator    =&quot; &quot;Pooling&quot; &quot;within&quot; &quot;varcomp&quot;
+## r        &quot;Replications =&quot; &quot;500&quot;     &quot;500&quot;    &quot;500&quot;    
+## N        &quot;Individuals  =&quot; &quot;400&quot;     &quot;400&quot;    &quot;400&quot;    
+## T        &quot;Time periods =&quot; &quot;5&quot;       &quot;5&quot;      &quot;5&quot;      
+## pi_alpha &quot;pi_alpha     =&quot; &quot;-0.1&quot;    &quot;-0.1&quot;   &quot;-0.1&quot;   
+## pi_eta   &quot;pi_eta       =&quot; &quot;0&quot;       &quot;0&quot;      &quot;0&quot;      
+##          &quot;varETA       =&quot; &quot;1.0021&quot;  &quot;1.0021&quot; &quot;1.0021&quot; 
+##          &quot;varALPHA     =&quot; &quot;3.9665&quot;  &quot;3.9665&quot; &quot;3.9665&quot; 
+##          &quot;theta        =&quot; &quot;0.2197&quot;  &quot;0.2197&quot; &quot;0.2197&quot; 
+##          &quot;bias         =&quot; &quot;-0.3838&quot; &quot;-5e-04&quot; &quot;0.3116&quot; 
+##          &quot;se           =&quot; &quot;0.0512&quot;  &quot;0.0245&quot; &quot;0.0142&quot; 
+##          &quot;rmse         =&quot; &quot;0.3872&quot;  &quot;0.0331&quot; &quot;0.312&quot;</code></pre>
+<pre><code>##    user  system elapsed 
+##    9.19    0.18   11.36</code></pre>
+<p>Doing the within transformation by hand on real world data</p>
+<p>USE EXAMPLE FROM THE PNIR PAPER</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the data and attach the variable names.</span>
+pnir &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;pnir.txt&quot;</span>,<span class="dt">header=</span><span class="ot">TRUE</span>)
+pnir<span class="op">$</span>count &lt;-<span class="st"> </span><span class="kw">ave</span>(pnir<span class="op">$</span>IDENF, pnir[,<span class="kw">c</span>(<span class="st">&quot;IDENF&quot;</span>)], <span class="dt">FUN=</span>length)
+pnir<span class="op">$</span>t0 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(pnir<span class="op">$</span>PERIODE <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+pnir<span class="op">$</span>t1 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(pnir<span class="op">$</span>PERIODE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+pnir<span class="op">$</span>t2 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(pnir<span class="op">$</span>PERIODE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+pnir<span class="op">$</span>t3 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(pnir<span class="op">$</span>PERIODE <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+pnir<span class="op">$</span>t4 &lt;-<span class="st"> </span><span class="kw">ifelse</span>(pnir<span class="op">$</span>PERIODE <span class="op">==</span><span class="st"> </span><span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+<span class="kw">table</span>(pnir<span class="op">$</span>count)</code></pre></div>
+<pre><code>## 
+##   1   2   3   4   5 
+## 313 304 363 200 135</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(pnir<span class="op">$</span>AGENF)</code></pre></div>
+<p><img src="05-panel_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(pnir<span class="op">$</span>FEMALE)
+pnir1 &lt;-<span class="st"> </span><span class="kw">subset</span>(pnir, pnir<span class="op">$</span>count <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)
+pnir2 &lt;-<span class="st"> </span><span class="kw">aggregate</span>(pnir1, <span class="dt">by =</span> <span class="kw">list</span>(pnir1<span class="op">$</span>IDENF), <span class="dt">FUN=</span>mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+pnir3 &lt;-<span class="st"> </span><span class="kw">merge</span>(pnir1, pnir2, <span class="dt">by =</span> <span class="st">&quot;IDENF&quot;</span>,<span class="dt">suffixes =</span> <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;_B&quot;</span>))
+
+<span class="co"># Do the &quot;within-child&quot; transformation simply by taking the difference of two matrices</span>
+mpnir3 &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(pnir3)
+mpnir3P &lt;-<span class="st"> </span>mpnir3[,<span class="dv">1</span><span class="op">:</span><span class="dv">32</span>]
+mpnir3B &lt;-<span class="st"> </span>mpnir3[,<span class="dv">33</span><span class="op">:</span><span class="dv">64</span>]
+mpnir3W &lt;-<span class="st"> </span>mpnir3P <span class="op">-</span><span class="st"> </span>mpnir3B
+mpnir3W1 &lt;-<span class="st"> </span>mpnir3W[,<span class="dv">5</span><span class="op">:</span><span class="dv">32</span>]
+<span class="co"># This constructs the within-child dataframe</span>
+pnir4 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(pnir1<span class="op">$</span>IDENF, pnir1<span class="op">$</span>IDM, pnir1<span class="op">$</span>CODEVILL, mpnir3W1))
+
+haz.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(HAZ <span class="op">~</span><span class="st"> </span><span class="op">-</span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>t1 <span class="op">+</span><span class="st"> </span>t2 <span class="op">+</span><span class="st"> </span>t3 <span class="op">+</span><span class="st"> </span>t4 <span class="op">+</span><span class="st"> </span>LPNIR
+             <span class="op">+</span><span class="st"> </span>AGENF <span class="op">+</span><span class="st"> </span>LIRECM <span class="op">+</span><span class="st"> </span>LNAGECM
+             <span class="op">+</span><span class="st"> </span>PROGALPH <span class="op">+</span><span class="st"> </span>ELECTVI <span class="op">+</span><span class="st"> </span>LOGPOP, <span class="dt">data =</span> pnir4)
+<span class="kw">summary</span>(haz.lm)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = HAZ ~ -1 + t1 + t2 + t3 + t4 + LPNIR + AGENF + LIRECM + 
+##     LNAGECM + PROGALPH + ELECTVI + LOGPOP, data = pnir4)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.4358 -0.5110  0.0042  0.4744  3.9185 
+## 
+## Coefficients:
+##           Estimate Std. Error t value Pr(&gt;|t|)   
+## t1       -1.189619   0.770065  -1.545  0.12271   
+## t2       -1.144969   1.207662  -0.948  0.34332   
+## t3       -1.359885   1.857108  -0.732  0.46418   
+## t4       -0.978567   2.352187  -0.416  0.67748   
+## LPNIR     0.545349   0.269926   2.020  0.04361 * 
+## AGENF     0.008944   0.104053   0.086  0.93152   
+## LIRECM    0.416358   0.140569   2.962  0.00313 **
+## LNAGECM   0.143795   0.668645   0.215  0.82977   
+## PROGALPH  0.189547   0.085706   2.212  0.02722 * 
+## ELECTVI   0.331788   0.208340   1.593  0.11158   
+## LOGPOP   -0.214195   0.192483  -1.113  0.26607   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.8682 on 991 degrees of freedom
+## Multiple R-squared:  0.0879, Adjusted R-squared:  0.07778 
+## F-statistic: 8.682 on 11 and 991 DF,  p-value: 8.14e-15</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(multiwayvcov)</code></pre></div>
+<p><img src="05-panel_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lmtest)
+haz.vcovCL &lt;-<span class="st"> </span><span class="kw">cluster.vcov</span>(haz.lm, pnir1<span class="op">$</span>CODEVILL)
+haz.clustered.se &lt;-<span class="st"> </span><span class="kw">coeftest</span>(haz.lm, haz.vcovCL, <span class="dt">df =</span> <span class="dv">652</span>)
+haz.clustered.se</code></pre></div>
+<pre><code>## 
+## t test of coefficients:
+## 
+##            Estimate Std. Error t value Pr(&gt;|t|)  
+## t1       -1.1896190  0.9209170 -1.2918  0.19689  
+## t2       -1.1449692  1.5189489 -0.7538  0.45125  
+## t3       -1.3598851  2.3179838 -0.5867  0.55763  
+## t4       -0.9785667  2.9878615 -0.3275  0.74338  
+## LPNIR     0.5453493  0.2625044  2.0775  0.03815 *
+## AGENF     0.0089441  0.1357746  0.0659  0.94750  
+## LIRECM    0.4163577  0.1690447  2.4630  0.01404 *
+## LNAGECM   0.1437950  0.4589656  0.3133  0.75415  
+## PROGALPH  0.1895465  0.1084455  1.7479  0.08096 .
+## ELECTVI   0.3317884  0.2493300  1.3307  0.18375  
+## LOGPOP   -0.2141948  0.2582648 -0.8294  0.40720  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="multidimensional-panels" class="section level3">
+<h3><span class="header-section-number">5.1.2</span> Multidimensional panels</h3>
+<p>USE EXAMPLE FROM THE BURUNDI PAPER USE EXAMPLE FROM A UNIDO DATA PAPER</p>
+<p>USE THE xxxx PACKAGE</p>
+</div>
+<div id="mundlak" class="section level3">
+<h3><span class="header-section-number">5.1.3</span> Mundlak</h3>
+<p><span class="citation">Mundlak (<a href="#ref-Mundlak1978">1978</a>)</span></p>
+</div>
+<div id="the-incidental-parameters-problem" class="section level3">
+<h3><span class="header-section-number">5.1.4</span> The incidental parameters problem</h3>
+<p>HAVE CODE ON DISCRETE CHOICE PANEL MODEL</p>
+<p><span class="citation">Lancaster (<a href="#ref-Lancaster00">2000</a>)</span></p>
+<p>INCLUDE MULTINOMIAL LOGIT STUFF FROM FIRST CHINA BEAUTY PAPER</p>
+</div>
+</div>
+<div id="common-situations" class="section level2">
+<h2><span class="header-section-number">5.2</span> Common situations</h2>
+<div id="panel-data-in-an-rct" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Panel data in an RCT</h3>
+<p>INSERT PROBLEM SET HERE ON LESOTHO DATA</p>
+<p>You are going to see whether a $30m Millennium Challenge Corporation (MCC) water program in Lesotho actually did anything for the populations being treated. The impact evaluation was carried out by NORC at the University of Chicago: <a href="http://www.norc.org" class="uri">http://www.norc.org</a>. Go to the project page at:</p>
+<p><a href="https://catalog.data.gov/dataset/lesotho-rural-water-supply-and-sanitation" class="uri">https://catalog.data.gov/dataset/lesotho-rural-water-supply-and-sanitation</a></p>
+<p>Download all of the materials. In particular, make sure that you have the “Final Evaluation Report Package,” and “Public Use Data Package.” Make sure you can replicate the descriptive statistics of Tables 4, 5 and 6. Replicate, the first two columns in Tables 7, 8 and 9 in the report: i.e. only replicate the columns of results where the heading is “Original Design” or “Observed Design” —ignore the columns where the heading is “Instrumental Variable” or “Matching”. Do this as best as you can: you probably won’t be able to get everything perfect, even in terms of the number of observations or the summary statistics –but you will get close.</p>
+<p>Notice that most of the results of Tables 7 and 8 (and one line in Table 9) include household fixed effects. You should carry out the “within” or first-difference transformation (they are identical here because there are 2 observations per household) before running the simple OLS regressions in R. Now carry out randomization inference on the results. Discuss.</p>
+<p>Now notice again that most of the results that you just replicated and improved upon using randomization inference are based on regressions that included household fixed effects. But does using fixed effects make sense in the context of an RCT? Why yes or why not?</p>
+<p>To guide you in terms of answering, note that last year I gave a problem that asked just this question (which means you already have an informational advantage!). In what follows, I reproduce that question from last year, and then ask you to apply your findings to the Lesotho study.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Consider an RCT in which we have a baseline and an endline, which is the case here.  Denoting the outcome by <span class="math inline">\(Y_{t}\)</span>, in which the baseline corresponds to <span class="math inline">\(t=1\)</span> and post-intervention (endline) corresponds to <span class="math inline">\(t=2\)</span>, the simple difference between treated and control at <span class="math inline">\(t=2\)</span> can be written as the OLS regression:% <span class="math display">\[
+Y_{2}=D_{2}\beta _{D}+U_{2},
+\]</span> whereas the DID estimator (which is what the authors of the NORC report did for most outcomes) is given by: <span class="math display">\[
+Y_{2}-Y_{1}=\left( D_{2}-D_{1}\right) \beta _{DID}+U_{2}-U_{1},
+\]</span> where of course <span class="math inline">\(D_{1}=0\)</span> for everyone. In the absence of serial correlation in the disturbance terms, what should you do, include the fixed effects or not? Assume now that there is first-order serial correlation, that takes the form: <span class="math display">\[
+U_{2}=\rho U_{1}+e,
+\]</span> where <span class="math inline">\(\rho \in \lbrack -1,1]\)</span> and <span class="math inline">\(e\)</span> is white noise. When should you difference and when should you not? (Hint: you are going to have to look at variances…)</li>
+</ol>
+<p>When should you condition on <span class="math inline">\(Y_{1}\)</span>, which would mean running: <span class="math display">\[
+Y_{2}=Y_{1}\gamma +D_{2}\beta _{COND}+U_{2}?
+\]</span></p>
+<p>You should answer this part of the question analytically.</p>
+<p>Now spend a limited amount of time running a simple Montecarlo experiment. Define potential outcomes as: <span class="math display">\[
+\begin{eqnarray*}
+Y_{11} &amp;=&amp;U_{11}, \\
+Y_{01} &amp;=&amp;U_{01}, \\
+Y_{12} &amp;=&amp;\beta +U_{12}, \\
+Y_{02} &amp;=&amp;U_{02},
+\end{eqnarray*}
+\]</span> where: <span class="math display">\[
+\left( U_{11},U_{01}\right) \sim N\left( \left( 0,0\right) ,\Sigma
+_{U}\right) =N\left( \left( 0,0\right) ,\left( 
+\begin{array}{cc}
+\sigma _{U}^{2} &amp; 0 \\ 
+0 &amp; \sigma _{U}^{2}%
+\end{array}%
+\right) \right) ,
+\]</span> and <span class="math display">\[
+\begin{eqnarray*}
+U_{12} &amp;=&amp;\rho U_{11}+e_{11}, \\
+U_{02} &amp;=&amp;\rho U_{01}+e_{01},
+\end{eqnarray*}
+\]</span> where: <span class="math display">\[
+\left( e_{11},e_{01}\right) \sim N\left( \left( 0,0\right) ,\Sigma
+_{e}\right) =N\left( \left( 0,0\right) ,\left( 
+\begin{array}{cc}
+\sigma _{e}^{2} &amp; 0 \\ 
+0 &amp; \sigma _{e}^{2}%
+\end{array}%
+\right) \right) .
+\]</span> Generate a random treatment indicator <span class="math inline">\(D\)</span>, and construct observed outcomes as: <span class="math display">\[
+\begin{eqnarray*}
+Y_{1} &amp;=&amp;Y_{11}D+Y_{01}(1-D), \\
+Y_{2} &amp;=&amp;Y_{12}D+Y_{02}(1-D).
+\end{eqnarray*}
+\]</span> Consider the three linear regressions: <span class="math display">\[
+\begin{eqnarray*}
+Y_{2} &amp;=&amp;\alpha +D\beta _{D_{2}} \\
+Y_{2}-Y_{1} &amp;=&amp;\alpha +D\beta _{DID} \\
+Y_{2} &amp;=&amp;\alpha +Y_{1}\gamma +D\beta _{COND},
+\end{eqnarray*}
+\]</span></p>
+<p>and examine the variances of the three estimators as you vary $$.</p>
+<p>Now apply the intuition gleaned from both your analytical answer and these Montecarlo results to the Lesotho data, by comparing estimates of program impact based on each of the three estimators, with and without randomization inference. How do things change with respect to the replication exercise you carried out in Problem 1? What estimator do you come down in favor of? Why?</p>
+<p>BASE THIS ON STUDENT ANSWERS FROM THE 2018 PROBLEM SET 1</p>
+</div>
+<div id="instrumental-variables" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Instrumental variables</h3>
+<p>Download the Senegalese panel dataset pnir.txt. There are three cross-sectional dimensions to the panel: child (<span class="math inline">\(i\)</span>, <code>IDENF</code>), household (<span class="math inline">\(h\)</span>, IDM), village (<span class="math inline">\(v\)</span>, <code>CODEVILL</code>). The time dimension is denoted by <span class="math inline">\(t\)</span> (<code>PERIODE</code>).</p>
+<p>Covariates in your specifications should include: - period dummies; - the age of the child <code>AGENF</code>; - whether the household head can read <code>LIRECM</code>; - the log of the household head’s age <code>LNAGECM</code>; - whether there is a literacy program in the village PROGALPH; whether the village is hooked up to the national electricity grid <code>ELECTVI</code>; - the log of the population of the village <code>LOGPOP</code>.</p>
+<p>Suppose that you want to estimate the impact of projects constructed by the PNIR rural infrastructure program (<code>PROJET</code>) on a child’s weight-for-age z-score (<code>WAZ</code>). This is a standard anthropometric measures of child health. Treatment by a completed PNIR project obtains at the village level. Your exclusion restrictions for treatment by a PNIR project are given by three measures of village political power (which affect the probability that the village gets a project or not) given by: whether a villager is a member of the majority on the Conseil rural: <code>MBMAJORI</code>; whether a villager is a member of the biggest party on the Conseil rural: <code>MBMAJOR1</code>; the number of women from the village on the Conseil rural <code>NBFEMME\_</code>. Compute the impact of the PNIR using the within-child instrumental variables estimator, and compare this to the corresponding within-household estimator.</p>
+<p>BASE THIS ON STUDENT ANSWERS FROM THE 2018 PROBLEM SET 2 (Problem 1, first part)</p>
+</div>
+<div id="selection-and-endogeneity" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Selection and endogeneity</h3>
+<p><span class="citation">Semykina and Wooldridge (<a href="#ref-Semykina2010">2010</a>)</span></p>
+<p>USE MATERIAL FROM SECOND CHINA BEAUTY PAPER</p>
+</div>
+<div id="inference-and-clustering" class="section level3">
+<h3><span class="header-section-number">5.2.4</span> Inference and clustering</h3>
+<p><span class="citation">Bertrand, Duflo, and Mullainathan (<a href="#ref-Bertrand03">2004</a>)</span> <span class="citation">Cameron, Gelbach, and Miller (<a href="#ref-Cameron2008">2008</a>)</span> <span class="citation">Young (<a href="#ref-Young2016b">2016</a>)</span></p>
+</div>
+</div>
+<div id="time-invariant-covariates" class="section level2">
+<h2><span class="header-section-number">5.3</span> Time-invariant covariates</h2>
+<p><span class="citation">Hausman and Taylor (<a href="#ref-Hausman81">1981</a>)</span></p>
+<p>Suppose, however, that you also want to simultaneously identify (i) the impact on WAZ of whether the child is female (FEMALE) and (ii) whether the impact of treatment by the PNIR differs according to the gender of the child. How would you go about doing this, and what do you find?</p>
+<p>BASE THIS ON STUDENT ANSWERS FROM THE 2018 PROBLEM SET 2 (Problem 1, second part)</p>
+<p>USE CODE FROM BURUNDI PAPER</p>
+</div>
+<div id="measurement-error" class="section level2">
+<h2><span class="header-section-number">5.4</span> Measurement error</h2>
+<p><span class="citation">Hausman (<a href="#ref-Hausman01">2001</a>)</span></p>
+<div id="attenuation-bias" class="section level3">
+<h3><span class="header-section-number">5.4.1</span> Attenuation bias?</h3>
+<p>People will often tell you that measurement error always results in attenuation bias. Indeed, this sometimes referred to as the “Iron Law of Econometrics.” This problem forces you to think this through more carefully.</p>
+<p>Consider the following “true” structural equation: <span class="math display">\[
+Y_{i}=\widetilde{D}_{i}\beta +U_{i},
+\]</span> but where we have “classical” errors in variables (CEV) in the treatment dummy in that observed treatment, <span class="math inline">\(D_{i}\)</span>, is given by: <span class="math display">\[
+D_{i}=\widetilde{D}_{i}+V_{i},
+\]</span> where <span class="math inline">\(E\left[ V_{i}\right] =0,\)</span> <span class="math inline">\(cov[ \widetilde{D}_{i},V_{i}]=0,\)</span> <span class="math inline">\(cov\left[ U_{i},V_{i}\right] =0,\)</span> <span class="math inline">\(cov[ U_{i},\widetilde{D}_{i}] =0,\)</span> $var[ _{i}]=_{}^{2} $, <span class="math inline">\(var[ V_{i}]=\sigma _{V}^{2},\)</span> and where we therefore actually run the regression: <span class="math display">\[
+Y_{i}=D_{i}\beta +U_{i}.
+\]</span></p>
+<p>Demonstrate that there is “attenuation bias” in <span class="math inline">\(\widehat{\beta }_{OLS}\)</span>;</p>
+<p>Now suppose that the true specification is given by: <span class="math display">\[
+Y_{i}=\widetilde{D}_{i}\beta +X_{i}\alpha +U_{i},
+\]</span> where <span class="math inline">\(X_{i}\)</span> is a covariate, and where <span class="math inline">\(cov\left[ D_{i},X_{i}\right] \neq 0,\)</span> <span class="math inline">\(cov\left[U_{i},X_{i}\right] =0\)</span>.</p>
+<p>Determine the large sample bias (i.e. the <span class="math inline">\(plim\)</span>) in <span class="math inline">\(\widehat{\beta }_{OLS}\)</span> and <span class="math inline">\(\widehat{\alpha}_{OLS}\)</span> when we run <span class="math inline">\(Y_{i}=D_{i}\beta+X_{i}\alpha +U_{i}\)</span>;</p>
+<p>Does the Iron Law of Econometrics hold for <span class="math inline">\(\widehat{\beta }_{OLS}?\)</span> Is the bias larger or smaller when there is a covariate <span class="math inline">\(X_{i}?\)</span> What can you say when <span class="math inline">\(cov\left[ X_{i},V_{i}\right] =0?\)</span></p>
+</div>
+<div id="to-wrongs-can-make-a-right" class="section level3">
+<h3><span class="header-section-number">5.4.2</span> To wrongs can make a right</h3>
+<p><span class="citation">Griliches and Hausman (<a href="#ref-Griliches86">1986</a>)</span></p>
+<p>Now forget about the PNIR and suppose that you want to estimate the impact of a child’s age (AGENF) on WAZ. Do this using the within-child and first-difference estimators. Now it could be that a child’s age is measured with error, because it is self-reported by the household head. Compute the <span class="citation">Griliches and Hausman (<a href="#ref-Griliches86">1986</a>)</span> estimator of the effect, where you will obviously have to restrict your attention to the subset of observations for which <span class="math inline">\(t\geq3\)</span>.</p>
+<p>BASE THIS ON STUDENT ANSWERS FROM THE 2018 PROBLEM SET 2 (Problem 2)</p>
+<p>USE CODE FROM FIRST CHINA BEAUTY PAPER</p>
+</div>
+<div id="heteroskedasticity-can-be-your-friend" class="section level3">
+<h3><span class="header-section-number">5.4.3</span> Heteroskedasticity can be your friend</h3>
+<p><span class="citation">Lewbel (<a href="#ref-Lewbel2012">2012</a>)</span></p>
+<p>USE CODE FROM FIRST CHINA BEAUTY PAPER</p>
+</div>
+<div id="higher-moments" class="section level3">
+<h3><span class="header-section-number">5.4.4</span> Higher moments</h3>
+<p><span class="citation">M. G. Dagenais and Dagenais (<a href="#ref-Dagenais97">1997</a>)</span></p>
+<p>USE CODE FROM FIRST CHINA BEAUTY PAPER</p>
+</div>
+</div>
+<div id="pseudo-panel-data" class="section level2">
+<h2><span class="header-section-number">5.5</span> Pseudo-panel data</h2>
+<p><span class="citation">Verbeek and Nijman (<a href="#ref-Verbeek93">1993</a>)</span></p>
+<p>Consider the Senegalese panel dataset pnir.txt from Problem Set 2. Your goal is to estimate the impact of being eligible for a PNIR project (LPNIR) on a child’s HAZ. The within-child estimate of this effect should be approximately 0.545 with a <span class="math inline">\(p-\)</span>value of 0.038 when you cluster your standard errors at the village (CODEVILL) level. Include the same covariates as in Problem Set No. 2.} Note that this effect is quite large since the mean value of the HAZ in the sample is <span class="math inline">\(-1.196\)</span> (<span class="math inline">\(-1.235\)</span>) in the subset of children observed at least twice), so being eligible for the PNIR essentially halves stunting.</p>
+<p>Now imagine that you were unable} to follow children over time (i.e. you did not have the child identifier IDENF), and were forced to find some other manner ofcontrolling for time-invariant child characteristics. One manner of doing so would be to implement the <span class="citation">Verbeek and Nijman (<a href="#ref-Verbeek93">1993</a>)</span> pseudo-panel estimator. The time-invariant characteristics you will use to construct the cohorts are the child’s gender (FEMALE) and her/his date of birth (remember that the child’s age in months is given by AGENF).</p>
+<p>USE ANSWERS FROM 2018 FINAL EXAM</p>
+<p>USE XINCHEN’S CODE FOR HER INEQUALITY OF OPPORTUNITY PAPER</p>
+</div>
+<div id="synthetic-control" class="section level2">
+<h2><span class="header-section-number">5.6</span> Synthetic control</h2>
+<p><span class="citation">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadie2015">2015</a>)</span></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Hausman81">
+<p>Hausman, Jerry A., and W. Taylor. 1981. “Panel Data and Unobservable Individual Effects.” <em>Econometrica</em> 49 (6): 1377–98.</p>
+</div>
+<div id="ref-Mundlak1978">
+<p>Mundlak, Yair. 1978. “On the Pooling of Time Series and Cross Section Data.” <em>Econometrica</em> 46 (1): 69–85.</p>
+</div>
+<div id="ref-Lancaster00">
+<p>Lancaster, T. 2000. “The Incidental Parameter Problem Since 1948.” <em>Journal of Econometrics</em> 95 (2): 391–413.</p>
+</div>
+<div id="ref-Semykina2010">
+<p>Semykina, Anastasia, and Jeffrey M. Wooldridge. 2010. “Estimating Panel Data Models in the Presence of Endogeneity and Selection.” <em>Journal of Econometrics</em> 157 (2): 375–80.</p>
+</div>
+<div id="ref-Bertrand03">
+<p>Bertrand, Marianne, Esther Duflo, and Sendhil Mullainathan. 2004. “How Much Should We Trust Differences-in-Differences Estimates?” <em>Quarterly Journal of Economics</em> 119 (1): 249–75.</p>
+</div>
+<div id="ref-Cameron2008">
+<p>Cameron, Colin A., Jonah B. Gelbach, and Douglas L. Miller. 2008. “Bootstrap-Based Improvements for Inference with Clustered Standard Errors.” <em>Review of Economics and Statistics</em> 90 (3): 414–27.</p>
+</div>
+<div id="ref-Young2016b">
+<p>Young, Alwyn. 2016. “Improved, Nearly Exact, Statistical Inference with Robust and Clustered Covariance Matrices Using Effective Degrees of Freedom Corrections.”</p>
+</div>
+<div id="ref-Hausman01">
+<p>Hausman, Jerry A. 2001. “Mismeasured Variables in Econometric Analysis: Problems from the Right and Problems from the Left.” <em>Journal of Economic Perspectives</em> 15 (4): 57–67.</p>
+</div>
+<div id="ref-Griliches86">
+<p>Griliches, Zvi, and Jerry A. Hausman. 1986. “Errors in Variables in Panel Data.” <em>Journal of Econometrics</em> 31 (1). Elsevier: 93–118.</p>
+</div>
+<div id="ref-Lewbel2012">
+<p>Lewbel, A. 2012. “Using Heteroskedasticity to Identify and Estimate Mismeasured and Endogenous Regressor Models.” <em>Journal of Business and Economic Statistics</em> 30 (1): 67–80.</p>
+</div>
+<div id="ref-Dagenais97">
+<p>Dagenais, M. G., and D. L. Dagenais. 1997. “Higher Moment Estimators for Linear Regression Models with Errors in the Variables.” <em>Journal of Econometrics</em> 76 (1-2): 193–221.</p>
+</div>
+<div id="ref-Verbeek93">
+<p>Verbeek, Marno, and Theo Nijman. 1993. “Minimum MSE Estimation of a Regression Model with Fixed Effects from a Series of Cross-Sections.” <em>Journal of Econometrics</em> 59 (1-2): 125–36.</p>
+</div>
+<div id="ref-Abadie2015">
+<p>Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2015. “Comparative Politics and the Synthetic Control.” <em>American Journal of Political Science</em> 59 (2): 495–510.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="iv-and-rdd.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="external-validity-replicability-and-lack-of-statistical-significance.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

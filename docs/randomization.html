@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 2 Randomization | Real World Impact Evaluation with R</title>
+  <meta name="description" content="Real world impact evaluation with R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 2 Randomization | Real World Impact Evaluation with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Real world impact evaluation with R." />
+  <meta name="github-repo" content="arcandjl/rwIEwr" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Randomization | Real World Impact Evaluation with R" />
+  
+  <meta name="twitter:description" content="Real world impact evaluation with R." />
+  
+
+<meta name="author" content="Department of International Economics">
+<meta name="author" content="The Graduate Institute | Geneva">
+<meta name="author" content="jean-louis.arcand@graduateinstitute.ch">
+
+
+<meta name="date" content="2019-01-25">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="why-go-to-all-the-trouble-potential-outcomes.html">
+<link rel="next" href="setting-up-an-evaluation.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Real world impact evaluation with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome to Real World Impact Evaluation with R</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#author"><i class="fa fa-check"></i>Author</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html"><i class="fa fa-check"></i><b>1</b> Why go to all the trouble? Potential outcomes</a><ul>
+<li class="chapter" data-level="1.1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html#why-evaluate"><i class="fa fa-check"></i><b>1.1</b> Why evaluate</a></li>
+<li class="chapter" data-level="1.2" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html#the-roy-model"><i class="fa fa-check"></i><b>1.2</b> The Roy model</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="randomization.html"><a href="randomization.html"><i class="fa fa-check"></i><b>2</b> Randomization</a><ul>
+<li class="chapter" data-level="2.1" data-path="randomization.html"><a href="randomization.html#understanding-the-basics"><i class="fa fa-check"></i><b>2.1</b> Understanding the basics</a></li>
+<li class="chapter" data-level="2.2" data-path="randomization.html"><a href="randomization.html#the-randomista-debate"><i class="fa fa-check"></i><b>2.2</b> The randomista debate</a></li>
+<li class="chapter" data-level="2.3" data-path="randomization.html"><a href="randomization.html#randomization-inference"><i class="fa fa-check"></i><b>2.3</b> Randomization inference</a></li>
+<li class="chapter" data-level="2.4" data-path="randomization.html"><a href="randomization.html#attempting-to-replicate-a-famous-paper"><i class="fa fa-check"></i><b>2.4</b> Attempting to replicate a famous paper</a></li>
+<li class="chapter" data-level="2.5" data-path="randomization.html"><a href="randomization.html#ri-does-not-always-increase-standard-errors"><i class="fa fa-check"></i><b>2.5</b> RI does not always increase standard errors</a></li>
+<li class="chapter" data-level="2.6" data-path="randomization.html"><a href="randomization.html#placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking"><i class="fa fa-check"></i><b>2.6</b> Placebo effects and (surprise) homo oeconomicus is alive and kicking</a></li>
+<li class="chapter" data-level="2.7" data-path="randomization.html"><a href="randomization.html#re-introducing-choice-into-randomizations"><i class="fa fa-check"></i><b>2.7</b> Re-introducing choice into randomizations</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="randomization.html"><a href="randomization.html#wing-et-al-approach"><i class="fa fa-check"></i><b>2.7.1</b> Wing et al approach</a></li>
+<li class="chapter" data-level="2.7.2" data-path="randomization.html"><a href="randomization.html#rcts-as-a-principal-agent-problem"><i class="fa fa-check"></i><b>2.7.2</b> RCTs as a principal-agent problem</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html"><i class="fa fa-check"></i><b>3</b> Setting up an evaluation</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#statistical-power-survey-data-and-just-doing-it"><i class="fa fa-check"></i><b>3.1</b> Statistical power, survey data and just doing it…</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#blocking"><i class="fa fa-check"></i><b>3.1.1</b> Blocking</a></li>
+<li class="chapter" data-level="3.1.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#repeated-observations"><i class="fa fa-check"></i><b>3.1.2</b> Repeated observations</a></li>
+<li class="chapter" data-level="3.1.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#glossary-and-intuition"><i class="fa fa-check"></i><b>3.1.3</b> Glossary and intuition</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects"><i class="fa fa-check"></i><b>3.2</b> Stuff to keep in mind: Survey bias and Hawthorne effects</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#illustration-was-my-research-design-underpowered"><i class="fa fa-check"></i><b>3.3</b> Illustration: Was my research design underpowered?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html"><i class="fa fa-check"></i><b>4</b> IV and RDD</a><ul>
+<li class="chapter" data-level="4.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-basics-of-iv"><i class="fa fa-check"></i><b>4.1</b> The basics of IV</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-forbidden-regression"><i class="fa fa-check"></i><b>4.1.1</b> The forbidden regression</a></li>
+<li class="chapter" data-level="4.1.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#weak-instruments"><i class="fa fa-check"></i><b>4.1.2</b> Weak instruments</a></li>
+<li class="chapter" data-level="4.1.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#finite-sample-bias"><i class="fa fa-check"></i><b>4.1.3</b> Finite sample bias</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#bootstrap-inference"><i class="fa fa-check"></i><b>4.2</b> Bootstrap inference</a></li>
+<li class="chapter" data-level="4.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#failure-of-the-exclusion-restriction"><i class="fa fa-check"></i><b>4.3</b> Failure of the exclusion restriction</a></li>
+<li class="chapter" data-level="4.4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-gmm-black-box"><i class="fa fa-check"></i><b>4.4</b> The GMM black box</a></li>
+<li class="chapter" data-level="4.5" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#regression-discontinuity-design"><i class="fa fa-check"></i><b>4.5</b> Regression discontinuity design</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#application-to-a-development-program"><i class="fa fa-check"></i><b>4.5.1</b> Application to a development program</a></li>
+<li class="chapter" data-level="4.5.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#pushing-the-outcome-variable"><i class="fa fa-check"></i><b>4.5.2</b> Pushing the outcome variable</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="panel-data-structures.html"><a href="panel-data-structures.html"><i class="fa fa-check"></i><b>5</b> Panel data structures</a><ul>
+<li class="chapter" data-level="5.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#reviewing-the-basics"><i class="fa fa-check"></i><b>5.1</b> Reviewing the basics</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#within-between-and-variance-components"><i class="fa fa-check"></i><b>5.1.1</b> Within, between and variance components</a></li>
+<li class="chapter" data-level="5.1.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#multidimensional-panels"><i class="fa fa-check"></i><b>5.1.2</b> Multidimensional panels</a></li>
+<li class="chapter" data-level="5.1.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#mundlak"><i class="fa fa-check"></i><b>5.1.3</b> Mundlak</a></li>
+<li class="chapter" data-level="5.1.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#the-incidental-parameters-problem"><i class="fa fa-check"></i><b>5.1.4</b> The incidental parameters problem</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#common-situations"><i class="fa fa-check"></i><b>5.2</b> Common situations</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#panel-data-in-an-rct"><i class="fa fa-check"></i><b>5.2.1</b> Panel data in an RCT</a></li>
+<li class="chapter" data-level="5.2.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#instrumental-variables"><i class="fa fa-check"></i><b>5.2.2</b> Instrumental variables</a></li>
+<li class="chapter" data-level="5.2.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#selection-and-endogeneity"><i class="fa fa-check"></i><b>5.2.3</b> Selection and endogeneity</a></li>
+<li class="chapter" data-level="5.2.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#inference-and-clustering"><i class="fa fa-check"></i><b>5.2.4</b> Inference and clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#time-invariant-covariates"><i class="fa fa-check"></i><b>5.3</b> Time-invariant covariates</a></li>
+<li class="chapter" data-level="5.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#measurement-error"><i class="fa fa-check"></i><b>5.4</b> Measurement error</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#attenuation-bias"><i class="fa fa-check"></i><b>5.4.1</b> Attenuation bias?</a></li>
+<li class="chapter" data-level="5.4.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#to-wrongs-can-make-a-right"><i class="fa fa-check"></i><b>5.4.2</b> To wrongs can make a right</a></li>
+<li class="chapter" data-level="5.4.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#heteroskedasticity-can-be-your-friend"><i class="fa fa-check"></i><b>5.4.3</b> Heteroskedasticity can be your friend</a></li>
+<li class="chapter" data-level="5.4.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#higher-moments"><i class="fa fa-check"></i><b>5.4.4</b> Higher moments</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="panel-data-structures.html"><a href="panel-data-structures.html#pseudo-panel-data"><i class="fa fa-check"></i><b>5.5</b> Pseudo-panel data</a></li>
+<li class="chapter" data-level="5.6" data-path="panel-data-structures.html"><a href="panel-data-structures.html#synthetic-control"><i class="fa fa-check"></i><b>5.6</b> Synthetic control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html"><i class="fa fa-check"></i><b>6</b> External validity, replicability and lack of statistical significance</a><ul>
+<li class="chapter" data-level="6.1" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#external-validity"><i class="fa fa-check"></i><b>6.1</b> External validity</a></li>
+<li class="chapter" data-level="6.2" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#replicability-and-scientific-progress"><i class="fa fa-check"></i><b>6.2</b> Replicability and scientific progress</a></li>
+<li class="chapter" data-level="6.3" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#saying-something-intelligent-when-things-arent-statistically-significant"><i class="fa fa-check"></i><b>6.3</b> Saying something intelligent when things aren’t statistically significant</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html"><i class="fa fa-check"></i><b>7</b> Heterogeneity in various flavors</a><ul>
+<li class="chapter" data-level="7.1" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#quantile-regressions-and-random-coefficient-models"><i class="fa fa-check"></i><b>7.1</b> Quantile regressions and random coefficient models</a></li>
+<li class="chapter" data-level="7.2" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#essential-heterogeneity"><i class="fa fa-check"></i><b>7.2</b> Essential heterogeneity</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Real World Impact Evaluation with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="randomization" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Randomization</h1>
+<div id="understanding-the-basics" class="section level2">
+<h2><span class="header-section-number">2.1</span> Understanding the basics</h2>
+<p><span class="citation">Athey and Imbens (<a href="#ref-Athey2016">2016</a>)</span></p>
+<p>Let us write a very simple data-generating process (DGP) for a trivial RCT.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mvtnorm)
+<span class="kw">set.seed</span>(<span class="dv">2001</span>)
+beta &lt;-<span class="st"> </span><span class="fl">0.5</span>
+sigma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="fl">1.0</span>,<span class="fl">0.0</span>,
+                  <span class="fl">0.0</span>,<span class="fl">1.0</span>),<span class="dt">ncol=</span><span class="dv">2</span>)
+
+## Generate residuals and variables
+N &lt;-<span class="st"> </span><span class="dv">20</span>
+m &lt;-<span class="st"> </span><span class="kw">rmvnorm</span>(N,<span class="dt">mean=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="dt">sigma=</span>sigma)
+
+## Write down the DGP:
+Dstar &lt;-<span class="st"> </span>m[,<span class="dv">1</span>]
+D &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Dstar<span class="op">&gt;</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+Y &lt;-<span class="st"> </span>beta<span class="op">*</span>D <span class="op">+</span><span class="st"> </span>m[,<span class="dv">2</span>]
+data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(D,Y))
+<span class="kw">library</span>(huxtable)
+<span class="co"># huxtable(head(data))</span>
+<span class="kw">head</span>(data)</code></pre></div>
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 21.1111111111111%; margin-left: 0%; margin-right: auto; ">
+<col><col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">D</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Y</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">-0.278</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">0</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;">0.303</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1.4&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">1</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;">1.13&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">1</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">-0.607</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">0</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">0.898</td>
+</tr>
+</table>
+
+<p>The standard way of doing the impact evaluation is then simply a comparison of means, which boils down to an OLS regression.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rct &lt;-<span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>D)
+rctht &lt;-<span class="st"> </span><span class="kw">huxreg</span>(rct, <span class="dt">statistics =</span> <span class="kw">c</span>(<span class="dt">N =</span> <span class="st">&quot;nobs&quot;</span>, <span class="dt">R2 =</span> <span class="st">&quot;r.squared&quot;</span>))
+rctht &lt;-<span class="st"> </span><span class="kw">theme_article</span>(rctht)
+rctht</code></pre></div>
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 50%; margin-left: auto; margin-right: auto; ">
+<col><col><tr>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;"></td>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">(1)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">(Intercept)</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.165&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.261)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">D</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.263&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.323)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">N</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">R2</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.036&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</td>
+</tr>
+</table>
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(rct)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ D)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.0354 -0.3314 -0.1213  0.2210  1.7923 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)   0.1647     0.2606   0.632    0.535
+## D             0.2634     0.3233   0.815    0.426
+## 
+## Residual standard error: 0.6896 on 18 degrees of freedom
+## Multiple R-squared:  0.03556,    Adjusted R-squared:  -0.01802 
+## F-statistic: 0.6636 on 1 and 18 DF,  p-value: 0.4259</code></pre>
+<p><span class="citation">Heckman (<a href="#ref-Heckman96">1996</a>)</span></p>
+</div>
+<div id="the-randomista-debate" class="section level2">
+<h2><span class="header-section-number">2.2</span> The randomista debate</h2>
+<p><span class="citation">Deaton (<a href="#ref-Deaton2010">2010</a>)</span> <span class="citation">Imbens (<a href="#ref-Imbens10">2010</a>)</span> <span class="citation">Barrett and Carter (<a href="#ref-Barrett2010">2010</a>)</span> <span class="citation">Ravallion (<a href="#ref-Ravallion2012">2012</a>)</span> <span class="citation">Deaton and Cartwright (<a href="#ref-Deaton2016">2016</a>)</span> <span class="citation">Ravallion (<a href="#ref-Ravallion2018">2018</a>)</span></p>
+</div>
+<div id="randomization-inference" class="section level2">
+<h2><span class="header-section-number">2.3</span> Randomization inference</h2>
+<p><span class="citation">Young (<a href="#ref-Young2016a">2016</a>)</span></p>
+<p>The basic idea behind randomization inference is to do all of the permutations of treatment status <code>D</code>. We can do this with the <code>mosaic</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many unique permutations are there of treatment?</span>
+<span class="dv">2</span><span class="op">^</span><span class="dv">20</span></code></pre></div>
+<pre><code>## [1] 1048576</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)
+obsdiff =<span class="st"> </span><span class="kw">with</span>(data, <span class="kw">mean</span>(Y[D<span class="op">==</span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(Y[D<span class="op">==</span><span class="dv">0</span>]))
+obsdiff</code></pre></div>
+<pre><code>## [1] 0.2633623</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">numsim =<span class="st"> </span><span class="dv">1000</span>
+res =<span class="st"> </span><span class="kw">do</span>(numsim) <span class="op">*</span><span class="st"> </span><span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span><span class="kw">shuffle</span>(D), <span class="dt">data=</span>data)
+pvalue =<span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(res<span class="op">$</span>D) <span class="op">&gt;</span><span class="st"> </span><span class="kw">abs</span>(obsdiff)) <span class="op">/</span><span class="st"> </span>numsim
+<span class="kw">histogram</span>(<span class="op">~</span><span class="st"> </span>res<span class="op">$</span>D, <span class="dt">group =</span> <span class="kw">abs</span>(res<span class="op">$</span>D) <span class="op">&gt;</span><span class="st"> </span><span class="kw">abs</span>(obsdiff), 
+          <span class="dt">n=</span><span class="dv">20</span>, <span class="dt">density=</span><span class="ot">FALSE</span>, <span class="dt">data=</span>res, <span class="dt">xlab=</span><span class="st">&quot;difference between groups&quot;</span>,
+          <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;Permutation test: p=&quot;</span>, pvalue))</code></pre></div>
+<p><img src="02-randomization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Now do it properly using the <code>coin</code> package</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(coin)</code></pre></div>
+<pre><code>## Loading required package: survival</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">oneway_test</span>(Y <span class="op">~</span><span class="st"> </span><span class="kw">as.factor</span>(D), <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="dt">data=</span>data, <span class="dt">distribution =</span> <span class="st">&quot;exact&quot;</span>)</code></pre></div>
+<pre><code>## 
+##  Exact Two-Sample Fisher-Pitman Permutation Test
+## 
+## data:  Y by as.factor(D) (0, 1)
+## Z = -0.82194, p-value = 0.4364
+## alternative hypothesis: true mu is not equal to 0</code></pre>
+</div>
+<div id="attempting-to-replicate-a-famous-paper" class="section level2">
+<h2><span class="header-section-number">2.4</span> Attempting to replicate a famous paper</h2>
+<p>Download the dataset which corresponds to <span class="citation">Chattopadhyay and Duflo (<a href="#ref-Duflo04">2004</a>)</span> from:</p>
+<p>dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/USBFNOMLAT</p>
+<p>Attempt to replicate Tables I, II, III, IV and V. Rejoice when you are able to read in and merge the files. Note that you will not even be able to replicate the first set of summary statistics. Carry out randomization inference on the results presented in Tables III, IV and V.</p>
+<p>ASK CARLOS FOR HIS SOLUTION TO THE 2017 PROBLEM SET 1</p>
+</div>
+<div id="ri-does-not-always-increase-standard-errors" class="section level2">
+<h2><span class="header-section-number">2.5</span> RI does not always increase standard errors</h2>
+<p>The following constructs a DGP where conventional inference always fails to detect treatment effects which are present but whose mean is zero and whose distribution is bimodal (-1 and +1).</p>
+<p>A rank-based RI test (Chernoff-Savage) can, on the other hand, easily pick up the treatment heterogeneity, as long as the bimodality of the treatment effects is sufficiently clear</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(coin)
+mc.rct &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">N=</span><span class="dv">100</span>){
+
+  ## Generate residuals/variables
+  <span class="co">#N &lt;- 100</span>
+  sig &lt;-<span class="st"> </span><span class="dv">10</span>
+  <span class="co"># Next specify absolute value of what will turn out to be a bimodal treatment effect</span>
+  alfa &lt;-<span class="st"> </span><span class="dv">1</span>
+  epsilonV &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, sig)
+  epsilon0 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, sig)
+  epsilon1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, sig)
+  <span class="co"># Need to make the variance of the noise on treated individuals small enough</span>
+  <span class="co"># so that the bimodal nature of the treatment effects is not &quot;drowned out&quot;</span>
+  <span class="co"># by noise</span>
+  sig1 &lt;-<span class="st"> </span><span class="fl">0.1</span>
+  sig0 &lt;-<span class="st"> </span><span class="dv">1</span>
+  sigV &lt;-<span class="st"> </span><span class="dv">1</span>
+  ## Write down the DGP
+  V  &lt;-<span class="st"> </span>sigV<span class="op">*</span>epsilonV
+  U0 &lt;-<span class="st"> </span>sig0<span class="op">*</span>epsilon0
+  U1 &lt;-<span class="st"> </span>sig1<span class="op">*</span>epsilon1
+  <span class="co"># Put a &quot;minus&quot; sign here to get used to doing so in a probit or logit setup</span>
+  <span class="co"># in later work, as in the Heckman and Vytlacil canonical Roy model example</span>
+  Dstar &lt;-<span class="st"> </span><span class="op">-</span><span class="st"> </span>V
+  D &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Dstar<span class="op">&gt;</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+  <span class="co"># The next 2 lines create the bimodal treatment effects of -1 and +1</span>
+  Hstar &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">0</span>, sig)
+  H &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Hstar<span class="op">&gt;</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)
+  <span class="co"># Generate potential outcomes</span>
+  Y1 &lt;-<span class="st"> </span>H<span class="op">*</span>alfa <span class="op">+</span><span class="st"> </span>U1
+  Y0 &lt;-<span class="st"> </span>U0
+  <span class="co"># Generate observed outcome as in a Roy model</span>
+  Y &lt;-<span class="st"> </span>D<span class="op">*</span>Y1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>D)<span class="op">*</span>Y0
+  <span class="co"># When running inside the loop to debug (i.e. not as a function) </span>
+  <span class="co"># can check the distributions</span>
+  <span class="co"># of the two potential outcomes by simple histograms</span>
+  <span class="co"># hist(Y1)</span>
+  <span class="co"># hist(Y0)</span>
+  <span class="co"># One wants to make sure that hist(Y1) is nicely bimodal</span>
+  #########################################################
+  ## Do conventional inference
+  p.value_lm &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span><span class="op">-</span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>D))<span class="op">$</span>coefficients[,<span class="dv">4</span>]
+  
+  ## Do randomization inference
+  <span class="co"># Use the Chernoff-Savage test </span>
+  <span class="co"># This is because rank-based tests are better at picking</span>
+  <span class="co"># up the heterogeneity in treatment effects</span>
+  <span class="co"># Original reference is: Chernoff, H. and Savage, I. R. (1958): </span>
+  <span class="co"># &quot;Asymptotic Normality and Efficiency of Certain Nonparametric</span>
+  <span class="co"># Tests,&quot; Annals of Mathematical Statistics, 29(4):972-994.</span>
+  
+  p.perm &lt;-<span class="st"> </span><span class="kw">pvalue</span>(<span class="kw">savage_test</span>(Y <span class="op">~</span><span class="st"> </span><span class="kw">as.factor</span>(D), <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, 
+                               <span class="dt">distribution =</span> <span class="kw">approximate</span>(<span class="dt">B=</span><span class="dv">5000</span>)))
+  <span class="co"># Note that I approximate the test statistic through 5000 draws</span>
+  <span class="co"># Result is not very sensitive to this</span>
+  
+  ###############################
+  ## Collect and return results
+  res &lt;-<span class="st"> </span><span class="kw">c</span>(p.value_lm, p.perm, N, sig)
+  <span class="kw">names</span>(res) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Conventional p-value&quot;</span>, <span class="st">&quot;Chernoff-Savage p-value&quot;</span>, <span class="st">&quot;N&quot;</span>, <span class="st">&quot;sig&quot;</span>)
+  <span class="kw">return</span>(res)
+  
+}
+
+
+## Try the function once to make sure it works
+<span class="kw">mc.rct</span>()</code></pre></div>
+<pre><code>##    Conventional p-value Chernoff-Savage p-value                       N 
+##               0.9036019               0.0042000             100.0000000 
+##                     sig 
+##              10.0000000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Run the DGP a total of &quot;reps&quot; times
+reps &lt;-<span class="st"> </span><span class="dv">200</span>
+<span class="kw">system.time</span>(MC1 &lt;-<span class="st"> </span><span class="kw">replicate</span>(reps, <span class="kw">mc.rct</span>(<span class="dt">N=</span><span class="dv">100</span>)))</code></pre></div>
+<pre><code>##    user  system elapsed 
+##    3.23    0.03    3.36</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note: As one increases sample size, the RI p-value collapses essentially to zero</span>
+<span class="co"># whereas the conventional p-value remains close to 1 !!!!</span>
+
+## Reshape data to have convenient form for graphs:
+<span class="kw">library</span>(reshape2)
+MC1_long &lt;-<span class="st"> </span><span class="kw">melt</span>(<span class="kw">as.data.frame</span>(<span class="kw">t</span>(MC1)), 
+                 <span class="dt">measure.vars=</span><span class="kw">c</span>(<span class="st">&quot;Conventional p-value&quot;</span>, <span class="st">&quot;Chernoff-Savage p-value&quot;</span>), 
+                 <span class="dt">variable.name=</span><span class="st">&quot;Inference&quot;</span>)
+<span class="co"># Since the distributions of the p-values are heavily skewed</span>
+<span class="co"># (to the left for RI and to the right for conventional)</span>
+<span class="co"># the median p-value is probably more informative</span>
+<span class="kw">median</span>(MC1_long<span class="op">$</span>value[<span class="dv">1</span><span class="op">:</span>reps])</code></pre></div>
+<pre><code>## [1] 0.8994118</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">median</span>(MC1_long<span class="op">$</span>value[(reps<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>(<span class="dv">2</span><span class="op">*</span>reps)])</code></pre></div>
+<pre><code>## [1] 0.0167</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Now plot the resulting densities of p-values
+<span class="kw">library</span>(ggplot2)
+<span class="kw">qplot</span>(<span class="dt">x=</span>value, <span class="dt">data=</span>MC1_long, <span class="dt">geom=</span><span class="st">&quot;density&quot;</span>,<span class="dt">fill=</span>Inference)<span class="op">+</span><span class="kw">geom_density</span>( <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="fl">0.00</span>,<span class="dv">1</span>))<span class="op">+</span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="fl">0.05</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Montecarlo simulation results&quot;</span>)<span class="op">+</span><span class="kw">xlab</span>(<span class="st">&quot;p-values&quot;</span>)</code></pre></div>
+<p><img src="02-randomization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>There we go ! Conventional inference doesn’t pick anything up (as expected) whereas the rank-based RI inference usually rejects the null</p>
+<p>ADD ONE OF THE STUDENT SOLUTIONS TO THIS 2017 PROBLEM SET HERE</p>
+<p>You should also read <span class="citation">Eble, Boone, and Elbourne (<a href="#ref-Eble2017">2017</a>)</span></p>
+</div>
+<div id="placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking" class="section level2">
+<h2><span class="header-section-number">2.6</span> Placebo effects and (surprise) homo oeconomicus is alive and kicking</h2>
+<p><span class="citation">Malani (<a href="#ref-Malani2006">2006</a>)</span> <span class="citation">Bulte et al. (<a href="#ref-Bulte2014">2014</a>)</span></p>
+</div>
+<div id="re-introducing-choice-into-randomizations" class="section level2">
+<h2><span class="header-section-number">2.7</span> Re-introducing choice into randomizations</h2>
+<div id="wing-et-al-approach" class="section level3">
+<h3><span class="header-section-number">2.7.1</span> Wing et al approach</h3>
+<p><span class="citation">Wing and Clark (<a href="#ref-Wing2016">2016</a>)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(randomizr)
+N &lt;-<span class="st"> </span><span class="dv">1800</span>
+D &lt;-<span class="st"> </span><span class="kw">complete_ra</span>(<span class="dt">N =</span> N, <span class="dt">num_arms =</span> <span class="dv">3</span>)
+DC &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> &quot;T1&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+DT &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> &quot;T2&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+DP &lt;-<span class="st"> </span><span class="kw">ifelse</span>(D <span class="op">==</span><span class="st"> &quot;T3&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+alfa &lt;-<span class="st"> </span><span class="fl">0.20</span>
+gamma &lt;-<span class="st"> </span><span class="fl">0.67</span>
+epsilon &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="dv">0</span>,<span class="dv">1</span>)
+v &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="dv">0</span>,<span class="dv">1</span>)
+sigv =<span class="st"> </span><span class="op">-</span><span class="fl">1.000</span>
+sig1 &lt;-<span class="st"> </span><span class="fl">0.12</span>
+sig0 &lt;-<span class="st"> </span><span class="op">-</span><span class="fl">0.50</span>
+U1 &lt;-<span class="st"> </span>sig1<span class="op">*</span>epsilon
+U0 &lt;-<span class="st"> </span>sig0<span class="op">*</span>epsilon
+V &lt;-<span class="st"> </span>sigv<span class="op">*</span>v
+<span class="co">#UD &lt;- pnorm(V/(sigv))</span>
+Z &lt;-<span class="st"> </span><span class="kw">rnorm</span>(N,<span class="op">-</span><span class="fl">0.0026</span>,<span class="fl">0.2700</span>)
+Choice &lt;-<span class="st"> </span>Z <span class="op">-</span><span class="st"> </span>sigv<span class="op">*</span>epsilon
+T &lt;-<span class="st"> </span><span class="kw">ifelse</span>(Choice<span class="op">&gt;</span><span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)
+Y0 &lt;-<span class="st"> </span>gamma        <span class="op">+</span><span class="st"> </span>U0
+Y1 &lt;-<span class="st"> </span>gamma <span class="op">+</span><span class="st"> </span>alfa <span class="op">+</span><span class="st"> </span>U1
+Y &lt;-<span class="st">  </span>DC<span class="op">*</span>Y0 <span class="op">+</span><span class="st"> </span>DT<span class="op">*</span>Y1 <span class="op">+</span><span class="st"> </span>DP<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span>T)<span class="op">*</span>Y0 <span class="op">+</span>T<span class="op">*</span>Y1)
+DD &lt;-<span class="st"> </span>DP<span class="op">*</span>T
+<span class="kw">mean</span>(DP<span class="op">*</span>T)</code></pre></div>
+<pre><code>## [1] 0.1705556</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>DT <span class="op">+</span><span class="st"> </span>DD))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Y ~ DT + DD)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.08005 -0.11488 -0.00061  0.14547  1.30549 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.79568    0.01199  66.360  &lt; 2e-16 ***
+## DT           0.07518    0.01891   3.975 7.32e-05 ***
+## DD           0.16727    0.02371   7.056 2.43e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3583 on 1797 degrees of freedom
+## Multiple R-squared:  0.02868,    Adjusted R-squared:  0.0276 
+## F-statistic: 26.53 on 2 and 1797 DF,  p-value: 4.415e-12</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(<span class="kw">data.frame</span>(<span class="kw">cbind</span>(Y, DC, DT, DP, DD)), <span class="dt">file =</span> <span class="st">&quot;midterm.csv&quot;</span>,<span class="dt">row.names=</span><span class="ot">FALSE</span>)
+
+<span class="kw">summary</span>(<span class="kw">lm</span>(Y <span class="op">~</span><span class="st"> </span>T))<span class="op">$</span>coefficients[<span class="dv">2</span>,<span class="dv">4</span>]</code></pre></div>
+<pre><code>## [1] 5.514916e-45</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(coin)
+<span class="kw">pvalue</span>(<span class="kw">oneway_test</span>(Y <span class="op">~</span><span class="st"> </span><span class="kw">as.factor</span>(T), <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>,
+                   <span class="dt">distribution =</span> <span class="kw">c</span>(<span class="st">&quot;asymptotic&quot;</span>)))</code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<p>Your goal in this exercise is to delve more deeply into the paper by <span class="citation">Wing and Clark (<a href="#ref-Wing2016">2016</a>)</span> that we saw in class. Download the dataset midterm.csv. The outcome variable is Y, the control arm dummy is DC, the treatment arm dummy is DT and the preference arm dummy is DP. The dummy DD is equal to one when an individual in the preference arm took up treatment and zero otherwise.</p>
+<p>Estimate the three treatment parameters (ATE, TT and TUT in the Heckman terminology). The Wing and Clark terminology is slightly different. Test whether TT equals TUT using the SUR procedure suggested on p. 432, where you will pay particular attention to the dimensionality of the matrices involved.Do not worry about compliance issues.</p>
+<p>INCLUDE A STUDENT ANSWER FROM THE 2018 MIDTERM</p>
+</div>
+<div id="rcts-as-a-principal-agent-problem" class="section level3">
+<h3><span class="header-section-number">2.7.2</span> RCTs as a principal-agent problem</h3>
+<p>The reintroduction of choice in order to identify the whole distribution of treatment effects is pushed to its logical conclusion in a remarkable paper by <span class="citation">Chassang, Padró I Miquel, and Snowberg (<a href="#ref-Chassang2012">2012</a>)</span>, who place RCTs within the context of a principal-agent model.</p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Athey2016">
+<p>Athey, Susan, and Guido W. Imbens. 2016. “The Econometrics of Randomized Experiments.”</p>
+</div>
+<div id="ref-Heckman96">
+<p>Heckman, James J. 1996. “Randomization as an Instrumental Variable.” <em>Review of Economics and Statistics</em> 78 (2): 336–41.</p>
+</div>
+<div id="ref-Deaton2010">
+<p>Deaton, Angus. 2010. “Instruments, Randomization, and Learning About Development.” <em>Journal of Economic Literature</em> 48 (2): 424–55.</p>
+</div>
+<div id="ref-Imbens10">
+<p>Imbens, Guido W. 2010. “Better LATE Than Nothing: Some Comments on Deaton (2009) and Heckman and Urzua (2009).” <em>Journal of Economic Literature</em> 48 (2): 399–423.</p>
+</div>
+<div id="ref-Barrett2010">
+<p>Barrett, Christopher B., and Michael R. Carter. 2010. “The Power and Pitfalls of Experiments in Development Economics: Some Non-Random Reflections.” <em>Applied Economic Perspectives and Policy</em> 32 (4): 515–48.</p>
+</div>
+<div id="ref-Ravallion2012">
+<p>Ravallion, Martin. 2012. “Fighting Poverty One Experiment at a Time: A Review of Abhijit Banerjee and Esther Duflo’s Poor Economics: A Radical Rethinking of the Way to Fight Global Poverty.” <em>Journal of Economic Literature</em> 50 (1): 103–14.</p>
+</div>
+<div id="ref-Deaton2016">
+<p>Deaton, Angus, and Nancy Cartwright. 2016. “Understanding and Misunderstanding Randomized Controlled Trials.”</p>
+</div>
+<div id="ref-Ravallion2018">
+<p>Ravallion, Martin. 2018. “Should the Randomistas (Continue to) Rule?”</p>
+</div>
+<div id="ref-Young2016a">
+<p>Young, Alwyn. 2016. “Channelling Fisher: Randomization Tests and the Statistical Insignificance of Seemingly Significant Experimental Results.”</p>
+</div>
+<div id="ref-Duflo04">
+<p>Chattopadhyay, Raghabendra, and Esther Duflo. 2004. “Women as Policy Makers: Evidence from a Randomized Policy Experiment in India.” <em>Econometrica</em> 72 (5): 1409–43.</p>
+</div>
+<div id="ref-Eble2017">
+<p>Eble, Alex, Peter Boone, and Diana Elbourne. 2017. “On Minimizing the Risk of Bias in Randomized Controlled Trials in Economics.” <em>World Bank Economic Review</em> 31 (3): 687–707.</p>
+</div>
+<div id="ref-Malani2006">
+<p>Malani, Anup. 2006. “Identifying Placebo Effects with Data from Clinical Trials.” <em>Journal of Political Economy</em> 114 (2): 236–56.</p>
+</div>
+<div id="ref-Bulte2014">
+<p>Bulte, Erwin, Gonne Beekman, Salvatore Di Falco, Joseph Hella, and Pan Lei. 2014. “Behavioral Responses and the Impact of New Agricultural Technologies: Evidence from a Double-Blind Field Experiment in Tanzania.” <em>American Journal of Agricultural Economics</em> 96 (3): 813–30.</p>
+</div>
+<div id="ref-Wing2016">
+<p>Wing, Coady, and M. H. Clark. 2016. “What Can We Learn from a Doubly Randomized Preference Trial? –An Instrumental Variables Perspective.” <em>Journal of Policy Analysis and Management</em> 36 (2): 418–37.</p>
+</div>
+<div id="ref-Chassang2012">
+<p>Chassang, Sylvain, Gerard Padró I Miquel, and Erik Snowberg. 2012. “Selective Trials: A Principal-Agent Approach to Randomized Controlled Experiments.” <em>American Economic Review</em> 102 (4): 1279–1309.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="why-go-to-all-the-trouble-potential-outcomes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="setting-up-an-evaluation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

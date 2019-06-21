@@ -1,0 +1,401 @@
+---
+knit: "bookdown::preview_chapter"
+---
+
+```{r, echo=FALSE}
+rm(list=ls())
+```
+
+# IV and RDD
+
+## The basics of IV
+
+@Hausman83
+
+Lecture notes on IV bias
+
+### The forbidden regression
+
+A common mistake in running IV regressions, especially when done in a two-step procedure, is what has memorably been termed by Jerry Hausman "the forbidden regression."
+
+Lecture notes on the forbidden regression
+
+```{r, warning = FALSE, message = FALSE}
+library(mvtnorm)
+library(AER)
+MC.endogeneity <- function(N=1000,covuud=0.5,covxz=0.5,alfa=1.0,pi=1.0, gamma=0.5, phi=0.0){
+  ## Parameters
+  beta <- 1.0
+  sigma <- matrix(c(  1,covuud,    0,    0,
+                 covuud,     1,    0,    0,
+                      0,     0,    1,covxz,
+                      0,     0,covxz,   1),ncol=4)
+  
+  ## generate residuals/variables 
+  m <- rmvnorm(N,mean=c(0,0,0,0),sigma=sigma)
+  Z <- matrix(m[,3],N,1)
+  X <- matrix(m[,4],N,1)
+  
+  ## Generate DGP:
+  D <- gamma*Z + pi*X           + m[,2]
+  Y <- beta*D  + alfa*X + phi*Z + m[,1]
+  
+  
+  ## Compute both estimators
+  ols <- summary(lm(Y ~ -1 + D + X))$coefficients[1,1]
+  tsls <- summary(ivreg(Y ~ -1 + D + X | X + Z))$coefficients[1,1]
+  R <- summary(lm(D ~ -1 + Z))$residual
+  forbidden <- summary(lm(Y ~ -1 + D + X + R))$coefficients[1,1]
+  
+  ## Collect and return results
+  res <- c(ols, tsls, forbidden, N, covuud, gamma, phi)
+  names(res) <- c("OLS", "2SLS", "forbidden", "N", "covuud", "gamma", "phi")
+  return(res)
+  
+}
+
+## Try function once
+MC.endogeneity()
+
+## Run the DGP/estim 1000 times, with fixed parameters:
+system.time(MC1 <- replicate(500, MC.endogeneity(N=1000,covuud=0.5,
+                                                 covxz=-0.9,alfa=1.0,pi=1.0, 
+                                                 gamma=0.5, phi=0.00)))
+
+## Reshape data to have convenient form for graphs/tables:
+library(reshape2)
+MC1_long <- melt(as.data.frame(t(MC1)), measure.vars=c("OLS", "2SLS", "forbidden"), 
+                 variable.name="Estimator")
+
+## Visualise the data
+library(ggplot2)
+# Plot with fixed parameters
+qplot(x=value-1, data=MC1_long, geom="density",fill=Estimator)+
+  geom_density( alpha=0.5)+
+  xlim(c(-1.0,1.0))+
+  geom_vline(xintercept=0)+
+  ggtitle("Montecarlo simulation results")+
+  xlab("Centered Values")
+
+library(plyr)
+
+MC_tab <- ddply(MC1_long, .(Estimator, N, covuud, gamma, phi), summarise, 
+                means=mean(value, na.rm=TRUE), 
+                bias=means -1, 
+                var=var(value, na.rm=TRUE),
+                mse=var+bias^2
+)
+MC_tab
+```
+
+### Weak instruments
+
+```{r, warning = FALSE, message = FALSE}
+library(mvtnorm)
+MC.endogeneity <- function(N=100,cov=0.5, gamma=0.5, phi=0.0){
+  ## Parameters
+  beta <- 1.0
+  sigma <- matrix(c(1,cov,0,
+                    cov,1,0,
+                    0,0,1),ncol=3)
+  
+  ## generate residuals/variables 
+  m <- rmvnorm(N,mean=c(0,0,0),sigma=sigma)
+  Z <- matrix(m[,3],N,1)
+  
+  ## Generate DGP:
+  D <- gamma*Z + m[,2]
+  Y <- beta*D + phi*Z + m[,1]
+  
+  ## Compute both estimators
+  ols <- solve(crossprod(D))%*%crossprod(D,Y)
+  tsls <- solve(crossprod(D,Z)%*%solve(crossprod(Z))%*%crossprod(Z,D))%*%
+    crossprod(D,Z)%*%solve(crossprod(Z))%*%crossprod(Z,Y)
+  
+  ## Collect and return results
+  res <- c(ols, tsls, N, cov, gamma, phi)
+  names(res) <- c("OLS", "2SLS", "N", "cov", "gamma", "phi")
+  return(res)
+  
+}
+
+## Try function once
+MC.endogeneity()
+
+## Run the DGP/estim 1000 times, with fixed parameters:
+system.time(MC1 <- replicate(1000, MC.endogeneity(N=1000, cov=0.5, gamma=0.8, phi=0.0)))
+
+## Reshape data to have convenient form for graphs/tables:
+library(reshape2)
+MC1_long <- melt(as.data.frame(t(MC1)), measure.vars=c("OLS", "2SLS"), 
+                 variable.name="Estimator")
+## Visualise the data
+library(ggplot2)
+# Plot with fixed parameters
+qplot(x=value-1, data=MC1_long, geom="density",fill=Estimator)+
+  geom_density( alpha=0.5)+
+  xlim(c(-1.5,1.5))+
+  geom_vline(xintercept=0)+
+  ggtitle("Montecarlo simulation results")+
+  xlab("Centered Values")
+
+##############################
+# Examples of "faceted" graphs
+##############################
+library(plyr)
+# Vary degree of endogeneity
+MC_tab <- ddply(MC1_long, .(Estimator, N, cov, gamma, phi), summarise, 
+                means=mean(value, na.rm=TRUE), 
+                bias=means -1, 
+                var=var(value, na.rm=TRUE),
+                mse=var+bias^2
+)
+MC_tab
+
+## Run the DGP/estim 500 times, varying some parameters:
+valgrid <- expand.grid(cov=c(0, 0.2, 0.5, 0.7), N=c(200, 500, 1000, 5000))
+#valgrid <- expand.grid(gamma=c(0.01, 0.1, 0.2, 0.5), N=c(200, 500, 1000, 5000))
+
+system.time(MCMC_mult_temp <- replicate(500, mapply(MC.endogeneity, N=valgrid$N, cov=valgrid$cov)))
+#system.time(MCMC_mult_temp <- replicate(500, mapply(MC.endogeneity, N=valgrid$N, gamma=valgrid$gamma)))
+
+# slower but more compact: system.time(MCMC_mult_temp <- replicate(500, t(mdply(valgrid, MC.endogeneity))))
+
+MC_mult <- as.data.frame(MCMC_mult_temp)
+MC_mult_long <- melt(as.data.frame(t(MC_mult)), measure.vars=c("OLS", "2SLS"), 
+                     variable.name="Estimator")
+
+
+
+# Plot with 1 parameter varying, this new dimension is shown with the "faceting" system
+# as we represent according to one variable only, fix the N value:
+MC_mult_long_N1000 <- subset(MC_mult_long,N==1000)
+
+qplot(x=value-1, data=MC_mult_long_N1000, geom="density",fill=Estimator)+
+  geom_density( alpha=0.5)+
+  xlim(c(-1.5,1.5))+
+  geom_vline(xintercept=0)+ggtitle("Montecarlo simulation results")+
+  xlab("Centered Values")+
+  facet_grid(cov~., scales="free")
+#facet_grid(gamma~., scales="free")
+
+# Vary weakness of instruments
+
+MC_tab <- ddply(MC1_long, .(Estimator, N, cov, gamma, phi), summarise, 
+                means=mean(value, na.rm=TRUE), 
+                bias=means -1, 
+                var=var(value, na.rm=TRUE),
+                mse=var+bias^2
+)
+MC_tab
+
+## Run the DGP/estim 500 times, varying some parameters:
+#valgrid <- expand.grid(cov=c(0, 0.2, 0.5, 0.7), N=c(200, 500, 1000, 5000))
+valgrid <- expand.grid(gamma=c(0.01, 0.1, 0.2, 0.5), N=c(200, 500, 1000, 5000))
+
+#system.time(MCMC_mult_temp <- replicate(500, mapply(MC.endogeneity, N=valgrid$N, cov=valgrid$cov)))
+system.time(MCMC_mult_temp <- replicate(500, mapply(MC.endogeneity, N=valgrid$N, gamma=valgrid$gamma)))
+
+# slower but more compact: system.time(MCMC_mult_temp <- replicate(500, t(mdply(valgrid, MC.endogeneity))))
+
+MC_mult <- as.data.frame(MCMC_mult_temp)
+MC_mult_long <- melt(as.data.frame(t(MC_mult)), measure.vars=c("OLS", "2SLS"), 
+                     variable.name="Estimator")
+
+
+
+# Plot with 1 parameter varying, this new dimension is shown with the "faceting" system
+# as we represent according to one variable only, fix the N value:
+MC_mult_long_N1000 <- subset(MC_mult_long,N==1000)
+
+qplot(x=value-1, data=MC_mult_long_N1000, geom="density",fill=Estimator)+
+  geom_density( alpha=0.5)+
+  xlim(c(-1.5,1.5))+
+  geom_vline(xintercept=0)+ggtitle("Montecarlo simulation results")+
+  xlab("Centered Values")+
+  facet_grid(gamma~., scales="free")
+# facet_grid(cov~., scales="free")
+
+
+library(plyr)
+
+MC_mult_tab <- ddply(MC_mult_long, .(N, cov, gamma, phi, Estimator), summarise, 
+                means=mean(value, na.rm=TRUE), 
+                bias=means -1, 
+                var=var(value, na.rm=TRUE),
+                mse=var+bias^2
+)
+MC_mult_tab
+```
+
+
+### Finite sample bias
+
+@Hahn02a
+
+## Bootstrap inference
+
+@Young2017
+
+```{r, warning = FALSE, message = FALSE}
+# Set Number of Digits
+options(digits = 4)
+
+############################################
+# Now use real data (augmented AJR dataset)
+############################################
+library(foreign)
+clean <-read.dta("ajr.dta")
+summary(clean)
+
+#####################################
+# Let's focus on the first stage
+# and illustrate the boot command
+#####################################
+library(car)
+library(boot)
+set.seed(666)
+# Original AJR type specification
+first <- lm(avexpr~logem4+lat_abst+africa+asia, data=clean)
+summary(first)
+linearHypothesis(first,c("logem4 = 0"),test="F")
+system.time(first.boot <- Boot(first, R=1000))
+summary(first.boot, high.moments=TRUE)
+#hist(first.boot, legend="separate")
+
+bs <- function(formula, data, indices) {
+  d <- data[indices,] 
+  first <- lm(formula, data=d)
+  partialF <- linearHypothesis(first,c("logem4 = 0"),test="F")[2,5]
+  return(partialF) 
+} 
+
+bootF <- boot(data=clean, statistic=bs,R=500,formula=avexpr~logem4+lat_abst+africa+asia)
+summary(bootF,high.moments=TRUE)
+hist(bootF)
+boot.ci(bootF, type="bca")
+
+#################################################
+# Something you should ALWAYS do, at a minimum
+# Bootstrap the second stage since residual 
+# for Durbin-Wu-Hausman test is generated
+#################################################
+first <- lm(avexpr ~ logem4 + lat_abst, data=clean)
+res <- summary(first)$residual
+structural <- lm(logpgp95 ~ avexpr + lat_abst + res, data=clean)
+summary(structural)
+system.time(structural.boot <- Boot(structural, R=1000))
+summary(structural.boot)
+hist(structural.boot, legend="separate")
+confint(structural, level=.95, type="bca")
+
+############################################
+# Now bootstrap the IV results themselves
+############################################
+library(AER)
+iv <- ivreg(logpgp95 ~ avexpr + lat_abst | lat_abst + logem4, data=clean)
+summary(iv)
+ivboot <- Boot(iv,R=2000)
+summary(ivboot)
+#hist(ivboot, xlim=c(-8, 4), legend="separate")
+hist(ivboot, xlim=c(0, 2), legend="separate")
+confint(ivboot, level=.95, type="bca")
+
+#####################################
+# Now let's bootstrap the 2sls 
+# results by hand by resampling
+#####################################
+
+first <- lm(avexpr ~ logem4 + lat_abst, data=clean)
+res <- summary(first)$residual
+structural <- lm(logpgp95 ~ avexpr + lat_abst + res, data=clean)
+summary(structural)
+
+N <- nrow(clean)
+bootstrap <- function(out = "coef") {
+  b.samp <- sample(N, replace = TRUE)
+  b.first <- lm(avexpr ~ logem4 + lat_abst, data=clean[b.samp, ])
+  b.res <- summary(b.first)$residual
+  b.structural <- lm(logpgp95 ~ avexpr + lat_abst + b.res, data=clean[b.samp, ])
+  if (out == "coef") {
+    out <- summary(b.structural)$coefficients[2, 2]
+  } else {
+    stop("Unknown output statistic.")
+  }
+  out
+}
+b.samps.coef <- replicate(1000, bootstrap(out = "coef"))
+hist(b.samps.coef, breaks=200)
+#hist(b.samps.coef, xlim=c(-1,3), breaks=200)
+c(summary(structural)$coefficients[2, 2], sd(b.samps.coef))
+
+# Bootstrap the Durbin-Wu-Hausman statistic manually through resampling
+N <- nrow(clean)
+bootstrap <- function(out = "coef") {
+  b.samp <- sample(N, replace = TRUE)
+  b.first <- lm(avexpr ~ logem4 + lat_abst, data=clean[b.samp, ])
+  b.res <- summary(b.first)$residual
+  b.structural <- lm(logpgp95 ~ avexpr + lat_abst + b.res, data=clean[b.samp, ])
+  if (out == "coef") {
+    out <- summary(b.structural)$coefficients[4, 2]
+  } else {
+    stop("Unknown output statistic.")
+  }
+  out
+}
+b.samps.coef <- replicate(2000, bootstrap(out = "coef"))
+hist(b.samps.coef, breaks=200)
+#hist(b.samps.coef, xlim=c(-1,3), breaks=200)
+c(summary(structural)$coefficients[4, 2], sd(b.samps.coef))
+```
+
+The basic lesson is that you shouldn't forget to the do the Hausman test of the null of exogeneity
+
+## Failure of the exclusion restriction
+
+@Conley2012
+
+```{r, warning = FALSE, message = FALSE}
+##################################################################
+# One last small useful IV tool
+# Conley, Hansen and Rossi (2012)
+# Sensitivity of IV results to violation of exclusion restriction
+##################################################################
+# Intuition
+phi <- seq(-1, 1, 0.1)
+violation <- function(g) {
+  YY <- clean$logpgp95 - g * clean$logem4
+  rbind(g, summary(ivreg(YY ~ avexpr + lat_abst, ~logem4 + lat_abst, 
+             cbind(clean, YY)))$coef[2,1],
+        summary(ivreg(YY ~ avexpr + lat_abst, ~logem4 + lat_abst, 
+                      cbind(clean, YY)))$coef[2,2])
+}
+altcoefs <- sapply(phi, violation)
+rownames(altcoefs) <- c("phi","coef","se")
+round(altcoefs, 3)
+
+# + new package I have been playing with when you only have one jointly
+# endogenous RHS variable: ivmodel
+library(ivmodel)
+model <-  ivmodelFormula(logpgp95 ~ avexpr + lat_abst | lat_abst + logem4, data=clean)
+summary(model)
+
+```
+
+## The GMM black box
+
+@Bazzi2013
+@Harding2015
+
+## Regression discontinuity design
+
+@Imbens2008
+@Lee10
+
+### Application to a development program
+
+### Pushing the outcome variable
+
+
+
+

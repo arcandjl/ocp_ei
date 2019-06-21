@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 6 External validity, replicability and lack of statistical significance | Real World Impact Evaluation with R</title>
+  <meta name="description" content="Real world impact evaluation with R.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 6 External validity, replicability and lack of statistical significance | Real World Impact Evaluation with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Real world impact evaluation with R." />
+  <meta name="github-repo" content="arcandjl/rwIEwr" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 External validity, replicability and lack of statistical significance | Real World Impact Evaluation with R" />
+  
+  <meta name="twitter:description" content="Real world impact evaluation with R." />
+  
+
+<meta name="author" content="Department of International Economics">
+<meta name="author" content="The Graduate Institute | Geneva">
+<meta name="author" content="jean-louis.arcand@graduateinstitute.ch">
+
+
+<meta name="date" content="2019-01-22">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="panel-data-structures.html">
+<link rel="next" href="heterogeneity-in-various-flavors.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Real world impact evaluation with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="why-go-to-all-the-trouble-potential-outcomes.html"><a href="why-go-to-all-the-trouble-potential-outcomes.html"><i class="fa fa-check"></i><b>1</b> Why go to all the trouble? Potential outcomes</a></li>
+<li class="chapter" data-level="2" data-path="randomization.html"><a href="randomization.html"><i class="fa fa-check"></i><b>2</b> Randomization</a><ul>
+<li class="chapter" data-level="2.1" data-path="randomization.html"><a href="randomization.html#understanding-the-basics"><i class="fa fa-check"></i><b>2.1</b> Understanding the basics</a></li>
+<li class="chapter" data-level="2.2" data-path="randomization.html"><a href="randomization.html#the-randomista-debate"><i class="fa fa-check"></i><b>2.2</b> The randomista debate</a></li>
+<li class="chapter" data-level="2.3" data-path="randomization.html"><a href="randomization.html#bias-and-randomization-inference"><i class="fa fa-check"></i><b>2.3</b> Bias and randomization inference</a></li>
+<li class="chapter" data-level="2.4" data-path="randomization.html"><a href="randomization.html#placebo-effects-and-surprise-homo-oeconomicus-is-alive-and-kicking"><i class="fa fa-check"></i><b>2.4</b> Placebo effects and (surprise) homo oeconomicus is alive and kicking</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html"><i class="fa fa-check"></i><b>3</b> Setting up an evaluation</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#statistical-power-survey-data-and-just-doing-it"><i class="fa fa-check"></i><b>3.1</b> Statistical power, survey data and just doing it…</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#blocking"><i class="fa fa-check"></i><b>3.1.1</b> Blocking</a></li>
+<li class="chapter" data-level="3.1.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#repeated-observations"><i class="fa fa-check"></i><b>3.1.2</b> Repeated observations</a></li>
+<li class="chapter" data-level="3.1.3" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#glossary-and-intuition"><i class="fa fa-check"></i><b>3.1.3</b> Glossary and intuition</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-an-evaluation.html"><a href="setting-up-an-evaluation.html#stuff-to-keep-in-mind-survey-bias-and-hawthorne-effects"><i class="fa fa-check"></i><b>3.2</b> Stuff to keep in mind: Survey bias and Hawthorne effects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html"><i class="fa fa-check"></i><b>4</b> IV and RDD</a><ul>
+<li class="chapter" data-level="4.1" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#the-basics-of-iv"><i class="fa fa-check"></i><b>4.1</b> The basics of IV</a></li>
+<li class="chapter" data-level="4.2" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#finite-sample-bias-common-mistakes-the-gmm-black-box-and-bootstrap-inference"><i class="fa fa-check"></i><b>4.2</b> Finite sample bias, common mistakes, the GMM black box, and bootstrap inference</a></li>
+<li class="chapter" data-level="4.3" data-path="iv-and-rdd.html"><a href="iv-and-rdd.html#regression-discontinuity-design"><i class="fa fa-check"></i><b>4.3</b> Regression discontinuity design</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="panel-data-structures.html"><a href="panel-data-structures.html"><i class="fa fa-check"></i><b>5</b> Panel data structures</a><ul>
+<li class="chapter" data-level="5.1" data-path="panel-data-structures.html"><a href="panel-data-structures.html#reviewing-the-basics"><i class="fa fa-check"></i><b>5.1</b> Reviewing the basics</a></li>
+<li class="chapter" data-level="5.2" data-path="panel-data-structures.html"><a href="panel-data-structures.html#inference-and-clustering"><i class="fa fa-check"></i><b>5.2</b> Inference and clustering</a></li>
+<li class="chapter" data-level="5.3" data-path="panel-data-structures.html"><a href="panel-data-structures.html#measurement-error"><i class="fa fa-check"></i><b>5.3</b> Measurement error</a></li>
+<li class="chapter" data-level="5.4" data-path="panel-data-structures.html"><a href="panel-data-structures.html#pseudo-panel-data-and-synthetic-control"><i class="fa fa-check"></i><b>5.4</b> Pseudo-panel data and synthetic control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html"><i class="fa fa-check"></i><b>6</b> External validity, replicability and lack of statistical significance</a><ul>
+<li class="chapter" data-level="6.1" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#external-validity"><i class="fa fa-check"></i><b>6.1</b> External validity</a></li>
+<li class="chapter" data-level="6.2" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#replicability-and-scientific-progress"><i class="fa fa-check"></i><b>6.2</b> Replicability and scientific progress</a></li>
+<li class="chapter" data-level="6.3" data-path="external-validity-replicability-and-lack-of-statistical-significance.html"><a href="external-validity-replicability-and-lack-of-statistical-significance.html#saying-something-intelligent-when-things-arent-statistically-significant"><i class="fa fa-check"></i><b>6.3</b> Saying something intelligent when things aren’t statistically significant</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html"><i class="fa fa-check"></i><b>7</b> Heterogeneity in various flavors</a><ul>
+<li class="chapter" data-level="7.1" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#quantile-regressions-and-random-coefficient-models"><i class="fa fa-check"></i><b>7.1</b> Quantile regressions and random coefficient models</a></li>
+<li class="chapter" data-level="7.2" data-path="heterogeneity-in-various-flavors.html"><a href="heterogeneity-in-various-flavors.html#essential-heterogeneity"><i class="fa fa-check"></i><b>7.2</b> Essential heterogeneity</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Real World Impact Evaluation with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="external-validity-replicability-and-lack-of-statistical-significance" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> External validity, replicability and lack of statistical significance</h1>
+<p>We have finished a nice book.</p>
+<div id="external-validity" class="section level2">
+<h2><span class="header-section-number">6.1</span> External validity</h2>
+<p><span class="citation">Rosenzweig and Udry (<a href="#ref-Rosenzweig2016">2016</a>)</span></p>
+</div>
+<div id="replicability-and-scientific-progress" class="section level2">
+<h2><span class="header-section-number">6.2</span> Replicability and scientific progress</h2>
+<p><span class="citation">Roodman and Morduch (<a href="#ref-Roodman2014">2014</a>)</span> The ``Worm Wars’’: <a href="https://blogs.worldbank.org/impactevaluations/worm-wars-anthology" class="uri">https://blogs.worldbank.org/impactevaluations/worm-wars-anthology</a>. <span class="citation">Simmons, Nelson, and Simonsohn (<a href="#ref-Simmons2011">2011</a>)</span> <span class="citation">Yong (<a href="#ref-Yong2012">2012</a>)</span> <span class="citation">Brodeur, Cook, and Heyes (<a href="#ref-Brodeur2018">2018</a>)</span> <span class="citation">Nosek, Spies, and Motyl (<a href="#ref-Nosek2013">2013</a>)</span> <span class="citation">Smaldino and McElreath (<a href="#ref-Smaldino2016">2016</a>)</span></p>
+</div>
+<div id="saying-something-intelligent-when-things-arent-statistically-significant" class="section level2">
+<h2><span class="header-section-number">6.3</span> Saying something intelligent when things aren’t statistically significant</h2>
+<p><span class="citation">Andrews (<a href="#ref-Andrews89">1989</a>)</span></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Rosenzweig2016">
+<p>Rosenzweig, Mark. R, and Christopher Udry. 2016. “External Validity in a Stochastic World.”</p>
+</div>
+<div id="ref-Roodman2014">
+<p>Roodman, David, and Jonathan Morduch. 2014. “The Impact of Microcredit on the Poor in Bangladesh: Revisiting the Evidence.” <em>Journal of Development Studies</em> 50 (4): 583–604.</p>
+</div>
+<div id="ref-Simmons2011">
+<p>Simmons, Joseph P., Leif D. Nelson, and Uri Simonsohn. 2011. “False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant.” <em>Psychological Science</em> 22 (11): 1359–66.</p>
+</div>
+<div id="ref-Yong2012">
+<p>Yong, Ed. 2012. “Replication Studies: Bad Copy.” <em>Nature</em> 485: 298–300.</p>
+</div>
+<div id="ref-Brodeur2018">
+<p>Brodeur, Abel, Nikolai Cook, and Anthony Heyes. 2018. “Methods Matter: P-Hacking and Causal Inference in Economics,” August.</p>
+</div>
+<div id="ref-Nosek2013">
+<p>Nosek, B. A., J. R. Spies, and M. Motyl. 2013. “Scientific Utopia: II. Restructuring Incentives and Practices to Promote Truth over Publishability.” <em>Perspectives on Psychological Science</em> 7: 615–31.</p>
+</div>
+<div id="ref-Smaldino2016">
+<p>Smaldino, Paul E., and Richard McElreath. 2016. “The Natural Selection of Bad Science.” <em>Royal Society Open Science</em> 3: 160384.</p>
+</div>
+<div id="ref-Andrews89">
+<p>Andrews, Donald W. K. 1989. “Power in Econometric Applications.” <em>Econometrica</em> 57 (5): 1059–90.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="panel-data-structures.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="heterogeneity-in-various-flavors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
